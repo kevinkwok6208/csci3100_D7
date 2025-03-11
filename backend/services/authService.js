@@ -17,6 +17,7 @@ class AuthService {
         
         const otpRecord = await OTP.findOne({ 
             userId: user._id,
+            purpose: 'email_verification',
             code: otpCode
         });
         
@@ -50,7 +51,8 @@ class AuthService {
                 userId: user._id,
                 username,
                 code: otp,
-                expiry: otpExpiry
+                expiry: otpExpiry,
+                purpose: 'password_reset'
             },
             { upsert: true, new: true }
         );
@@ -69,6 +71,7 @@ class AuthService {
         
         const otpRecord = await OTP.findOne({ 
             userId: user._id,
+            purpose: 'password_reset',
             code: otpCode
         });
         
@@ -96,6 +99,9 @@ class AuthService {
         const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
         otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
 
+        // Determine purpose based on email verification status
+        const purpose = user.isEmailVerified ? 'password_reset' : 'email_verification';
+        
         // Save new OTP without purpose distinction
         await OTP.findOneAndUpdate(
             { userId: user._id },
@@ -103,7 +109,8 @@ class AuthService {
                 userId: user._id,
                 username,
                 code: otp,
-                expiry: otpExpiry
+                expiry: otpExpiry,
+                purpose
             },
             { upsert: true, new: true }
         );
