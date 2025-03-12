@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const adminUserRoutes = require('./routes/adminUser');
 const connectDatabase = require('./config/connectDB');
 
 class Server {
@@ -25,6 +26,7 @@ class Server {
 
     setupRoutes() {
         this.app.use('/api/auth', authRoutes);
+        this.app.use('/api/admin-user', adminUserRoutes);
     }
 
     startServer() {
