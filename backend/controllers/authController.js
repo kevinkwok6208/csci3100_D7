@@ -3,7 +3,6 @@
  * Handles user authentication, registration, and session management
  */
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const User = require('../models/User.js');
 const authService = require('../services/authService.js');
 const authConfig = require('../config/auth_info.js');
@@ -11,146 +10,73 @@ const Cookie = require('../models/Cookie');
 
 
 class AuthController {
+    /* Login function */
     async login(req, res) {
         const { username, password } = req.body;
         try {
-            // Find user by username
-            const user = await User.findOne({ username });
-            if (!user) {
+            const result = await authService.handleLogin(username, password);
+            res.json(result);
+        } catch (error) {
+            if (error.message === 'INVALID_CREDENTIALS') {
                 return res.status(401).json({ message: 'Invalid credentials' });
-            }
-            
-            // Verify password match
-            const isMatch = await bcrypt.compare(password, user.hashedPassword);
-            if (!isMatch) {
-                return res.status(401).json({ message: 'Invalid credentials' });
-            }
-
-            // Check if email is verified (required for login)
-            if (!user.isEmailVerified) {
-                return res.status(403).json({ 
+            } else if (error.message === 'EMAIL_NOT_VERIFIED') {
+                return res.status(403).json({
                     message: 'Email verification required',
                     requiresVerification: true,
-                    username: user.username
+                    username
                 });
+            } else {
+                console.error('Login error:', error);
+                res.status(500).json({ message: 'Server error' });
             }
-
-            // Generate JWT token with user information
-            const token = jwt.sign(
-                { userId: user._id, username, isadmin: user.isadmin },
-                authConfig.jwtSecret,
-                { expiresIn: authConfig.jwtExpiresIn }
-            );
-
-            // Calculate token expiry date based on JWT expiration time
-            const expiryTimeInSeconds = typeof authConfig.jwtExpiresIn === 'string'
-            ? (authConfig.jwtExpiresIn.endsWith('h')
-                ? parseInt(authConfig.jwtExpiresIn) * 3600
-                : authConfig.jwtExpiresIn.endsWith('m')
-                    ? parseInt(authConfig.jwtExpiresIn) * 60
-                    : parseInt(authConfig.jwtExpiresIn))
-            : authConfig.jwtExpiresIn;
-
-            const expiryDate = new Date(Date.now() + expiryTimeInSeconds * 1000);
-            // Adjust for Hong Kong timezone
-            expiryDate.setUTCHours(expiryDate.getUTCHours() + authConfig.timezone.adjustmentInHours);
-
-            // Save token to Cookie collection
-            await Cookie.findOneAndUpdate(
-                { userId: user._id },
-                { 
-                    userId: user._id,
-                    username: user.username,
-                    token: token,
-                    expires: expiryDate
-                },
-                { upsert: true, new: true }
-            );
-
-            // Return authentication data to client
-            res.json({ token, isadmin: user.isadmin, username });
-        } catch (error) {
-            res.status(500).json({ message: 'Server error' });
         }
     }
 
+    /* Register function to be export as route*/ 
     async register(req, res) {
         const { username, password, email } = req.body;
         try {
-            const existingUser = await User.findOne({ 
-                username: username, 
-              });              
-            if (existingUser) {
-                return res.status(400).json({ message: 'Username already exists' });
-            }
-
-            const hashedPassword = await bcrypt.hash(password, authConfig.saltRounds);
-            const user = new User({
-                username,
-                hashedPassword: hashedPassword,
-                email,
-                isadmin: 0,
-                isEmailVerified: false
-            });
-
-            await user.save();
-            await authService.handleResendOTP(username);
+            const result = await authService.handleRegister(username, password, email);
             res.status(201).json({ 
                 message: 'Registration successful. Please verify your email.',
-                username 
+                username: result.username 
             });
         } catch (error) {
-            res.status(500).json({ message: 'Server error' });
+            if (error.message === 'USERNAME_EXISTS') {
+                return res.status(400).json({ message: 'Username already exists' });
+            } else {
+                console.error('Registration error:', error);
+                res.status(500).json({ message: 'Server error' });
+            }
         }
     }
 
+    /*Authentication function to be export as route*/
     async authByCookie(req, res) {
         try {
             const { token } = req.body;
-            
-            if (!token) {
-                return res.status(401).json({ message: 'No token provided' });
-            }
-            
-            // Find the cookie entry in database
-            const cookieEntry = await Cookie.findOne({ token });
-            
-            if (!cookieEntry) {
-                return res.status(401).json({ message: 'Invalid or expired token' });
-            }
-            
-            // convert the currentTime to Hong Kong timezone
-            const currentTime = new Date();
-            const adjustedCurrentTime = new Date(currentTime);
-            adjustedCurrentTime.setUTCHours(currentTime.getUTCHours() + authConfig.timezone.adjustmentInHours);
 
-            // Check if token has expired
-            // Current code will delete non-expired tokens and consider them expired
-            if (cookieEntry.expires < adjustedCurrentTime) {
-                await Cookie.deleteOne({ _id: cookieEntry._id });
-                return res.status(401).json({ message: 'Token has expired' });
-            }
-            
-            // Get user data
-            const user = await User.findOne({ _id: cookieEntry.userId });
-            
-            if (!user) {
-                return res.status(401).json({ message: 'User not found' });
-            }
-            
-            res.json({ 
-                token, 
-                isadmin: user.isadmin, 
-                username: user.username,
-            });
-            
+            // Use the service method
+            const result = await authService.handleAuthByCookie(token);
+            res.json(result);
+
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Server error' });
+            if (error.message === 'NO_TOKEN_PROVIDED') {
+                return res.status(401).json({ message: 'No token provided' });
+            } else if (error.message === 'INVALID_TOKEN') {
+                return res.status(401).json({ message: 'Invalid or expired token' });
+            } else if (error.message === 'EXPIRED_TOKEN') {
+                return res.status(401).json({ message: 'Token has expired' });
+            } else if (error.message === 'USER_NOT_FOUND') {
+                return res.status(401).json({ message: 'User not found' });
+            } else {
+                console.error('Auth by cookie error:', error);
+                res.status(500).json({ message: 'Server error' });
+            }
         }
     }
     
-    // Add logout method
+    /*Logout function to be export as route*/
     async logout(req, res) {
         try {
             const { token } = req.body;
@@ -166,6 +92,7 @@ class AuthController {
         }
     }
 
+    /*Verify Email function to be export as route*/
     async verifyEmail(req, res) {
         try {
             await authService.handleVerifyEmail(req.body.username, req.body.otp);
@@ -175,6 +102,7 @@ class AuthController {
         }
     }
 
+    /*Forgot Password function to be export as route*/
     async forgotPassword(req, res) {
         try {
             await authService.handleForgotPassword(req.body.username);
@@ -184,6 +112,7 @@ class AuthController {
         }
     }
 
+    /*Reset Password function to be export as route*/
     async resetPassword(req, res) {
         try {
             await authService.handleResetPassword(
@@ -197,6 +126,7 @@ class AuthController {
         }
     }
 
+    /*Resend OTP function to be export as route*/
     async resendOTP(req, res) {
         try {
             await authService.handleResendOTP(req.body.username);
