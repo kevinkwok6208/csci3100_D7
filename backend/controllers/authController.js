@@ -9,9 +9,9 @@ const Cookie = require('../models/Cookie');
 class AuthController {
     /* Login function */
     async login(req, res) {
-        const { username, password } = req.body;
+        const { UsernameOrEmail, password } = req.body;
         try {
-            const result = await authService.handleLogin(username, password);
+            const result = await authService.handleLogin(UsernameOrEmail, password);
             res.json(result);
         } catch (error) {
             if (error.message === 'INVALID_CREDENTIALS') {
@@ -99,10 +99,10 @@ class AuthController {
         }
     }
 
-    /*Forgot Password function to be export as route*/
+    /*Update Password Request OTP function to be export as route*/
     async PasswordUpdateOTP(req, res) {
         try {
-            await authService.handlePasswordUpdate_OTP(req.body.username);
+            await authService.handlePasswordUpdate_OTP(req.body.UsernameOrEmail);
             res.json({ message: 'OTP sent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });
@@ -113,7 +113,7 @@ class AuthController {
     async resetPassword(req, res) {
         try {
             await authService.handleResetPassword(
-                req.body.username, 
+                req.body.UsernameOrEmail, 
                 req.body.otp, 
                 req.body.newPassword
             );

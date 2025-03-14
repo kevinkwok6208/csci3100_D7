@@ -11,7 +11,7 @@ const authController = require('../controllers/authController');
 router.post('/login', authController.login);
 
 /* "http://localhost:5001/api/auth/register"
-    Parameters: {username, password, email}
+    Parameters: {UsernameOrEmail, password, email}
     Function: Allow users to register and create a new account 
     and gen OTP to users account
     Method: Post
@@ -37,15 +37,15 @@ router.post('/resend-otp', authController.resendOTP);
 // Password management routes
 
 /* "http://localhost:5001/api/auth/password-update-otp"
-    Parameters: {username}
+    Parameters: {UsernameOrEmail}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
     Method: Post
 */
 router.post('/password-update-otp', authController.PasswordUpdateOTP);
 
-/* "http://localhost:5001/api/auth/forgot-password"
-    Parameters: {username, otp, newPassword}
+/* "http://localhost:5001/api/auth/reset-password"
+    Parameters: {UsernameOrEmail, otp, newPassword}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
     Method: Post

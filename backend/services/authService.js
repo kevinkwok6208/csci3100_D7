@@ -7,9 +7,15 @@ const authConfig = require('../config/auth_info');
 const Cookie = require('../models/Cookie');
 
 class AuthService {
-    async handleLogin(username, password) {
+    async handleLogin(UsernameOrEmail, password) {
         // Find user by username
-        const user = await User.findOne({ username });
+        let user;
+        const isEmail = UsernameOrEmail.includes('@');
+        if (isEmail) {
+            user = await User.findOne({ email: UsernameOrEmail });
+        } else {
+            user = await User.findOne({ username: UsernameOrEmail });
+        }
         if (!user) {
             throw new Error('INVALID_CREDENTIALS');
         }
@@ -27,7 +33,7 @@ class AuthService {
     
         // Generate JWT token with user information
         const token = jwt.sign(
-            { userId: user._id, username, isadmin: user.isadmin },
+            { userId: user._id, username:user.username, isadmin: user.isadmin },
             authConfig.jwtSecret,
             { expiresIn: authConfig.jwtExpiresIn }
         );
@@ -61,7 +67,7 @@ class AuthService {
         return {
             token,
             isadmin: user.isadmin,
-            username
+            username:user.username
         };
     }
 
@@ -169,44 +175,80 @@ class AuthService {
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
-    async handlePasswordUpdate_OTP(username) {
-        const user = await User.findOne({ username });
-        if (!user || !user.email || !user.isEmailVerified) {
-            throw new Error('User not found or email not verified');
+    async handlePasswordUpdate_OTP(UsernameOrEmail) {
+        // First check if input is null or undefined
+        if (!UsernameOrEmail) {
+          throw new Error('Username or email is required');
         }
-
+      
+        const isEmail = UsernameOrEmail.includes('@');
+        
+        // Declare user variable outside the if/else blocks
+        let user;
+      
+        if (isEmail) {
+          user = await User.findOne({ email: UsernameOrEmail });
+          console.log(user);
+          if (!user) {
+            throw new Error('User not found');
+          }
+        } else {
+          user = await User.findOne({ username:UsernameOrEmail });
+          console.log(user);
+          if (!user) {
+            throw new Error('User not found');
+          }
+        }
+      
         const otp = emailService.generateOTP();
         const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
         otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
-
+      
         // Save OTP for password reset
         await OTP.findOneAndUpdate(
-            { userId: user._id },
-            { 
-                userId: user._id,
-                username,
-                code: otp,
-                expiry: otpExpiry,
-                purpose: 'password_reset'
-            },
-            { upsert: true, new: true }
+          { userId: user._id },
+          {
+            userId: user._id,
+            username: user.username, // Use user.username instead of the parameter
+            code: otp,
+            expiry: otpExpiry,
+            purpose: 'password_UpdateOrReset'
+          },
+          { upsert: true, new: true }
         );
+      
+        // Now user.email is accessible
+        if (isEmail) {
+          await emailService.sendOTP(UsernameOrEmail, otp);
+        } else {
+          await emailService.sendOTP(user.email, otp);
+        }
+        
+        return { success: true, message: 'OTP sent successfully' };
+      }
 
-        await emailService.sendOTP(user.email, otp);
-    }
+    async handleResetPassword(UsernameOrEmail, otpCode, newPassword) {
+        const isEmail = UsernameOrEmail.includes('@');
+        let user;
+        // Check if input is email or username
+        if (isEmail) {
+            user = await User.findOne({ email: UsernameOrEmail });
+            console.log(user);
+        } else {
+            user = await User.findOne({ username: UsernameOrEmail });
+            console.log(user);
+        }
 
-    async handleResetPassword(username, otpCode, newPassword) {
-        const user = await User.findOne({ username });
+        // check if user exists
         if (!user) {
             throw new Error('User not found');
         }
-
         const now = new Date();
         now.setUTCHours(now.getUTCHours() + authConfig.timezone.adjustmentInHours);
         
         const otpRecord = await OTP.findOne({ 
             userId: user._id,
-            purpose: 'password_reset',
+            purpose: 'password_UpdateOrReset',
             code: otpCode
         });
         
@@ -216,7 +258,7 @@ class AuthService {
 
         const hashedPassword = await bcrypt.hash(newPassword, authConfig.saltRounds);
         await User.updateOne(
-            { username },
+            { username:user.username },
             { hashedPassword: hashedPassword }
         );
 
@@ -235,7 +277,7 @@ class AuthService {
         otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
 
         // Determine purpose based on email verification status
-        const purpose = user.isEmailVerified ? 'password_reset' : 'email_verification';
+        const purpose = user.isEmailVerified ? 'password_UpdateOrReset' : 'email_verification';
         
         // Save new OTP without purpose distinction
         await OTP.findOneAndUpdate(
