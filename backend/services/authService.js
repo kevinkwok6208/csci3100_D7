@@ -80,7 +80,13 @@ class AuthService {
         if (existingUser) {
             throw new Error('USERNAME_EXISTS');
         }
-    
+        
+        const existingEmail = await User.findOne({
+            email: email
+        });
+        if (existingEmail) {
+            throw new Error('EMAIL_EXISTS');
+        }
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, authConfig.saltRounds);
         

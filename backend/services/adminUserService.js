@@ -13,11 +13,15 @@ class AdminService {
      */
     async createUser(username, password, email, isadmin) {
         // Check if username already exists
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ username:username });
         if (existingUser) {
             throw new Error('Username already exists');
         }
 
+        const existingEmail = await User.findOne({ email:email });
+        if (existingEmail) {
+            throw new Error('Email already exists');
+        }
         // Hash password
         const hashedPassword = await bcrypt.hash(password, authConfig.saltRounds);
 
@@ -57,6 +61,7 @@ class AdminService {
             res.status(500).json({ message: 'Server error' });
         }
     }
+
 }
 
 module.exports = new AdminService();

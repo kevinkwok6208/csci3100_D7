@@ -48,7 +48,7 @@ class AdminController {
             const users = await adminService.getAllUsers(username);
             res.json(users);
         } catch (error) {
-            res.status(500).json({ message: 'Server error' });
+            res.status(500).json({ message: error.message });
         }
     }
 
@@ -58,7 +58,7 @@ class AdminController {
             const user = await adminService.getUserInfo(username);
             res.json(user);
         } catch (error) {
-            res.status(500).json({ message: 'Server error' });
+            res.status(500).json({ message: error.message });
         }
     }
 }
