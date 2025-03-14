@@ -169,7 +169,7 @@ class AuthService {
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
-    async handleForgotPassword(username) {
+    async handlePasswordUpdate_OTP(username) {
         const user = await User.findOne({ username });
         if (!user || !user.email || !user.isEmailVerified) {
             throw new Error('User not found or email not verified');

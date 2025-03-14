@@ -2,10 +2,7 @@
  * Authentication Controller
  * Handles user authentication, registration, and session management
  */
-const bcrypt = require('bcryptjs');
-const User = require('../models/User.js');
 const authService = require('../services/authService.js');
-const authConfig = require('../config/auth_info.js');
 const Cookie = require('../models/Cookie');
 
 
@@ -103,9 +100,9 @@ class AuthController {
     }
 
     /*Forgot Password function to be export as route*/
-    async forgotPassword(req, res) {
+    async PasswordUpdateOTP(req, res) {
         try {
-            await authService.handleForgotPassword(req.body.username);
+            await authService.handlePasswordUpdate_OTP(req.body.username);
             res.json({ message: 'OTP sent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });

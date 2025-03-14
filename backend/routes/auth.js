@@ -36,13 +36,13 @@ router.post('/resend-otp', authController.resendOTP);
 
 // Password management routes
 
-/* "http://localhost:5001/api/auth/forgot-password"
+/* "http://localhost:5001/api/auth/password-update-otp"
     Parameters: {username}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
     Method: Post
 */
-router.post('/forgot-password', authController.forgotPassword);
+router.post('/password-update-otp', authController.PasswordUpdateOTP);
 
 /* "http://localhost:5001/api/auth/forgot-password"
     Parameters: {username, otp, newPassword}
