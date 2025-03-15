@@ -194,13 +194,11 @@ class AuthService {
       
         if (isEmail) {
           user = await User.findOne({ email: UsernameOrEmail });
-          console.log(user);
           if (!user) {
             throw new Error('User not found');
           }
         } else {
           user = await User.findOne({ username:UsernameOrEmail });
-          console.log(user);
           if (!user) {
             throw new Error('User not found');
           }
@@ -239,10 +237,8 @@ class AuthService {
         // Check if input is email or username
         if (isEmail) {
             user = await User.findOne({ email: UsernameOrEmail });
-            console.log(user);
         } else {
             user = await User.findOne({ username: UsernameOrEmail });
-            console.log(user);
         }
 
         // check if user exists
