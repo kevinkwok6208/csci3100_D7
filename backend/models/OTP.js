@@ -22,6 +22,12 @@ const otpSchema = new mongoose.Schema({
         type: String,
         enum: ['email_verification', 'password_UpdateOrReset'],
         required: true
+    },
+    newEmail: {
+        type: String,
+        required: function() {
+            return this.purpose === 'email_change';
+        }
     }
 });
 

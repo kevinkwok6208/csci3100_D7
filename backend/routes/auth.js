@@ -4,14 +4,14 @@ const authController = require('../controllers/authController');
 
 // Core authentication routes
 /* "http://localhost:5001/api/auth/login"
-    Parameters: {username, password}
+    Parameters: {UsernameOrEmail, password}
     Function: Autheticate users and return JWT token.
     Method: Post
 */
 router.post('/login', authController.login);
 
 /* "http://localhost:5001/api/auth/register"
-    Parameters: {UsernameOrEmail, password, email}
+    Parameters: {username, password, email}
     Function: Allow users to register and create a new account 
     and gen OTP to users account
     Method: Post
@@ -20,19 +20,11 @@ router.post('/register', authController.register);
 
 // Email verification routes
 /* "http://localhost:5001/api/auth/verify-email"
-    Parameters: {username, otp}
+    Parameters: {UsernameOrEmail, otp}
     Function: Allow users to verify the email address by input OTP
     Method: Post
 */
 router.post('/verify-email', authController.verifyEmail);
-
-/* "http://localhost:5001/api/auth/resend-otp"
-    Parameters: {UsernameOrEmail}
-    Function: Allow user to resend OTP to their email address
-    Method: Post
-*/
-router.post('/resend-otp', authController.resendOTP);
-
 
 // Password management routes
 

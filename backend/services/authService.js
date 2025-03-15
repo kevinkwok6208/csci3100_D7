@@ -7,15 +7,91 @@ const authConfig = require('../config/auth_info');
 const Cookie = require('../models/Cookie');
 
 class AuthService {
-    async handleLogin(UsernameOrEmail, password) {
-        // Find user by username
+    // Helper to find user by username or email
+    async findUserByIdentifier(usernameOrEmail) {
+        const isEmail = usernameOrEmail.includes('@');
         let user;
-        const isEmail = UsernameOrEmail.includes('@');
+        
         if (isEmail) {
-            user = await User.findOne({ email: UsernameOrEmail });
+            user = await User.findOne({ email: usernameOrEmail });
         } else {
-            user = await User.findOne({ username: UsernameOrEmail });
+            user = await User.findOne({ username: usernameOrEmail });
         }
+        
+        return { user, isEmail };
+    }
+    
+    // Helper to adjust date for timezone
+    adjustDateForTimezone(date) {
+        const adjustedDate = new Date(date);
+        adjustedDate.setUTCHours(
+            date.getUTCHours() + authConfig.timezone.adjustmentInHours
+        );
+        return adjustedDate;
+    }
+    
+    // Helper to get current time with timezone adjustment
+    getCurrentAdjustedTime() {
+        const now = new Date();
+        return this.adjustDateForTimezone(now);
+    }
+    
+    // Helper to validate OTP
+    async validateOTP(userId, otpCode, purpose) {
+        const now = this.getCurrentAdjustedTime();
+        
+        const otpRecord = await OTP.findOne({ 
+            userId: userId,
+            purpose: purpose,
+            code: otpCode
+        });
+        
+        if (!otpRecord || otpRecord.expiry < now || otpCode!== otpRecord.code) {
+            throw new Error('Invalid or expired OTP');
+        }
+        
+        return otpRecord;
+    }
+    
+    // Helper to create and save OTP
+    async createAndSaveOTP(user, purpose, newEmail = null) {
+        const otp = emailService.generateOTP();
+        const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
+        const adjustedExpiry = this.adjustDateForTimezone(otpExpiry);
+        
+        // Prepare OTP data
+        const otpData = { 
+            userId: user._id,
+            username: user.username,
+            code: otp,
+            expiry: adjustedExpiry,
+            purpose
+        };
+        
+        // If this is for email change and newEmail is provided, add it to the OTP data
+        if (purpose === 'email_change' && newEmail) {
+            otpData.newEmail = newEmail;
+        }
+        
+        // Save new OTP
+        const otpRecord = await OTP.findOneAndUpdate(
+            { userId: user._id, purpose: purpose },
+            otpData,
+            { upsert: true, new: true }
+        );
+        
+        return { otp, otpRecord };
+    }
+    
+    // Helper to hash password
+    async hashPassword(password) {
+        return bcrypt.hash(password, authConfig.saltRounds);
+    }
+
+    async handleLogin(UsernameOrEmail, password) {
+        // Find user by username or email
+        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
+        
         if (!user) {
             throw new Error('INVALID_CREDENTIALS');
         }
@@ -33,7 +109,7 @@ class AuthService {
     
         // Generate JWT token with user information
         const token = jwt.sign(
-            { userId: user._id, username:user.username, isadmin: user.isadmin },
+            { userId: user._id, username: user.username, isadmin: user.isadmin },
             authConfig.jwtSecret,
             { expiresIn: authConfig.jwtExpiresIn }
         );
@@ -49,7 +125,7 @@ class AuthService {
     
         const expiryDate = new Date(Date.now() + expiryTimeInSeconds * 1000);
         // Adjust for Hong Kong timezone
-        expiryDate.setUTCHours(expiryDate.getUTCHours() + authConfig.timezone.adjustmentInHours);
+        const adjustedExpiry = this.adjustDateForTimezone(expiryDate);
     
         // Save token to Cookie collection
         await Cookie.findOneAndUpdate(
@@ -58,7 +134,7 @@ class AuthService {
                 userId: user._id,
                 username: user.username,
                 token: token,
-                expires: expiryDate
+                expires: adjustedExpiry
             },
             { upsert: true, new: true }
         );
@@ -67,33 +143,30 @@ class AuthService {
         return {
             token,
             isadmin: user.isadmin,
-            username:user.username
+            username: user.username
         };
     }
 
     async handleRegister(username, password, email) {
         // Check if username already exists
-        const existingUser = await User.findOne({ 
-            username: username 
-        });
+        const existingUser = await User.findOne({ username });
         
         if (existingUser) {
             throw new Error('USERNAME_EXISTS');
         }
         
-        const existingEmail = await User.findOne({
-            email: email
-        });
+        const existingEmail = await User.findOne({ email });
         if (existingEmail) {
             throw new Error('EMAIL_EXISTS');
         }
+        
         // Hash the password
-        const hashedPassword = await bcrypt.hash(password, authConfig.saltRounds);
+        const hashedPassword = await this.hashPassword(password);
         
         // Create new user
         const user = new User({
             username,
-            hashedPassword: hashedPassword,
+            hashedPassword,
             email,
             isadmin: 0,
             isEmailVerified: false
@@ -103,13 +176,10 @@ class AuthService {
         await user.save();
         
         // Send OTP for email verification
-        await this.handleResendOTP(username);
+        await this.handleRegisterEmailOTP(username,'email_verification', email);
         
         // Return registration result
-        return { 
-            username,
-            email
-        };
+        return { username, email };
     }
 
     async handleAuthByCookie(token) {
@@ -124,12 +194,8 @@ class AuthService {
             throw new Error('INVALID_TOKEN');
         }
 
-        // Convert currentTime to Hong Kong timezone
-        const currentTime = new Date();
-        const adjustedCurrentTime = new Date(currentTime);
-        adjustedCurrentTime.setUTCHours(
-            currentTime.getUTCHours() + authConfig.timezone.adjustmentInHours
-        );
+        // Get current time with timezone adjustment
+        const adjustedCurrentTime = this.getCurrentAdjustedTime();
 
         // Check if token has expired
         if (cookieEntry.expires < adjustedCurrentTime) {
@@ -151,29 +217,17 @@ class AuthService {
         };
     }
 
-
-    
-    async handleVerifyEmail(username, otpCode) {
-        const user = await User.findOne({ username });
+    async handleVerifyEmail(UsernameOrEmail, otpCode) {
+        // Find user by username or email
+        const {user,isEmail} = await this.findUserByIdentifier(UsernameOrEmail);
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('INVALID_CREDENTIALS');
         }
-
-        const now = new Date();
-        now.setUTCHours(now.getUTCHours() + authConfig.timezone.adjustmentInHours);
-        
-        const otpRecord = await OTP.findOne({ 
-            userId: user._id,
-            purpose: 'email_verification',
-            code: otpCode
-        });
-        
-        if (!otpRecord || otpRecord.expiry < now) {
-            throw new Error('Invalid or expired OTP');
-        }
+        // Use the helper method
+        const otpRecord = await this.validateOTP(user._id, otpCode, 'email_verification');
 
         await User.updateOne(
-            { username },
+            { username: user.username },
             { isEmailVerified: true }
         );
 
@@ -187,122 +241,62 @@ class AuthService {
           throw new Error('Username or email is required');
         }
       
-        const isEmail = UsernameOrEmail.includes('@');
+        // Find user by username or email
+        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
         
-        // Declare user variable outside the if/else blocks
-        let user;
-      
-        if (isEmail) {
-          user = await User.findOne({ email: UsernameOrEmail });
-          if (!user) {
-            throw new Error('User not found');
-          }
-        } else {
-          user = await User.findOne({ username:UsernameOrEmail });
-          if (!user) {
-            throw new Error('User not found');
-          }
+        if (!user) {
+          throw new Error('User not found');
         }
       
-        const otp = emailService.generateOTP();
-        const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
-        otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
+        // Create and save OTP
+        const { otp } = await this.createAndSaveOTP(user, 'password_UpdateOrReset');
       
-        // Save OTP for password reset
-        await OTP.findOneAndUpdate(
-          { userId: user._id },
-          {
-            userId: user._id,
-            username: user.username, // Use user.username instead of the parameter
-            code: otp,
-            expiry: otpExpiry,
-            purpose: 'password_UpdateOrReset'
-          },
-          { upsert: true, new: true }
-        );
-      
-        // Now user.email is accessible
-        if (isEmail) {
-          await emailService.sendOTP(UsernameOrEmail, otp);
-        } else {
-          await emailService.sendOTP(user.email, otp);
-        }
+        // Send OTP to user's email
+        await emailService.sendOTP(isEmail ? UsernameOrEmail : user.email, otp);
         
         return { success: true, message: 'OTP sent successfully' };
-      }
+    }
 
     async handleResetPassword(UsernameOrEmail, otpCode, newPassword) {
-        const isEmail = UsernameOrEmail.includes('@');
-        let user;
-        // Check if input is email or username
-        if (isEmail) {
-            user = await User.findOne({ email: UsernameOrEmail });
-        } else {
-            user = await User.findOne({ username: UsernameOrEmail });
-        }
-
-        // check if user exists
+        // Find user by username or email
+        const { user } = await this.findUserByIdentifier(UsernameOrEmail);
+        
         if (!user) {
             throw new Error('User not found');
         }
-        const now = new Date();
-        now.setUTCHours(now.getUTCHours() + authConfig.timezone.adjustmentInHours);
-        
-        const otpRecord = await OTP.findOne({ 
-            userId: user._id,
-            purpose: 'password_UpdateOrReset',
-            code: otpCode
-        });
-        
-        if (!otpRecord || otpRecord.expiry < now) {
-            throw new Error('Invalid or expired OTP');
-        }
 
-        const hashedPassword = await bcrypt.hash(newPassword, authConfig.saltRounds);
+        // Validate OTP
+        const otpRecord = await this.validateOTP(user._id, otpCode, 'password_UpdateOrReset');
+
+        // Hash the new password
+        const hashedPassword = await this.hashPassword(newPassword);
+        
+        // Update user's password
         await User.updateOne(
-            { username:user.username },
-            { hashedPassword: hashedPassword }
+            { username: user.username },
+            { hashedPassword }
         );
 
         // Remove the used OTP
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
-    async handleResendOTP(UsernameOrEmail) {
-        let user;
-        const isEmail = UsernameOrEmail.includes('@');
-        if (isEmail) {
-            user = await User.findOne({ email: UsernameOrEmail });
-            if (!user){
-                throw new Error('User not found');
-            }
-        } else {
-            user = await User.findOne({ username: UsernameOrEmail });
-            if (!user){
-                throw new Error('User not found');
-            }
+    async handleRegisterEmailOTP(username,purpose,targetEmail) {
+        // Find user by username or email
+        const user= await User.findOne({ username });
+         
+        //Check user exist
+        if (!user) {
+            throw new Error('User not found');
         }
-        const otp = emailService.generateOTP();
-        const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
-        otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
-
-        // Determine purpose based on email verification status
-        const purpose = user.isEmailVerified ? 'password_UpdateOrReset' : 'email_verification';
         
-        // Save new OTP without purpose distinction
-        await OTP.findOneAndUpdate(
-            { userId: user._id },
-            { 
-                userId: user._id,
-                username: user.username,
-                code: otp,
-                expiry: otpExpiry,
-                purpose
-            },
-            { upsert: true, new: true }
-        );
-
+        // Create and save OTP
+        const { otp, otpRecord } = await this.createAndSaveOTP(user, purpose, targetEmail);
+        
+        // Send OTP to the appropriate email
         await emailService.sendOTP(user.email, otp);
+        
+        return { success: true, message: 'OTP sent successfully' };
     }
 
     async validateToken(token) {
