@@ -27,7 +27,7 @@ router.post('/register', authController.register);
 router.post('/verify-email', authController.verifyEmail);
 
 /* "http://localhost:5001/api/auth/resend-otp"
-    Parameters: {username}
+    Parameters: {UsernameOrEmail}
     Function: Allow user to resend OTP to their email address
     Method: Post
 */

@@ -272,12 +272,20 @@ class AuthService {
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
-    async handleResendOTP(username) {
-        const user = await User.findOne({ username });
-        if (!user) {
-            throw new Error('User not found');
+    async handleResendOTP(UsernameOrEmail) {
+        let user;
+        const isEmail = UsernameOrEmail.includes('@');
+        if (isEmail) {
+            user = await User.findOne({ email: UsernameOrEmail });
+            if (!user){
+                throw new Error('User not found');
+            }
+        } else {
+            user = await User.findOne({ username: UsernameOrEmail });
+            if (!user){
+                throw new Error('User not found');
+            }
         }
-
         const otp = emailService.generateOTP();
         const otpExpiry = new Date(Date.now() + authConfig.otpExpiryMinutes * 60000);
         otpExpiry.setUTCHours(otpExpiry.getUTCHours() + authConfig.timezone.adjustmentInHours);
@@ -290,7 +298,7 @@ class AuthService {
             { userId: user._id },
             { 
                 userId: user._id,
-                username,
+                username: user.username,
                 code: otp,
                 expiry: otpExpiry,
                 purpose

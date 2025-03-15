@@ -126,7 +126,7 @@ class AuthController {
     /*Resend OTP function to be export as route*/
     async resendOTP(req, res) {
         try {
-            await authService.handleResendOTP(req.body.username);
+            await authService.handleResendOTP(req.body.UsernameOrEmail);
             res.json({ message: 'New OTP sent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });
