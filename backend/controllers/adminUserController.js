@@ -26,6 +26,7 @@ class AdminController {
         }
     }
 
+    // Delete particular user
     async deleteUser(req, res) {
         try {
           const { username } = req.params;
@@ -42,6 +43,7 @@ class AdminController {
         }
     }
       
+    //Display all users info
     async getAllUsers(req, res) {
         try {
             const{username}= req.params;
@@ -52,12 +54,36 @@ class AdminController {
         }
     }
 
+    //Display particular user info
     async getUserInfo(req, res) {
         try {
             const {username} = req.params;
             const user = await adminService.getUserInfo(username);
             res.json(user);
         } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    //Update user password
+    async updateUserPassword(req,res){
+        try{
+            const {username} = req.params;
+            const {newPassword} = req.body;
+            await adminService.updateUserPassword(username,newPassword);
+            res.status(201).json({ message: 'User Password changed successfully' });
+        }catch(error){
+            res.status(500).json({ message: error.message });
+        }
+    }
+    //Update user email
+    async updateUserEmail(req,res){
+        try{
+            const {username}=req.params;
+            const {newEmail}=req.body;
+            await adminService.updateUserEmail(username,newEmail);
+            res.status(201).json({ message: 'User Email changed successfully' });
+        }catch(error){
             res.status(500).json({ message: error.message });
         }
     }

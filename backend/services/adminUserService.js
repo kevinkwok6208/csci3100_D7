@@ -7,6 +7,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const authConfig = require('../config/auth_info');
 
+
 class AdminService {
     /**
      * Create a new user
@@ -31,7 +32,7 @@ class AdminService {
             hashedPassword,
             email,
             isadmin: isadmin ? 1 : 0,
-            isEmailVerified: true 
+            isEmailVerified: isadmin? true : false
         });
 
         // Save and return user
@@ -43,11 +44,13 @@ class AdminService {
         return result.deletedCount > 0;
     }
     
+    //display all users info
     async getAllUsers(req, res) {
         const users = await User.find({}, { password: 0 });
         return users;
     }
 
+    //display particular user info
     async getUserInfo(username) {
         try {
             const user = await User.findOne(
@@ -62,6 +65,39 @@ class AdminService {
         }
     }
 
+    //change user password
+    async updateUserPassword(username, newPassword) {
+        // Find user by username or email
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, authConfig.saltRounds);
+        // Update the user's password
+        await User.updateOne(
+            { username: user.username },
+            { hashedPassword }
+        )
+    }
+
+    //change user email
+    async updateUserEmail(username,newEmail){
+        const user = await User.findOne({ username });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        // Update the user's email
+        await User.updateOne(
+                {username: user.username},
+                {$set:{
+                    email: newEmail,
+                    isEmailVerified: user.isadmin? true : false
+                }}
+        );
+    }
 }
+
+
 
 module.exports = new AdminService();
