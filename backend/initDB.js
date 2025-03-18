@@ -108,25 +108,25 @@ async function initializeDatabase() {
             const commentData = [
                 {
                     user: user._id,
-                    ProductID: product._id,
+                    productID: product._id,
                     content: "This product exceeded my expectations! The quality is outstanding.",
                     timestamp: new Date("2023-03-15T10:30:00Z")
                 },
                 {
                     user: user._id,
-                    ProductID: product._id,
+                    productID: product._id,
                     content: "Delivery was fast and the product works perfectly. Would recommend!",
                     timestamp: new Date("2023-03-13T10:30:00Z")
                 },
                 {
                     user: user._id,
-                    ProductID: product._id,
+                    productID: product._id,
                     content: "Good value for money, but the packaging could be improved.",
                     timestamp: new Date("2023-03-10T10:30:00Z")
                 },
                 {
                     user: user._id,
-                    ProductID: product._id,
+                    productID: product._id,
                     content: "I've been using this for a week now and it's holding up well.",
                     timestamp: new Date("2023-03-08T10:30:00Z")
                 }
@@ -149,22 +149,22 @@ async function initializeDatabase() {
         const ratingData = [
             {
                 user: ratinguuser1._id,
-                ProductID: productrating1._id,
+                productID: productrating1._id,
                 Rating :4
             },
             {
                 user: ratinguuser1._id,
-                ProductID: productrating2._id,
+                productID: productrating2._id,
                 Rating :4
             },
             {
                 user: ratinguuser2._id,
-                ProductID: productrating2._id,
+                productID: productrating2._id,
                 Rating :4
             },
             {
                 user: ratinguuser2._id,
-                ProductID: productrating1._id,
+                productID: productrating1._id,
                 Rating :5
             }
         ];
