@@ -10,5 +10,25 @@ class ProductDisplayController {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+
+    async getCommentsForProduct(req, res) {
+        try {
+            const { productId } = req.params;
+            const comments = await ProductDisplayService.getCommentsForProduct(productId);
+            res.json(comments);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
+
+    async getRatingsForProduct(req, res) {
+        try {
+            const { productId } = req.params;
+            const ratings = await ProductDisplayService.getRatingsForProduct(productId);
+            res.json(ratings);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 module.exports = new ProductDisplayController();
