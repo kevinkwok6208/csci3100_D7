@@ -25,6 +25,10 @@ const productSchema = new mongoose.Schema({
   productStorage: {
     type: Number,
     required: true
+  },
+  featured: {
+    type: Boolean,
+    default: false
   }
 });
 

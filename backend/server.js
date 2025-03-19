@@ -6,6 +6,7 @@ const userProfileRoutes = require('./routes/userMan');
 const adminUserRoutes = require('./routes/adminUser');
 const productDisplayRoutes = require('./routes/productDisplay');
 const connectDatabase = require('./config/connectDB');
+const featureSeriveRoutes = require('./routes/feature');
 
 class Server {
     constructor() {
@@ -31,6 +32,7 @@ class Server {
         this.app.use('/api/admin-user', adminUserRoutes);
         this.app.use('/api/user-manage', userProfileRoutes);
         this.app.use('/api/product-display', productDisplayRoutes);
+        this.app.use('/api/feature', featureSeriveRoutes);
     }
 
     startServer() {
