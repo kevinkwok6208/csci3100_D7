@@ -1,7 +1,5 @@
 const Product = require('../models/Products');
 const Comment = require('../models/Comments');
-const User = require('../models/User');
-const Rating = require('../models/Ratings');
 class ProductDisplayService {
     async getAllProducts() {
         try {
@@ -51,10 +49,14 @@ class ProductDisplayService {
         try {
             // Get the product by ID in Products collection
             const retrived_productID = await this.getObjectidFromProductID(productId);
-            const ratings=await Rating.find({ productID: retrived_productID});
+            const ratings=await Comment.find({ productID: retrived_productID});
 
             // Filter out ratings with null values
             const validRatings = ratings.filter(rating => rating.Rating !== 0);
+            if  (validRatings.length === 0) {
+                const message="No ratings found for this product.";
+                return message;
+            }
             // Calculate average rating
             const totalRatings = validRatings.length;
             const averageRating = totalRatings > 0 ? validRatings.reduce((sum, rating) => sum + rating.Rating, 0) / totalRatings : 0;

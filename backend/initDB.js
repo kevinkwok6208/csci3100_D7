@@ -110,24 +110,28 @@ async function initializeDatabase() {
                     user: user._id,
                     productID: product._id,
                     content: "This product exceeded my expectations! The quality is outstanding.",
+                    Rating:4,
                     timestamp: new Date("2023-03-15T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "Delivery was fast and the product works perfectly. Would recommend!",
+                    Rating:5,
                     timestamp: new Date("2023-03-13T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "Good value for money, but the packaging could be improved.",
+                    Rating:3,
                     timestamp: new Date("2023-03-10T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "I've been using this for a week now and it's holding up well.",
+                    Rating:2,
                     timestamp: new Date("2023-03-08T10:30:00Z")
                 }
             ];
@@ -140,36 +144,6 @@ async function initializeDatabase() {
 
         console.log('Database initialized successfully');
 
-        //initialize rating data
-        await Rating.deleteMany({});
-        const ratinguuser1=await User.findOne({ username: 'testuser' });
-        const ratinguuser2=await User.findOne({ username: 'testuser2' });
-        const productrating1 = await Product.findOne({ productID: "P001" });
-        const productrating2 = await Product.findOne({ productID: "P002" });
-        const ratingData = [
-            {
-                user: ratinguuser1._id,
-                productID: productrating1._id,
-                Rating :4
-            },
-            {
-                user: ratinguuser1._id,
-                productID: productrating2._id,
-                Rating :4
-            },
-            {
-                user: ratinguuser2._id,
-                productID: productrating2._id,
-                Rating :4
-            },
-            {
-                user: ratinguuser2._id,
-                productID: productrating1._id,
-                Rating :5
-            }
-        ];
-        await Rating.insertMany(ratingData);
-        console.log('Sample ratings created');
         process.exit(0);
         
     } catch (error) {
