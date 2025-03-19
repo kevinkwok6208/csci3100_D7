@@ -11,6 +11,15 @@ class ProductDisplayController {
         }
     }
 
+    async getProductById(req, res) {
+        try {
+            const { productId } = req.params;
+            const product = await ProductDisplayService.getProductById(productId);
+            res.json(product);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
     async getCommentsForProduct(req, res) {
         try {
             const { productId } = req.params;

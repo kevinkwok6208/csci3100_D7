@@ -10,6 +10,19 @@ class ProductDisplayService {
             throw err;
         }
     }
+
+    async getProductById(productId) {
+        try {
+            const product = await Product.findOne({productID:productId});
+            if (!product) {
+                throw new Error('Product not found');
+            }
+            return product;
+        } catch (err) {
+            console.error('Error fetching product:', err);
+            throw err;
+        }
+    }
     async getObjectidFromProductID(productId) {
         try {
             const product = await Product.findOne({ productID: productId });

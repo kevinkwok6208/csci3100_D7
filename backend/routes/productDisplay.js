@@ -9,6 +9,13 @@ const ProductDisplayController = require('../controllers/ProductDisplayControlle
 */
 router.get('/get-allproducts', ProductDisplayController.getAllProducts);
 
+/* "http://localhost:5001/api/product-display/get-products"
+    Parameters: req.params.productId
+    Function: Display all the products.
+    Method: Get
+*/
+router.get('/get-products/:productId', ProductDisplayController.getProductById);
+
 /* "http://localhost:5001/api/admin/get-comments/{productId}"
     Parameters: req.params.productId
     Function: Allow user to view comments for a product.
