@@ -3,14 +3,16 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 // Core authentication routes
-/* "http://localhost:5001/api/auth/login"
+/*  "http://localhost:5001/api/auth/login"
+    "https://localhost:5443/api/auth/login"
     Parameters: {UsernameOrEmail, password}
     Function: Autheticate users and return JWT token.
     Method: Post
 */
 router.post('/login', authController.login);
 
-/* "http://localhost:5001/api/auth/register"
+/*  "http://localhost:5001/api/auth/register"
+    "https://localhost:5443/api/auth/register"
     Parameters: {username, password, email}
     Function: Allow users to register and create a new account 
     and gen OTP to users account
@@ -19,7 +21,8 @@ router.post('/login', authController.login);
 router.post('/register', authController.register);
 
 // Email verification routes
-/* "http://localhost:5001/api/auth/verify-email"
+/*  "http://localhost:5001/api/auth/verify-email"
+    "https://localhost:5443/api/auth/verify-email"
     Parameters: {UsernameOrEmail, otp}
     Function: Allow users to verify the email address by input OTP
     Method: Post
@@ -28,7 +31,8 @@ router.post('/verify-email', authController.verifyEmail);
 
 // Password management routes
 
-/* "http://localhost:5001/api/auth/password-update-otp"
+/*  "http://localhost:5001/api/auth/password-update-otp"
+    "https://localhost:5443/api/auth/password-update-otp"
     Parameters: {UsernameOrEmail}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
@@ -36,7 +40,8 @@ router.post('/verify-email', authController.verifyEmail);
 */
 router.post('/password-update-otp', authController.PasswordUpdateOTP);
 
-/* "http://localhost:5001/api/auth/reset-password"
+/*  "http://localhost:5001/api/auth/reset-password"
+    "https://localhost:5443/api/auth/reset-password"
     Parameters: {UsernameOrEmail, otp, newPassword}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
@@ -45,7 +50,8 @@ router.post('/password-update-otp', authController.PasswordUpdateOTP);
 router.post('/reset-password', authController.resetPassword);
 
 // Cookie-based authentication routes
-/* "http://localhost:5001/api/auth/auth-by-cookie"
+/*  "http://localhost:5001/api/auth/auth-by-cookie"
+    "https://localhost:5443/api/auth/auth-by-cookie"
     Parameters: {token}
     Function: If user have login before and within 30 minutes, user can login
               login by cookie token.
@@ -53,7 +59,8 @@ router.post('/reset-password', authController.resetPassword);
 */
 router.post('/auth-by-cookie', authController.authByCookie);
 
-/* "http://localhost:5001/api/auth/logout"
+/*  "http://localhost:5001/api/auth/logout"
+    "https://localhost:5443/api/auth/logout"
     Parameters: {token}
     Function: if user logout, the cookies in database will be deleted.
     Method: Post

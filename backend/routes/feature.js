@@ -3,7 +3,8 @@ const router = express.Router();
 const productController = require('../controllers/featureproduct');
 
 // Product management routes
-/* "http://localhost:5001/api/feature/set-featured"
+/*  "http://localhost:5001/api/feature/set-featured"
+    "https://localhost:5443/api/feature/set-featured"
     Parameters: {productId}
     Function: Set a product as featured.
     Method: Post
@@ -14,7 +15,8 @@ router.post('/set-featured', async (req, res) => {
     res.json(result);
 });
 
-/* "http://localhost:5001/api/feature/change-featured"
+/*  "http://localhost:5001/api/feature/change-featured"
+    "https://localhost:5443/api/feature/change-featured"
     Parameters: {productId}
     Function: Allow sellers to change the featured product.
     Method: Post

@@ -1,14 +1,17 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Products');
 const User = require('../models/User');
-const authService = require('./authService');
 
 class CartService {
 
-    async getUserProduct(userId,productId){
-        const user = await User.findOne({username:userId});
+    async getUserProduct(username,productId){
+        const user = await User.findOne({username:username});
         if (!user) {
         throw new Error('User not found');
+        }
+
+        if(productId ==0){
+            return user;
         }
         const product = await Product.findOne({productID:productId});
         if (!product) {
@@ -18,9 +21,9 @@ class CartService {
         return { user, product };
     }
     
-    async addToCart(userId, productId, quantity) {
+    async addToCart(username, productId, quantity) {
         try{
-            const {user,product} = await this.getUserProduct(userId,productId);
+            const {user,product} = await this.getUserProduct(username,productId);
             //check if quantity is valid
             if (quantity > product.productStorage) {
                 throw new Error('Quantity exceeds available stock');
@@ -65,6 +68,51 @@ class CartService {
             throw error;
         }
     }
+
+    async getCart(username){
+        const user = await this.getUserProduct(username,0);
+        const cart = await Cart.findOne({ userId: user._id });
+        const subtotal = cart.items.reduce((total, item) => total + item.productPrice, 0);
+        const cartdata=[{
+            cart:cart,
+            subtotal:subtotal
+        }]
+        return cartdata;
+    }
+
+    async removeFromCart(username, productId) {
+        const { user, product } = await this.getUserProduct(username,productId);
+        const cart = await Cart.findOne({ userId: user._id });
+        if (!cart) {
+            throw new Error('Cart not found');
+        }
+        const itemIndex = cart.items.findIndex(item => item.productId.toString() === product._id.toString());
+        if (itemIndex === -1) {
+            throw new Error('Product not found in cart');
+        }
+        cart.items.splice(itemIndex, 1);
+        await cart.save();
+        return cart;
+    }
+    
+    async updateCartItem(username, productId, quantity) {
+        const { user, product } = await this.getUserProduct(username,productId);
+        const cart = await Cart.findOne({ userId: user._id });
+        if (!cart) {
+            throw new Error('Cart not found');
+        }
+        const itemIndex = cart.items.findIndex(item => item.productId.toString() === product._id.toString());
+        if (itemIndex === -1) {
+            throw new Error('Product not found in cart');
+        }
+        if (quantity > product.productStorage) {
+            throw new Error('Quantity exceeds available stock');
+        }
+        cart.items[itemIndex].quantity = quantity;
+        await cart.save();
+        return cart;
+    }
+
     
 }
 module.exports = new CartService();
