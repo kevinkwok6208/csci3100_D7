@@ -4,7 +4,6 @@ const OTP = require('./models/OTP');
 const bcrypt = require('bcryptjs');
 const Product = require('./models/Products');
 const Comment = require('./models/Comments');
-const Rating = require('./models/Ratings');
 const connectDatabase = require('./config/connectDB');
 
 async function initializeDatabase() {
