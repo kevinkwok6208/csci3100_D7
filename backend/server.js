@@ -12,6 +12,7 @@ const cartRoutes = require('./routes/cart');
 const featureSeriveRoutes = require('./routes/feature');
 const checkoutRoutes = require('./routes/checkout');
 const checkoutService = require('./services/checkoutService');
+const productRoutes = require('./routes/product.js');
 
 class Server {
     constructor() {
@@ -40,6 +41,7 @@ class Server {
         this.app.use('/api/feature', featureSeriveRoutes);
         this.app.use('/api/cart', cartRoutes);
         this.app.use('/api/checkout', checkoutRoutes);
+        this.app.use('/api/products', productRoutes); // Add product routes
     }
 
     startServer() {
