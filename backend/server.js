@@ -7,10 +7,11 @@ const authRoutes = require('./routes/auth');
 const userProfileRoutes = require('./routes/userMan'); 
 const adminUserRoutes = require('./routes/adminUser');
 const productDisplayRoutes = require('./routes/productDisplay');
-const cartService= require('./services/cartService');
 const connectDatabase = require('./config/connectDB');
 const cartRoutes = require('./routes/cart');
 const featureSeriveRoutes = require('./routes/feature');
+const checkoutRoutes = require('./routes/checkout');
+const checkoutService = require('./services/checkoutService');
 
 class Server {
     constructor() {
@@ -38,6 +39,7 @@ class Server {
         this.app.use('/api/product-display', productDisplayRoutes);
         this.app.use('/api/feature', featureSeriveRoutes);
         this.app.use('/api/cart', cartRoutes);
+        this.app.use('/api/checkout', checkoutRoutes);
     }
 
     startServer() {
@@ -67,7 +69,7 @@ class Server {
 
         setInterval(async () => {
             try {
-                const result = await cartService.cleanupExpiredReservations();
+                const result = await checkoutService.cleanupExpiredReservations();
                 console.log('Reservation cleanup result:', result);
             } catch (error) {
                 console.error('Error during reservation cleanup:', error);
