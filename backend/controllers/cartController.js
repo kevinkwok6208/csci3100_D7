@@ -1,14 +1,10 @@
-const CartService = require('../services/CartService');
-const Cart = require('../models/Cart');
-const Product = require('../models/Products');
-const User = require('../models/User');
-const authService = require('../services/authService');
+const CartService = require('../services/CartService.js');
 
 class CartController {
     async addToCart(req, res) {
         try {
-            const { userId, productId, quantity } = req.body;
-            const result = await CartService.addToCart(userId, productId, quantity);
+            const { username, productId, quantity } = req.body;
+            const result = await CartService.addToCart(username, productId, quantity);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -45,6 +41,34 @@ class CartController {
         }
     }
 
+    async initiateCheckout(req, res) {
+        try {
+            const { username } = req.params;
+            const result = await CartService.initiateCheckout(username);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async cleanupExpriedReservations(req,res) {
+        try {
+            const result = await CartService.cleanupExpiredReservations();
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async removeReservation(req,res) {
+        try {
+            const { username } = req.params;
+            const result = await CartService.removeReservation(username);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 }
 
 module.exports = new CartController();

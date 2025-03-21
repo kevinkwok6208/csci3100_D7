@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const https = require('https'); // Add this import
 const fs = require('fs'); // Add this import
@@ -8,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const userProfileRoutes = require('./routes/userMan'); 
 const adminUserRoutes = require('./routes/adminUser');
 const productDisplayRoutes = require('./routes/productDisplay');
+const cartService= require('./services/cartService');
 const connectDatabase = require('./config/connectDB');
 const cartRoutes = require('./routes/cart');
 const featureSeriveRoutes = require('./routes/feature');
@@ -52,8 +52,8 @@ class Server {
         try {
             // SSL certificate options - adjust paths as needed
             const options = {
-                key: fs.readFileSync(path.join('/Users/kongyeekwok/Downloads/Desktop/csci3100D7 new/csci3100_D7/backend/ssl/key.pem')),
-                cert: fs.readFileSync(path.join('/Users/kongyeekwok/Downloads/Desktop/csci3100D7 new/csci3100_D7/backend/ssl/cert.pem'))
+                key: fs.readFileSync(path.join('./ssl/key.pem')),
+                cert: fs.readFileSync(path.join('./ssl/cert.pem')),
             };
             
             // Create HTTPS server
@@ -64,6 +64,15 @@ class Server {
             console.error('Failed to start HTTPS server:', error.message);
             console.log('Continuing with HTTP only...');
         }
+
+        setInterval(async () => {
+            try {
+                const result = await cartService.cleanupExpiredReservations();
+                console.log('Reservation cleanup result:', result);
+            } catch (error) {
+                console.error('Error during reservation cleanup:', error);
+            }
+        }, 60000);
     }
 }
 

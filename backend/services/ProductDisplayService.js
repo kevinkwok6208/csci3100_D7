@@ -17,6 +17,7 @@ class ProductDisplayService {
             if (!product) {
                 throw new Error('Product not found');
             }
+            product.availableStock=product.productStorage-product.productReservation;
             return product;
         } catch (err) {
             console.error('Error fetching product:', err);
