@@ -1,0 +1,54 @@
+const OrderHistory = require('../models/Order');
+
+class OrderHistoryService {
+    async getOrderHistoriesByUserId(userId) {
+        try {
+            const orders = await OrderHistory.find({ userId }).populate('products.productId'); // Populate product details
+            return orders;
+        } catch (error) {
+            throw new Error('Error fetching order histories: ' + error.message);
+        }
+    }
+
+    async getOrderById(orderId) {
+        try {
+            const order = await OrderHistory.findById(orderId).populate('products.productId');
+            return order; // Should return the order object or null if not found
+        } catch (error) {
+            throw new Error('Error fetching order: ' + error.message);
+        }
+    }
+
+    async getOrdersByStatus(userId, status) {
+        try {
+            const orders = await OrderHistory.find({ userId, 'products.status': status }).populate('products.productId');
+            return orders; // Return orders matching the userId and status
+        } catch (error) {
+            throw new Error('Error fetching orders by status: ' + error.message);
+        }
+    }
+
+    async updateOrderStatus(orderId) {
+        try {
+            // Find the order by ID
+            const order = await OrderHistory.findById(orderId);
+            if (!order || order.status === true) {
+                return null; // Return null if order doesn't exist or is already received
+            }
+
+            // Update the status to true (Received)
+            order.products.forEach(product => {
+                product.status = true; // Update each product's status
+            });
+            await order.save(); // Save the updated order
+
+            return order; // Return the updated order
+        } catch (error) {
+            throw new Error('Error updating order status: ' + error.message);
+        }
+    }
+
+    
+}
+
+module.exports = new OrderHistoryService(); 
