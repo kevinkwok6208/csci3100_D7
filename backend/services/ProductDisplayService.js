@@ -17,8 +17,9 @@ class ProductDisplayService {
             if (!product) {
                 throw new Error('Product not found');
             }
-            product.availableStock=product.productStorage-product.productReservation;
-            return product;
+            const productobj=product.toObject();
+            productobj.availableStock = product.productStorage - product.productReservation;
+            return productobj;
         } catch (err) {
             console.error('Error fetching product:', err);
             throw err;
