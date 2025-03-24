@@ -4,6 +4,7 @@ const Reservation = require('../models/Reservation');
 const authService= require('./authService');
 const cartService = require('./CartService');
 const paypalService = require('./paypalService');
+const emailService = require('./emailService');
 const { v4: uuidv4 } = require('uuid');
 const Order = require('../models/Order');
 class CheckoutService {
@@ -100,7 +101,8 @@ class CheckoutService {
               throw error;
             }
           }
-    
+          
+          // Clear the expired reservations every miniute
           async cleanupExpiredReservations() {
             try {
               let now = new Date();
@@ -200,94 +202,105 @@ class CheckoutService {
   }
 
   async processPayment(username, paypalOrderId) {
-      try {
-          // Get user info
-          const user = await cartService.getUserProduct(username, 0);
-          
-          // Capture payment
-          const captureResult = await paypalService.capturePayment(paypalOrderId);
-          
-          if (captureResult.status === 'COMPLETED') {
-              // Payment successful, create order history
-              const reservations = await Reservation.find({ userId: user._id, status: 'pending' });
-              
-              if (reservations.length === 0) {
-                  throw new Error('No pending reservations found');
-              }
-              
-              // Get the shipping information from the reservations
-              const shippingName = reservations[0].shippingName;
-              const shippingAddress = reservations[0].shippingAddress;
-              
-              if (!shippingName || !shippingAddress) {
-                  throw new Error('Shipping information not found');
-              }
-              
-              // Create new order
-              const newOrder = new Order({
-                  orderId: uuidv4(), // Generate a unique order ID
-                  userId: user._id,
-                  Name: shippingName,
-                  ShippingAddress: shippingAddress,
-                  products: await Promise.all(reservations.map(async (reservation) => {
-                      // Get the product for this reservation
-                      const product = await Product.findById(reservation.productId);
-                      
-                      // Convert reservation to order product
-                      return {
-                          productId: reservation.productId,
-                          quantity: reservation.quantity,
-                          price: product.productPrice, // This will be overwritten by pre-save middleware
-                          status: false // Initially not received
-                      };
-                  }))
-              });
-              
-              // Save the order
-              await newOrder.save();
-              
-              // Update product storage counts (decrease by reservation quantity)
-              for (const reservation of reservations) {
-                  await Product.findByIdAndUpdate(
-                      reservation.productId,
-                      { 
-                          $inc: { 
-                              productStorage: -reservation.quantity,
-                              productReservation: -reservation.quantity 
-                          }
-                      },
-                      { new: true }
-                  );
-              }
-              
-              // Update reservation status or delete reservations
-              await Reservation.deleteMany({ userId: user._id, status: 'pending' });
-              
-              // Clear the cart
-              await Cart.findOneAndDelete({ userId: user._id });
-              
-              return {
-                  success: true,
-                  message: 'Payment processed successfully',
-                  orderId: newOrder.orderId,
-                  paypalDetails: captureResult
-              };
-          } else {
-              // Payment failed or incomplete
-              throw new Error('Payment was not completed');
-          }
-      } catch (error) {
-          console.error('Error processing payment:', error);
-          
-          // If there's an error, remove reservations and return stock
-          try {
-              await this.removeReservation(username);
-          } catch (cleanupError) {
-              console.error('Error cleaning up after payment failure:', cleanupError);
-          }
-          
-          throw error;
-      }
+    try {
+        // Get user info
+        const user = await cartService.getUserProduct(username, 0);
+        
+        // Capture payment
+        const captureResult = await paypalService.capturePayment(paypalOrderId);
+        
+        if (captureResult.status === 'COMPLETED') {
+            // Payment successful, create order history
+            const reservations = await Reservation.find({ userId: user._id, status: 'pending' });
+            
+            if (reservations.length === 0) {
+                throw new Error('No pending reservations found');
+            }
+            
+            // Get the shipping information from the reservations
+            const shippingName = reservations[0].shippingName;
+            const shippingAddress = reservations[0].shippingAddress;
+            
+            if (!shippingName || !shippingAddress) {
+                throw new Error('Shipping information not found');
+            }
+            
+            // Prepare product information for the order
+            const orderProducts = await Promise.all(reservations.map(async (reservation) => {
+                // Get the product for this reservation
+                const product = await Product.findById(reservation.productId);
+                
+                // Convert reservation to order product
+                return {
+                    productId: reservation.productId,
+                    productName: product.productName,
+                    quantity: reservation.quantity,
+                    price: product.productPrice
+                };
+            }));
+            
+            // Create new order
+            const newOrder = new Order({
+                orderId: uuidv4(), // Generate a unique order ID
+                userId: user._id,
+                Name: shippingName,
+                ShippingAddress: shippingAddress,
+                products: orderProducts.map(product => ({
+                    productId: product.productId,
+                    quantity: product.quantity,
+                    price: product.price,
+                    status: false // Initially not received
+                }))
+            });
+            
+            // Save the order
+            await newOrder.save();
+            
+            // Update product storage counts (decrease by reservation quantity)
+            for (const reservation of reservations) {
+                await Product.findByIdAndUpdate(
+                    reservation.productId,
+                    { 
+                        $inc: { 
+                            productStorage: -reservation.quantity,
+                            productReservation: -reservation.quantity 
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            
+            // Update reservation status or delete reservations
+            await Reservation.deleteMany({ userId: user._id, status: 'pending' });
+            
+            // Clear the cart
+            await Cart.findOneAndDelete({ userId: user._id });
+            
+            // Send order confirmation email
+            await emailService.sendOrderConfirmation(user.email, newOrder, orderProducts);
+            
+            return {
+                success: true,
+                message: 'Payment processed successfully',
+                orderId: newOrder.orderId,
+                paypalDetails: captureResult
+            };
+        } else {
+            // Payment failed or incomplete
+            throw new Error('Payment was not completed');
+        }
+    } catch (error) {
+        console.error('Error processing payment:', error);
+        
+        // If there's an error, remove reservations and return stock
+        try {
+            await this.removeReservation(username);
+        } catch (cleanupError) {
+            console.error('Error cleaning up after payment failure:', cleanupError);
+        }
+        
+        throw error;
+    }
   }
 }
 
