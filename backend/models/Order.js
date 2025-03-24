@@ -35,6 +35,14 @@ const OrderHistorySchema = new mongoose.Schema({
         ref: 'User'
     },
     products: [ProductDetailSchema], // Include products array
+    Name: {
+        type: String,
+        required: true
+    },
+    ShippingAddress: {
+        type: String,
+        required: true
+    },
     totalPrice: {
         type: Number,
         min: 0

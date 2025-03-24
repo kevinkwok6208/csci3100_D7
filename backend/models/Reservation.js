@@ -17,6 +17,14 @@ const ReservationSchema = new mongoose.Schema({
     required: true,
     min: 1
   },
+  shippingName: {
+    type: String,
+    required: false
+  },
+  shippingAddress: {
+      type: String,
+      required: false
+  },
   reservationDate: {
     type: Date,
     required: true
