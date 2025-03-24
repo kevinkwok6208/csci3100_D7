@@ -14,6 +14,8 @@ const checkoutRoutes = require('./routes/checkout');
 const checkoutService = require('./services/checkoutService');
 const productRoutes = require('./routes/product.js');
 const orderHistoryRoutes = require('./routes/orderHistory');
+const searchRoutes = require('./routes/search');
+const reviewRoutes = require('./routes/reviews');
 
 class Server {
     constructor() {
@@ -44,6 +46,8 @@ class Server {
         this.app.use('/api/checkout', checkoutRoutes);
         this.app.use('/api/products', productRoutes); 
         this.app.use('/api/orderhistories', orderHistoryRoutes)
+        this.app.use('/api/search', searchRoutes);
+        this.app.use('/api/reviews', reviewRoutes);
 
     }
 

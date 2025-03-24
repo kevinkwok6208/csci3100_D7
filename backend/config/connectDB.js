@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
  * @returns {Promise} MongoDB connection promise
  */
 function connectDatabase() {
-  return mongoose.connect('mongodb+srv://kevinkwok6208:bb157842@kevinkwok6208.k6pso.mongodb.net/CSCI3100_D7', {
+  return mongoose.connect('mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net/CSCI3100_D7', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => {
