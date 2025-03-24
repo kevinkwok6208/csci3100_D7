@@ -71,7 +71,7 @@ class CartService {
 
     async getCart(username){
         const user = await this.getUserProduct(username,0);
-        const cart = await Cart.findOne({ userId: user._id });
+        const cart = await Cart.findOne({ userId: user._id }).populate('items.productId','items.productName');
         if (!cart || cart.items.length === 0) {
             throw new Error('Cart is empty');
         }
