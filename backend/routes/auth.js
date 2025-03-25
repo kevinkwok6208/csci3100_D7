@@ -29,6 +29,14 @@ router.post('/register', authController.register);
 */
 router.post('/verify-email', authController.verifyEmail);
 
+/*  "http://localhost:5001/api/auth/resend-email-otp"
+    "https://localhost:5443/api/auth/resend-email-otp"
+    Parameters: {UsernameOrEmail}
+    Function: Allow users to resend OTP to their email address
+    Method: Post
+*/
+router.post('/resend-email-otp', authController.resendEmailOTP);
+
 // Password management routes
 
 /*  "http://localhost:5001/api/auth/password-update-otp"

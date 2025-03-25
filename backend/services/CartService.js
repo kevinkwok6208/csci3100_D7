@@ -56,7 +56,7 @@ class CartService {
                 // Add the product to the cart if it's not already in it
                 cart.items.push({
                     productId: product._id,
-                    productPrice: product.productPrice,
+                    productPrice: product.productPrice*quantity,
                     quantity
                 });
                 }
@@ -71,7 +71,7 @@ class CartService {
 
     async getCart(username){
         const user = await this.getUserProduct(username,0);
-        const cart = await Cart.findOne({ userId: user._id }).populate('items.productId','items.productName');
+        const cart = await Cart.findOne({ userId: user._id }).populate('items.productId','productName');
         if (!cart || cart.items.length === 0) {
             throw new Error('Cart is empty');
         }
@@ -112,6 +112,7 @@ class CartService {
             throw new Error('Quantity exceeds available stock');
         }
         cart.items[itemIndex].quantity = quantity;
+        cart.items[itemIndex].productPrice = product.productPrice*quantity;
         await cart.save();
         return cart;
     }

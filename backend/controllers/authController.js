@@ -92,13 +92,23 @@ class AuthController {
     /*Verify Email function to be export as route*/
     async verifyEmail(req, res) {
         try {
-            await authService.handleVerifyEmail(req.body.username, req.body.otp);
+            await authService.handleVerifyEmail(req.body.UsernameOrEmail, req.body.otp);
             res.json({ message: 'Email verified successfully' });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
+
+    /*Rsend Send Email OTP function to be export as route*/
+    async resendEmailOTP(req, res) {
+        try {
+            await authService.handleResendEmailVerify_OTP(req.body.UsernameOrEmail);
+            res.json({ message: 'OTP resent successfully' });
+        } catch (error) {
+            res.status(404).json({ message: error.message });
+        }
+    }
     /*Update Password Request OTP function to be export as route*/
     async PasswordUpdateOTP(req, res) {
         try {

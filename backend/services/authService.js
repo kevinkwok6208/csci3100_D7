@@ -235,6 +235,28 @@ class AuthService {
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
+    async handleResendEmailVerify_OTP(UsernameOrEmail) {
+        // First check if input is null or undefined
+        if (!UsernameOrEmail) {
+          throw new Error('Username or email is required');
+        }
+      
+        // Find user by username or email
+        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
+        
+        if (!user) {
+          throw new Error('User not found');
+        }
+      
+        // Create and save OTP
+        const { otp } = await this.createAndSaveOTP(user, 'email_verification');
+      
+        // Send OTP to user's email
+        await emailService.sendOTP(isEmail ? UsernameOrEmail : user.email, otp);
+        
+        return { success: true, message: 'OTP sent successfully' };
+    }
+
     async handlePasswordUpdate_OTP(UsernameOrEmail) {
         // First check if input is null or undefined
         if (!UsernameOrEmail) {

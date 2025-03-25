@@ -23,8 +23,9 @@ class CartController {
 
     async removeFromCart(req, res) {
         try {
-            const { userId, productId } = req.body;
-            const result = await CartService.removeFromCart(userId, productId);
+            const { username } = req.params;
+            const { productId } = req.body;
+            const result = await CartService.removeFromCart(username, productId);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -33,7 +34,8 @@ class CartController {
 
     async updateCart(req, res) {
         try {
-            const { username, productId, quantity } = req.body;
+            const { username } = req.params;
+            const { productId, quantity } = req.body;
             const result = await CartService.updateCartItem(username, productId, quantity);
             res.status(200).json(result);
         } catch (error) {
