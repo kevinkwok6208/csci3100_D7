@@ -20,7 +20,6 @@ class AuthController {
                 return res.status(403).json({
                     message: 'Email verification required',
                     requiresVerification: true,
-                    username
                 });
             } else {
                 console.error('Login error:', error);
