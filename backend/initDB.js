@@ -72,10 +72,10 @@ async function initializeDatabase() {
         if (!product1Exists) {
             await Product.create({
                 productID: "P001",
-                productName: "Smartphone X",
+                productName: "Careless People 7",
                 productPrice: 799.99,
                 productDescription: "Latest smartphone with 6.5-inch OLED display, 128GB storage, and triple camera system.",
-                productImage: "smartphone_x.jpg",
+                productImage: "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
                 productStorage: 50
             });
             console.log('Product P001 created');
@@ -84,10 +84,10 @@ async function initializeDatabase() {
         if (!product2Exists) {
             await Product.create({
                 productID: "P002",
-                productName: "Laptop Pro",
+                productName: "The Buffalo Hunter",
                 productPrice: 1299.99,
                 productDescription: "High-performance laptop with 16GB RAM",
-                productImage: "slaptop_pro",
+                productImage: "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
                 productStorage: 25 
             });
             console.log('Product P002 created');
