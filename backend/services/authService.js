@@ -88,9 +88,9 @@ class AuthService {
         return bcrypt.hash(password, authConfig.saltRounds);
     }
 
-    async handleLogin(UsernameOrEmail, password) {
+    async handleLogin(usernameOrEmail, password) {
         // Find user by username or email
-        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
+        const { user, isEmail } = await this.findUserByIdentifier(usernameOrEmail);
         
         if (!user) {
             throw new Error('INVALID_CREDENTIALS');
@@ -217,9 +217,9 @@ class AuthService {
         };
     }
 
-    async handleVerifyEmail(UsernameOrEmail, otpCode) {
+    async handleVerifyEmail(usernameOrEmail, otpCode) {
         // Find user by username or email
-        const {user,isEmail} = await this.findUserByIdentifier(UsernameOrEmail);
+        const {user,isEmail} = await this.findUserByIdentifier(usernameOrEmail);
         if (!user) {
             throw new Error('INVALID_CREDENTIALS');
         }
@@ -235,14 +235,14 @@ class AuthService {
         await OTP.deleteOne({ _id: otpRecord._id });
     }
 
-    async handleResendEmailVerify_OTP(UsernameOrEmail) {
+    async handleResendEmailVerify_OTP(usernameOrEmail) {
         // First check if input is null or undefined
-        if (!UsernameOrEmail) {
+        if (!usernameOrEmail) {
           throw new Error('Username or email is required');
         }
       
         // Find user by username or email
-        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
+        const { user, isEmail } = await this.findUserByIdentifier(usernameOrEmail);
         
         if (!user) {
           throw new Error('User not found');
@@ -252,19 +252,19 @@ class AuthService {
         const { otp } = await this.createAndSaveOTP(user, 'email_verification');
       
         // Send OTP to user's email
-        await emailService.sendOTP(isEmail ? UsernameOrEmail : user.email, otp);
+        await emailService.sendOTP(isEmail ? usernameOrEmail : user.email, otp);
         
         return { success: true, message: 'OTP sent successfully' };
     }
 
-    async handlePasswordUpdate_OTP(UsernameOrEmail) {
+    async handlePasswordUpdate_OTP(usernameOrEmail) {
         // First check if input is null or undefined
-        if (!UsernameOrEmail) {
+        if (!usernameOrEmail) {
           throw new Error('Username or email is required');
         }
       
         // Find user by username or email
-        const { user, isEmail } = await this.findUserByIdentifier(UsernameOrEmail);
+        const { user, isEmail } = await this.findUserByIdentifier(usernameOrEmail);
         
         if (!user) {
           throw new Error('User not found');
@@ -274,14 +274,14 @@ class AuthService {
         const { otp } = await this.createAndSaveOTP(user, 'password_UpdateOrReset');
       
         // Send OTP to user's email
-        await emailService.sendOTP(isEmail ? UsernameOrEmail : user.email, otp);
+        await emailService.sendOTP(isEmail ? usernameOrEmail : user.email, otp);
         
         return { success: true, message: 'OTP sent successfully' };
     }
 
-    async handleResetPassword(UsernameOrEmail, otpCode, newPassword) {
+    async handleResetPassword(usernameOrEmail, otpCode, newPassword) {
         // Find user by username or email
-        const { user } = await this.findUserByIdentifier(UsernameOrEmail);
+        const { user } = await this.findUserByIdentifier(usernameOrEmail);
         
         if (!user) {
             throw new Error('User not found');

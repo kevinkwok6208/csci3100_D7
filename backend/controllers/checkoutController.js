@@ -1,7 +1,7 @@
 const checkoutService = require('../services/checkoutService');
 
 class CheckoutController {
-async initiateCheckout(req, res) {
+    async initiateCheckout(req, res) {
         try {
             const { username } = req.params;
             const result = await checkoutService.initiateCheckout(username);

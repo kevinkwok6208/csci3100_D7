@@ -9,9 +9,9 @@ const Cookie = require('../models/Cookie');
 class AuthController {
     /* Login function */
     async login(req, res) {
-        const { UsernameOrEmail, password } = req.body;
+        const { usernameOrEmail, password } = req.body;
         try {
-            const result = await authService.handleLogin(UsernameOrEmail, password);
+            const result = await authService.handleLogin(usernameOrEmail, password);
             res.json(result);
         } catch (error) {
             if (error.message === 'INVALID_CREDENTIALS') {
@@ -91,7 +91,7 @@ class AuthController {
     /*Verify Email function to be export as route*/
     async verifyEmail(req, res) {
         try {
-            await authService.handleVerifyEmail(req.body.UsernameOrEmail, req.body.otp);
+            await authService.handleVerifyEmail(req.body.usernameOrEmail, req.body.otp);
             res.json({ message: 'Email verified successfully' });
         } catch (error) {
             res.status(400).json({ message: error.message });
@@ -102,7 +102,7 @@ class AuthController {
     /*Rsend Send Email OTP function to be export as route*/
     async resendEmailOTP(req, res) {
         try {
-            await authService.handleResendEmailVerify_OTP(req.body.UsernameOrEmail);
+            await authService.handleResendEmailVerify_OTP(req.body.usernameOrEmail);
             res.json({ message: 'OTP resent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });
@@ -111,7 +111,7 @@ class AuthController {
     /*Update Password Request OTP function to be export as route*/
     async PasswordUpdateOTP(req, res) {
         try {
-            await authService.handlePasswordUpdate_OTP(req.body.UsernameOrEmail);
+            await authService.handlePasswordUpdate_OTP(req.body.usernameOrEmail);
             res.json({ message: 'OTP sent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });
@@ -122,7 +122,7 @@ class AuthController {
     async resetPassword(req, res) {
         try {
             await authService.handleResetPassword(
-                req.body.UsernameOrEmail, 
+                req.body.usernameOrEmail, 
                 req.body.otp, 
                 req.body.newPassword
             );
@@ -135,7 +135,7 @@ class AuthController {
     /*Resend OTP function to be export as route*/
     async resendOTP(req, res) {
         try {
-            await authService.handleResendOTP(req.body.UsernameOrEmail);
+            await authService.handleResendOTP(req.body.usernameOrEmail);
             res.json({ message: 'New OTP sent successfully' });
         } catch (error) {
             res.status(404).json({ message: error.message });

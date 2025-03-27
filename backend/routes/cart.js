@@ -21,7 +21,7 @@ router.get('/get-cart/:username', cartController.getCart);
 
 /*  "http://localhost:5001/api/cart/remove-from-cart/:username"
     "https://localhost:5443/api/cart/remove-from-cart:/username"
-    Parameters: {username, productId}
+    Parameters: req.params{username},{productId}
     Function: Allow user remove product from cart
     Method: delete
 */
@@ -29,7 +29,7 @@ router.delete('/remove-from-cart/:username', cartController.removeFromCart);
 
 /*  "http://localhost:5001/api/cart/update-cart/:username"
     "https://localhost:5443/api/cart/update-cart:/username"
-    Parameters: { username, productId, quantity }
+    Parameters: req.params{username},{productId, quantity }
     Function: Allow user update product quantity from cart
     Method: delete
 */
