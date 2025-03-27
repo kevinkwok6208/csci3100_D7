@@ -4,6 +4,7 @@ const searchController = require('../controllers/searchController');
 
 /* 
   "http://localhost:5001/api/search"
+  "https://localhost:5443/api/search"
   Parameters (query parameters):
   - keyword: Search term
   - minPrice: Minimum price filter
