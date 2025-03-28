@@ -1,6 +1,7 @@
 const checkoutService = require('../services/checkoutService');
 
 class CheckoutController {
+    // Click and inistiate checkout, create reservation
     async initiateCheckout(req, res) {
         try {
             const { username } = req.params;
@@ -11,6 +12,7 @@ class CheckoutController {
         }
     }
 
+    // Remove expired reservations
     async cleanupExpriedReservations(req,res) {
         try {
             const result = await checkoutService.cleanupExpiredReservations();
@@ -20,6 +22,7 @@ class CheckoutController {
         }
     }
 
+    // Remove reservation of user
     async removeReservation(req,res) {
         try {
             const { username } = req.params;

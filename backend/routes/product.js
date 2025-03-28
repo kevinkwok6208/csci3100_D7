@@ -80,6 +80,6 @@ router.patch('/:productID/storage',productController.updateStorage);
     1. DELETE /api/products/P001
        Response: {success: true, message: "Product deleted successfully", product: {...}}
 */
-router.delete('/:productID',authenticateToken,productController.deleteProduct);
+router.delete('/:productID',productController.deleteProduct);
 
 module.exports = router;

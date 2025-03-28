@@ -247,12 +247,6 @@ async updateProduct(req, res) {
   // Delete product
   async deleteProduct(req, res) {
     try {
-      if (req.user,isadmin!==1){
-        return res.status(403).json({
-          success: false,
-          message: 'You are not authorized to delete products'
-        });
-      }
       const { productID } = req.params;
       
       // Use service to delete product

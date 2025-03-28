@@ -2,6 +2,7 @@ const Product = require('../models/Products');
 const ProductDisplayService = require('../services/ProductDisplayService');
 
 class ProductDisplayController {
+    // Get all products
     async getAllProducts(req, res) {
         try {
             const products = await ProductDisplayService.getAllProducts();
@@ -11,6 +12,7 @@ class ProductDisplayController {
         }
     }
 
+    // Get product by ID
     async getProductById(req, res) {
         try {
             const { productId } = req.params;
@@ -20,6 +22,8 @@ class ProductDisplayController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    // Get comments for a product
     async getCommentsForProduct(req, res) {
         try {
             const { productId } = req.params;
@@ -30,6 +34,7 @@ class ProductDisplayController {
         }
     }
 
+    // Get ratings for a product
     async getRatingsForProduct(req, res) {
         try {
             const { productId } = req.params;
