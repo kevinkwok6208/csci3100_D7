@@ -75,7 +75,11 @@ async function initializeDatabase() {
                 productName: "Careless People 7",
                 productPrice: 799.99,
                 productDescription: "Latest smartphone with 6.5-inch OLED display, 128GB storage, and triple camera system.",
-                productImage: "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
+                productImages: 
+                [
+                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
+                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
+                ],
                 productStorage: 50
             });
             console.log('Product P001 created');
@@ -87,7 +91,11 @@ async function initializeDatabase() {
                 productName: "The Buffalo Hunter",
                 productPrice: 1299.99,
                 productDescription: "High-performance laptop with 16GB RAM",
-                productImage: "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
+                productImages: 
+                [
+                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
+                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"    
+                ],
                 productStorage: 25 
             });
             console.log('Product P002 created');

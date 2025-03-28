@@ -20,12 +20,12 @@ router.get('/:productID', productController.getProductById);
 
 // Protected routes (seller only)
 /* "http://localhost:5001/api/products"
-    Parameters: {name, description, price, category, stock, imageUrl, etc.} (in request body)
+    Parameters: {name, description, price,  , stock, imageUrl, etc.} (in request body)
     Function: Creates a new product in the database
     Method: POST
     Authentication: Required (Bearer token)
 */
-router.post('/', authenticateToken, productController.addProduct); 
+router.post('/', productController.addProduct); 
 
 /* "http://localhost:5001/api/products/:productID" 
     Parameters: productID (in URL path), {updated product data} (in request body) # accept both partly prodcut data or the entire product data
@@ -45,24 +45,27 @@ router.post('/', authenticateToken, productController.addProduct);
 3. PUT /api/products/P003
    Body: {the entire product object}
    Response: {success: true, message: "Product updated", product: {...}}
+4. PUT /api/products/P004
+   Body: if need update specific image,{productImage:"image file",imageIndex:index numbe from 0 to 2}
+   Response: {success: true, message: "Product updated", product: {...}}
 */
-router.put('/:productID', authenticateToken, productController.updateProduct);
+router.put('/:productID',  productController.updateProduct);
 
 /* "http://localhost:5001/api/products/:productID/price"
     Parameters: productID (in URL path), {price} (in request body)
     Function: Updates only the price of a specific product
     Method: PATCH
-    Authentication: Required (Bearer token)
+    Authentication: Required (Bearer token)(Removed)
 */
-router.patch('/:productID/price', authenticateToken, productController.updatePrice);
+router.patch('/:productID/price', productController.updatePrice);
 
 /* "http://localhost:5001/api/products/:productID/storage"
     Parameters: productID (in URL path), {stock} (in request body)
     Function: Updates only the stock/storage quantity of a specific product
     Method: PATCH
-    Authentication: Required (Bearer token)
+    Authentication: Required (Bearer token)(Removed)
 */
-router.patch('/:productID/storage', authenticateToken, productController.updateStorage);
+router.patch('/:productID/storage',productController.updateStorage);
 
 
 
@@ -77,6 +80,6 @@ router.patch('/:productID/storage', authenticateToken, productController.updateS
     1. DELETE /api/products/P001
        Response: {success: true, message: "Product deleted successfully", product: {...}}
 */
-router.delete('/:productID', authenticateToken, productController.deleteProduct);
+router.delete('/:productID',authenticateToken,productController.deleteProduct);
 
 module.exports = router;

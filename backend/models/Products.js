@@ -18,9 +18,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  productImage: {
-    type: String,
-    required: true
+  productImages: {
+    type: [String],
+    required: true,
+    default: []
   },
   productStorage: {
     type: Number,

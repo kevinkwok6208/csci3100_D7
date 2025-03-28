@@ -5,7 +5,7 @@ const authController = require('../controllers/authController');
 // Core authentication routes
 /*  "http://localhost:5001/api/auth/login"
     "https://localhost:5443/api/auth/login"
-    Parameters: {UsernameOrEmail, password}
+    Parameters: {usernameOrEmail, password}
     Function: Autheticate users and return JWT token.
     Method: Post
 */
@@ -23,7 +23,7 @@ router.post('/register', authController.register);
 // Email verification routes
 /*  "http://localhost:5001/api/auth/verify-email"
     "https://localhost:5443/api/auth/verify-email"
-    Parameters: {UsernameOrEmail, otp}
+    Parameters: {usernameOrEmail, otp}
     Function: Allow users to verify the email address by input OTP
     Method: Post
 */
@@ -31,7 +31,7 @@ router.post('/verify-email', authController.verifyEmail);
 
 /*  "http://localhost:5001/api/auth/resend-email-otp"
     "https://localhost:5443/api/auth/resend-email-otp"
-    Parameters: {UsernameOrEmail}
+    Parameters: {usernameOrEmail}
     Function: Allow users to resend OTP to their email address
     Method: Post
 */
@@ -41,7 +41,7 @@ router.post('/resend-email-otp', authController.resendEmailOTP);
 
 /*  "http://localhost:5001/api/auth/password-update-otp"
     "https://localhost:5443/api/auth/password-update-otp"
-    Parameters: {UsernameOrEmail}
+    Parameters: {usernameOrEmail}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
     Method: Post
@@ -50,7 +50,7 @@ router.post('/password-update-otp', authController.PasswordUpdateOTP);
 
 /*  "http://localhost:5001/api/auth/reset-password"
     "https://localhost:5443/api/auth/reset-password"
-    Parameters: {UsernameOrEmail, otp, newPassword}
+    Parameters: {usernameOrEmail, otp, newPassword}
     Function: When user forgot their password, they can request a password reset,
               then a new OTP will be sent to their email address.
     Method: Post
