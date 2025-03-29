@@ -1,0 +1,59 @@
+/* src/components/Login.css */
+
+.login-container {
+    display: flex; /* Use flexbox for horizontal layout */
+    margin-top: 30px; /* Top margin */
+    justify-content: space-between; /* Space between left and right divs */
+  }
+  
+  .left-div {
+    flex: 1; /* Left div takes up available space */
+    padding: 20px; /* Padding for inner spacing */
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .right-div {
+    flex: 0 0 200px; /* Fixed width for right div */
+    padding: 20px; /* Padding for inner spacing */
+    text-align: center; /* Center align text */
+  }
+  
+  .input-field {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for input */
+    margin: 10px 0; /* Margin for spacing */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .login-button {
+    background-color: #4CAF50; /* Background color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    padding: 10px; /* Padding for size */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background transition */
+    width: 100%; /* Full width */
+  }
+  
+  .login-button:hover {
+    background-color: #45a049; /* Darker shade on hover */
+  }
+  
+  .signup-button {
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    padding: 10px; /* Padding for size */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    display: inline-block; /* Make it a block for padding */
+    margin-top: 10px; /* Margin for spacing */
+  }
+  
+  .signup-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
