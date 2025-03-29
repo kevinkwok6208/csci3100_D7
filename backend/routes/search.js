@@ -15,13 +15,16 @@ const searchController = require('../controllers/searchController');
   
   Function: Searches products based on criteria
   Method: GET
-  
-  Examples:
-  1. GET /api/search?keyword=phone
-  2. GET /api/search?minPrice=100&maxPrice=500
-  3. GET /api/search?category=electronics&sort=price_asc
-  4. GET /api/search?minRating=4&sort=rating
 */
 router.get('/', searchController.searchProducts);
+
+/*
+  "http://localhost:5001/api/search/categories"
+  "https://localhost:5443/api/search/categories"
+  
+  Function: Gets all available product categories
+  Method: GET
+*/
+router.get('/categories', searchController.getAllCategories);
 
 module.exports = router;

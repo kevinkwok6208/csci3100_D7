@@ -1,4 +1,5 @@
 const Product = require('../models/Products');
+const Category = require('../models/Category');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 require('dotenv').config({ path: './config/cloudinary.env' });
@@ -207,6 +208,38 @@ async updateSpecificImage(productID, index, file, updateData) {
       throw new Error('Product not found');
     }
     return updatedProduct;
+  }
+
+  async updateProductCategory(productID, categoryName) {
+    try {
+      // 1. Find the category (case-insensitive, exact match)
+      const category = await Category.findOne({
+        name: { $regex: new RegExp(`^${categoryName}$`, 'i') }
+      });
+  
+      if (!category) {
+        console.log(`[DEBUG] Category not found: ${categoryName}`);
+        return null;
+      }
+  
+      // 2. Update the product's category reference
+      const updatedProduct = await Product.findOneAndUpdate(
+        { productID: productID },
+        { $set: { category: category._id } },
+        { new: true }
+      ).populate('category');
+  
+      if (!updatedProduct) {
+        console.log(`[DEBUG] Product not found: ${productID}`);
+        return null;
+      }
+  
+      console.log(`[DEBUG] Updated product ${productID} to category ${category.name}`);
+      return updatedProduct;
+    } catch (error) {
+      console.error('[ERROR] Failed to update category:', error);
+      throw error;
+    }
   }
 }
 module.exports = new ProductService();

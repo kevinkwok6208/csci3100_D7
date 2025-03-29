@@ -1,18 +1,23 @@
+// controllers/searchController.js
 const SearchService = require('../services/searchService');
 
 // Search products
 exports.searchProducts = async (req, res) => {
   try {
-    const { keyword, minPrice, maxPrice, category, minRating, sort } = req.query;
+    console.log('Raw query parameters:', req.query);
     
-    // Create options object
+    const keyword = req.query.q || req.query.keyword || '';
+    
+    // Create options object, ensuring we don't pass empty strings
     const options = {
-      minPrice,
-      maxPrice,
-      category,
-      minRating,
-      sort
+      minPrice: req.query.minPrice || undefined,
+      maxPrice: req.query.maxPrice || undefined,
+      category: req.query.category || undefined,  // This is the key fix
+      minRating: req.query.minRating || undefined,
+      sort: req.query.sort || undefined
     };
+    
+    console.log('Processed options:', options);
     
     const result = await SearchService.searchProducts(keyword, options);
     
@@ -30,6 +35,25 @@ exports.searchProducts = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to search products',
+      error: error.message
+    });
+  }
+};
+
+// Get all categories
+exports.getAllCategories = async (req, res) => {
+  try {
+    const categories = await SearchService.getAllCategories();
+    
+    res.status(200).json({
+      success: true,
+      count: categories.length,
+      categories
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch categories',
       error: error.message
     });
   }
