@@ -68,3 +68,20 @@
     font-size: 14px;
     color: #999;
   }
+
+  .reviews-section {
+    margin-top: 20px;
+  }
+  
+  .reviews-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .review-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  

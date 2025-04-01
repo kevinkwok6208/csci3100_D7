@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
 import UserManagement from "./components/UserManagement";
 import ProductApiTester from "./components/ProductApiTester";
-import ProductManagement from "./components/ProductApiTester";
+import ProductManagement from "./components/ProductManagement";
 import SalesAnalytics from "./components/SalesAnalytics";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
@@ -88,9 +88,9 @@ function App() {
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/product-management" element={<ProductManagement />} />
           <Route path="/sales-analytics" element={<SalesAnalytics/>} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart username={username}/>} />
           <Route path="/order" element={<Order />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/products/:id" element={<ProductDetail username={username} />} />
           <Route
             path="/login"
             element={
