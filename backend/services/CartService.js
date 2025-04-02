@@ -84,38 +84,65 @@ class CartService {
     }
 
     async removeFromCart(username, productId) {
-        const { user, product } = await this.getUserProduct(username,productId);
+        // Get the user and product
+        const { user, product } = await this.getUserProduct(username, productId);
         const cart = await Cart.findOne({ userId: user._id });
+        //  Check if the product is in the cart
         if (!cart) {
-            throw new Error('Cart not found');
+          throw new Error('Cart not found');
         }
+        // Find the index of the product in the cart
         const itemIndex = cart.items.findIndex(item => item.productId.toString() === product._id.toString());
+        // If the product is not in the cart, throw an error
         if (itemIndex === -1) {
-            throw new Error('Product not found in cart');
+          throw new Error('Product not found in cart');
         }
+        
         cart.items.splice(itemIndex, 1);
+        
         await cart.save();
-        return cart;
-    }
-    
+        // Return the updated cart
+        const populatedCart = await Cart.findOne({ userId: user._id }).populate('items.productId', 'productName productID');
+        
+        return populatedCart;
+      }
+          
     async updateCartItem(username, productId, quantity) {
-        const { user, product } = await this.getUserProduct(username,productId);
-        const cart = await Cart.findOne({ userId: user._id });
-        if (!cart) {
-            throw new Error('Cart not found');
-        }
-        const itemIndex = cart.items.findIndex(item => item.productId.toString() === product._id.toString());
-        if (itemIndex === -1) {
-            throw new Error('Product not found in cart');
-        }
+        // 1. Get user and product in one operation if possible
+        const { user, product } = await this.getUserProduct(username, productId);
+        
+        // 2. Validate quantity against stock before database operations
         if (quantity > product.productStorage) {
-            throw new Error('Quantity exceeds available stock');
+          throw new Error('Quantity exceeds available stock');
         }
-        cart.items[itemIndex].quantity = quantity;
-        cart.items[itemIndex].productPrice = product.productPrice*quantity;
-        await cart.save();
-        return cart;
-    }
+        
+        // 3. Use findOneAndUpdate to update the cart in a single operation
+        const updatedCart = await Cart.findOneAndUpdate(
+          { 
+            userId: user._id, 
+            'items.productId': product._id  // Find the specific item in the cart
+          },
+          { 
+            $set: { 
+              'items.$.quantity': quantity,
+              'items.$.productPrice': product.productPrice * quantity 
+            } 
+          },
+          { 
+            new: true,  // Return the updated document
+            runValidators: true  // Run validators on update
+          }
+        );
+        
+        if (!updatedCart) {
+          throw new Error('Cart or product not found');
+        }
+        
+        // 4. Populate in the same operation if needed
+        const populatedCart = await updatedCart.populate('items.productId', 'productName productID');
+        
+        return populatedCart;
+      }
 
 }
 module.exports = new CartService();
