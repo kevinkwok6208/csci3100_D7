@@ -6,16 +6,28 @@ const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [addingProduct, setAddingProduct] = useState(true);
   
   const [newProduct, setNewProduct] = useState({
     productID: '',
     productName: '',
     productDescription: '',
     productPrice: '',
-    productStorage: ''
+    productStorage: '',
+    productImage: [] // Changed to singular
+  });
+
+  const [addProduct, setAddProduct] = useState({
+    productID: '',
+    productName: '',
+    productDescription: '',
+    productPrice: '',
+    productStorage: '',
+    productImage: [] // Changed to singular
   });
 
   const [editingProductId, setEditingProductId] = useState(null); // Track the product being edited
+  const [uploadError, setUploadError] = useState(''); // State for upload error message
 
   useEffect(() => {
     async function fetchProducts() {
@@ -52,6 +64,7 @@ const ProductManagement = () => {
         product.productID === productId ? { ...product, ...newProduct } : product
       ));
       setEditingProductId(null); // Reset editing state
+      setUploadError(''); // Clear any previous upload error
     } catch (err) {
       console.error("Error updating product:", err);
       setError(err.message || "Failed to update product.");
@@ -64,9 +77,80 @@ const ProductManagement = () => {
       productName: product.productName,
       productDescription: product.productDescription,
       productPrice: product.productPrice,
-      productStorage: product.productStorage
+      productStorage: product.productStorage,
+      productImage: Array.isArray(product.productImage) ? product.productImage : [] // Make sure to get existing images
     });
     setEditingProductId(product.productID); // Set the ID of the product being edited
+    setUploadError(''); // Reset upload error on edit
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const validFiles = [];
+    let errorMessage = '';
+
+    files.forEach(file => {
+      const isValidType = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
+      const isValidSize = file.size <= 2 * 1024 * 1024; // < 2 MB
+
+      if (isValidType && isValidSize) {
+        validFiles.push(file);
+      } else {
+        errorMessage = 'Invalid file format or size. Please upload JPEG, JPG, or PNG files under 2MB.';
+      }
+    });
+
+    setNewProduct({ ...newProduct, productImage: validFiles }); // Changed to singular
+    setUploadError(errorMessage); // Set the error message if there are invalid files
+  };
+ 
+  const handleFileChangeAdd = (e) => {
+    const files = Array.from(e.target.files);
+    const validFiles = [];
+    let errorMessage = '';
+
+    files.forEach(file => {
+      const isValidType = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
+      const isValidSize = file.size <= 2 * 1024 * 1024; // < 2 MB
+
+      if (isValidType && isValidSize) {
+        validFiles.push(file);
+      } else {
+        errorMessage = 'Invalid file format or size. Please upload JPEG, JPG, or PNG files under 2MB.';
+      }
+    });
+
+    setAddProduct({ ...addProduct, productImage: validFiles }); // Changed to singular
+    setUploadError(errorMessage); // Set the error message if there are invalid files
+  };
+
+  const handleDeleteImage = (imageIndex) => {
+    const updatedImages = newProduct.productImage.filter((_, index) => index !== imageIndex); // Changed to singular
+    setNewProduct({ ...newProduct, productImage: updatedImages }); // Changed to singular
+    setUploadError(''); // Clear error message when an image is deleted
+  };
+
+  const handleAddProduct = async () => {
+    try {
+      const response = await productService.addProduct(addProduct);
+      setProducts([...products, response]); // Add the new product to the list
+      setAddProduct({ // Reset the newProduct state
+        productID: '',
+        productName: '',
+        productDescription: '',
+        productPrice: '',
+        productStorage: '',
+        productImage: []
+      });
+      setUploadError(''); // Clear any previous upload error
+    } catch (err) {
+      console.error("Error adding product:", err);
+      setError(err.message || "Failed to add product.");
+    }
+  };
+
+  const handleToggleAddProduct = () => {
+    setAddingProduct(prevState => !prevState); // Toggle the state
   };
 
   if (loading) return <div>Loading...</div>;
@@ -75,6 +159,66 @@ const ProductManagement = () => {
   return (
     <div className="product-management-container">
       <h1>Product Management</h1>
+      <button onClick={handleToggleAddProduct}>
+        {addingProduct ? 'Hide Add Product Form' : 'Show Add Product Form'}
+      </button>
+      
+      {/* Add New Product Form */}
+      {addingProduct && (<div className="add-product-form">
+        <h2>Add New Product</h2>
+        <label>Product ID:</label>
+        <input
+          type="text"
+          value={addProduct.productID}
+          onChange={(e) => setAddProduct({ ...addProduct, productID: e.target.value })}
+        />
+        <label>Product Name:</label>
+        <input
+          type="text"
+          value={addProduct.productName}
+          onChange={(e) => setAddProduct({ ...addProduct, productName: e.target.value })}
+        />
+        <label>Product Description:</label>
+        <input
+          type="text"
+          value={addProduct.productDescription}
+          onChange={(e) => setAddProduct({ ...addProduct, productDescription: e.target.value })}
+        />
+        <label>Product Price:</label>
+        <input
+          type="number"
+          value={addProduct.productPrice}
+          onChange={(e) => setAddProduct({ ...addProduct, productPrice: e.target.value })}
+        />
+        <label>Product Stock:</label>
+        <input
+          type="number"
+          value={addProduct.productStorage}
+          onChange={(e) => setAddProduct({ ...addProduct, productStorage: e.target.value })}
+        />
+        
+        <label>Upload Images:</label>
+        <input
+          type="file"
+          multiple
+          accept="image/jpeg,image/jpg,image/png"
+          onChange={handleFileChangeAdd}
+        />
+        <div className="image-preview">
+          {Array.isArray(addProduct.productImage) && addProduct.productImage.map((image, index) => (
+            <div key={index}>
+              <span>{image.name}</span>
+              <button onClick={() => handleDeleteImage(index)}>Delete</button>
+            </div>
+          ))}
+        </div>
+
+        {uploadError && <div className="error-message">{uploadError}</div>} {/* Error message for invalid uploads */}
+        
+        <button onClick={handleAddProduct}>Add Product</button>
+      </div>)}
+
+      {/* Existing Products Table */}
       <table>
         <thead>
           <tr>
@@ -96,14 +240,16 @@ const ProductManagement = () => {
               <td>{product.productStorage}</td>
               <td>
                 <button onClick={() => handleEdit(product)}>Update</button>
+                <button onClick={() => handleDelete(product.productID)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
+      {/* Update Product Form */}
       {editingProductId && (
-        <div className="update-dropdown">
+        <div className="update-product-form">
           <h2>Update Product: {newProduct.productName}</h2>
           <label>Update Name:</label>
           <input
@@ -129,8 +275,26 @@ const ProductManagement = () => {
             value={newProduct.productStorage}
             onChange={(e) => setNewProduct({ ...newProduct, productStorage: e.target.value })}
           />
+          
+          <label>Upload Images:</label>
+          <input
+            type="file"
+            multiple
+            accept="image/jpeg,image/jpg,image/png,application/pdf"
+            onChange={handleFileChange}
+          />
+          <div className="image-preview">
+            {Array.isArray(newProduct.productImage) && newProduct.productImage.map((image, index) => (
+              <div key={index}>
+                <span>{image.name}</span>
+                <button onClick={() => handleDeleteImage(index)}>Delete</button>
+              </div>
+            ))}
+          </div>
+
+          {uploadError && <div className="error-message">{uploadError}</div>} {/* Error message for invalid uploads */}
+          
           <button onClick={() => handleUpdate(editingProductId)}>Confirm Update</button>
-          <button className="delete-button" onClick={() => handleDelete(editingProductId)}>Delete</button>
         </div>
       )}
     </div>

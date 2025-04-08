@@ -1,293 +1,195 @@
-// src/components/UserManagement.jsx
-import React, { useState, useEffect } from 'react';
-import adminService from '../services/adminService';
+import React, { useEffect, useState } from 'react';
+import adminService from '../services/adminService'; // Adjust the import path
+import './UserManagement.css'; // Import the CSS file for styling
 
-function UserManagement() {
-  // State for form inputs
+const UserManagement = () => {
+  const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  
+  // New states for changing email and password
+  const [currentUser, setCurrentUser] = useState(null);
   const [newPassword, setNewPassword] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  
-  // State for response display
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  
-  // Add this test code to verify API connectivity
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [changingEmail, setChangingEmail] = useState(false);
+
   useEffect(() => {
-    console.log('Testing Admin API connection...');
-    // We'll test by trying to get all users
-    adminService.getAllUsers()
-      .then(data => {
-        console.log('Admin API test successful:', data);
-        setResponse({test: 'Admin API connection successful', data});
-      })
-      .catch(error => {
-        console.error('Admin API test error:', error);
-        setError('Admin API Test Error: ' + error.message);
-      });
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const userData = await adminService.getAllUsers();
+        setUsers(userData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
-  // Helper to display JSON responses
-  const displayResponse = (data) => {
-    setResponse(data);
-    setLoading(false);
-    setError(null);
-  };
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const userData = await adminService.getAllUsers();
+      setUsers(userData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };  
 
-  // Helper to handle errors
-  const handleError = (err) => {
-    setError(err.message || 'An error occurred');
-    setLoading(false);
-    setResponse(null);
-  };
-
-  // Create user handler
   const handleCreateUser = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const data = await adminService.createUser(username, password, email, isAdmin);
-      displayResponse(data);
+      await adminService.createUser(username, password, email, isAdmin);
+      clearForm();
+      await fetchUsers(); // Refetch users after creating
+      setSuccessMessage('User created successfully!');
     } catch (err) {
-      handleError(err);
+      setError(err.message);
+    }
+  };
+  
+  const handleDeleteUser = async (usernameToDelete) => {
+    try {
+      await adminService.deleteUser(usernameToDelete);
+      await fetchUsers(); // Refetch users after deletion
+      setSuccessMessage('User deleted successfully!');
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  // Delete user handler
-  const handleDeleteUser = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleChangePassword = async () => {
     try {
-      const data = await adminService.deleteUser(username);
-      displayResponse(data);
+      await adminService.updateUserPassword(currentUser, newPassword);
+      setSuccessMessage('Password updated successfully!');
+      clearChangeForms();
+      await fetchUsers();
     } catch (err) {
-      handleError(err);
+      setError(err.message);
     }
   };
 
-  // Get all users handler
-  const handleGetAllUsers = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleChangeEmail = async () => {
     try {
-      const data = await adminService.getAllUsers();
-      displayResponse(data);
+      await adminService.updateUserEmail(currentUser, newEmail);
+      setSuccessMessage('Email updated successfully!');
+      clearChangeForms();
+      await fetchUsers();
     } catch (err) {
-      handleError(err);
+      setError(err.message);
     }
   };
 
-  // Get user info handler
-  const handleGetUserInfo = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const data = await adminService.getUserInfo(username);
-      displayResponse(data);
-    } catch (err) {
-      handleError(err);
-    }
+  const clearForm = () => {
+    setUsername('');
+    setPassword('');
+    setEmail('');
+    setIsAdmin(false);
   };
 
-  // Update user password handler
-  const handleUpdateUserPassword = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const data = await adminService.updateUserPassword(username, newPassword);
-      displayResponse(data);
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  // Update user email handler
-  const handleUpdateUserEmail = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const data = await adminService.updateUserEmail(username, newEmail);
-      displayResponse(data);
-    } catch (err) {
-      handleError(err);
-    }
+  const clearChangeForms = () => {
+    setCurrentUser(null);
+    setNewPassword('');
+    setNewEmail('');
+    setChangingPassword(false);
+    setChangingEmail(false);
   };
 
   return (
-    <div>
-      <h1>Admin API Tester</h1>
-      
-      {/* Test Admin API Endpoint Section */}
-      <div>
-        <h2>Admin API Test Status</h2>
-        <button onClick={handleGetAllUsers} disabled={loading}>
-          Test Admin API Connection
-        </button>
-      </div>
-      
-      {/* Create User Form */}
-      <div>
-        <h2>Create User</h2>
-        <form onSubmit={handleCreateUser}>
-          <div>
-            <label>Username:</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-          </div>
-          <div>
-            <label>
-              <input 
-                type="checkbox" 
-                checked={isAdmin} 
-                onChange={(e) => setIsAdmin(e.target.checked)} 
-              />
-              Is Admin
-            </label>
-          </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Create User'}
-          </button>
-        </form>
-      </div>
+    <div className="user-list-container">
+      <h1>User Management</h1>
+      {loading && <p className="loading-message">Loading...</p>}
+      {error && <p className="error-message">{error}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      <form onSubmit={handleCreateUser}>
+        <div>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </div>
+        <div>
+          <label>
+            Is Admin:
+            <input type="checkbox" checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} />
+          </label>
+        </div>
+        <button type="submit">Create User</button>
+      </form>
 
-      {/* Delete User Form */}
-      <div>
-        <h2>Delete User</h2>
-        <form onSubmit={handleDeleteUser}>
-          <div>
-            <label>Username:</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Delete User'}
-          </button>
-        </form>
-      </div>
-
-      {/* Get All Users Button */}
-      <div>
-        <h2>Get All Users</h2>
-        <button onClick={handleGetAllUsers} disabled={loading}>
-          {loading ? 'Loading...' : 'Get All Users'}
-        </button>
-      </div>
-
-      {/* Get User Info Form */}
-      <div>
-        <h2>Get User Info</h2>
-        <form onSubmit={handleGetUserInfo}>
-          <div>
-            <label>Username:</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Get User Info'}
-          </button>
-        </form>
-      </div>
-
-      {/* Update User Password Form */}
-      <div>
-        <h2>Update User Password</h2>
-        <form onSubmit={handleUpdateUserPassword}>
-          <div>
-            <label>Username:</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
-            />
-          </div>
+      {changingPassword && (
+        <div className="change-password-form">
+          <h2>Change Password for {currentUser}</h2>
+          <p>Current Email: {users.find(user => user.username === currentUser)?.email}</p>
           <div>
             <label>New Password:</label>
-            <input 
-              type="password" 
-              value={newPassword} 
-              onChange={(e) => setNewPassword(e.target.value)} 
-              required 
-            />
+            <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
           </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Update Password'}
-          </button>
-        </form>
-      </div>
+          <button onClick={handleChangePassword}>Confirm Change</button>
+          <button onClick={clearChangeForms}>Cancel</button>
+        </div>
+      )}
 
-      {/* Update User Email Form */}
-      <div>
-        <h2>Update User Email</h2>
-        <form onSubmit={handleUpdateUserEmail}>
-          <div>
-            <label>Username:</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
-            />
-          </div>
+      {changingEmail && (
+        <div className="change-email-form">
+          <h2>Change Email for {currentUser}</h2>
+          <p>Current Password: (hidden for security reasons)</p>
           <div>
             <label>New Email:</label>
-            <input 
-              type="email" 
-              value={newEmail} 
-              onChange={(e) => setNewEmail(e.target.value)} 
-              required 
-            />
+            <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required />
           </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : 'Update Email'}
-          </button>
-        </form>
-      </div>
+          <button onClick={handleChangeEmail}>Confirm Change</button>
+          <button onClick={clearChangeForms}>Cancel</button>
+        </div>
+      )}
 
-      {/* Response Display */}
-      <div>
-        <h2>Response</h2>
-        {error && <div style={{color: 'red'}}>{error}</div>}
-        {response && (
-          <pre>{JSON.stringify(response, null, 2)}</pre>
-        )}
-      </div>
+      {!loading && users.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user._id}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.isadmin ? 'Yes' : 'No'}</td>
+                <td>
+                  <button onClick={() => { setCurrentUser(user.username); setChangingEmail(true); setChangingPassword(false);setNewEmail(user.email); }}>Change Email</button>
+                  <button onClick={() => { setCurrentUser(user.username); setChangingEmail(false);setChangingPassword(true); }}>Change Password</button>
+                  <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {!loading && users.length === 0 && <p className="no-users-message">No users found.</p>}
+
     </div>
   );
-}
+};
 
 export default UserManagement;

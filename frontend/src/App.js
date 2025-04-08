@@ -17,6 +17,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import ReturnPolicy from "./components/ReturnPolicy";
 import Reservations from "./components/Reservations";
 import CheckoutFinish from './components/CheckoutFinish';
+import PrivateRoute from "./components/PrivateRoute"; 
 import "./App.css";
 
 function App() {
@@ -93,9 +94,18 @@ function App() {
             element={<Home isLoggedIn={isLoggedIn} />}
           />
           <Route path="/product-api-tester" element={<ProductApiTester />} />
-          <Route path="/user-management" element={<UserManagement />} />
-          <Route path="/product-management" element={<ProductManagement />} />
-          <Route path="/sales-analytics" element={<SalesAnalytics />} />
+          <Route 
+            path="/user-management" 
+            element={<PrivateRoute isLoggedIn={isLoggedIn} isAdmin={isAdmin} element={<UserManagement />} />} 
+          />
+          <Route 
+            path="/product-management" 
+            element={<PrivateRoute isLoggedIn={isLoggedIn} isAdmin={isAdmin} element={<ProductManagement />} />} 
+          />
+          <Route 
+            path="/sales-analytics" 
+            element={<PrivateRoute isLoggedIn={isLoggedIn} isAdmin={isAdmin} element={<SalesAnalytics />} />} 
+          />
           <Route path="/cart" element={<Cart username={username} />} />
           <Route path="/order" element={<Order />} />
           <Route path="/products/:id" element={<ProductDetail username={username} />} />
