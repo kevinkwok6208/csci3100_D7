@@ -10,9 +10,13 @@ import Order from "./components/Order";
 import Profile from "./components/Profile";
 import ProductDetail from "./components/ProductDetail";
 import Auth from "./components/Auth"; // Unified Login/Signup Component
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 import AboutUs from "./components/AboutUs";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import ReturnPolicy from "./components/ReturnPolicy"
+import ReturnPolicy from "./components/ReturnPolicy";
+import Reservations from "./components/Reservations";
+import CheckoutFinish from './components/CheckoutFinish';
 import "./App.css";
 
 function App() {
@@ -64,7 +68,6 @@ function App() {
           <Link to="/" className="logo">
             BOOK<span className="yellow-dot"></span>COM
           </Link>
-          {/* Updated user actions */}
           <div className="user-actions">
             <Link to="/order" className="order-history">
               Order History
@@ -96,6 +99,10 @@ function App() {
           <Route path="/cart" element={<Cart username={username} />} />
           <Route path="/order" element={<Order />} />
           <Route path="/products/:id" element={<ProductDetail username={username} />} />
+          <Route path="/reservations" element={<Reservations username={username}/>} />
+          <Route path="/CheckoutFinish" element={<CheckoutFinish username={username} />} />
+          
+          {/* Auth routes - supporting both unified and separate components */}
           <Route
             path="/auth"
             element={
@@ -107,6 +114,18 @@ function App() {
             }
           />
           <Route
+            path="/login"
+            element={
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                setUsername={setUsername}
+                setIsAdmin={setIsAdmin}
+              />
+            }
+          />
+          <Route path="/signup" element={<Signup />} />
+          
+          <Route
             path="/profile"
             element={
               <Profile
@@ -117,6 +136,8 @@ function App() {
             }
           />
           <Route path="/forgot-password" element={<div>Forgot Password Page</div>} />
+          
+          {/* Additional policy pages */}
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/return-policy" element={<ReturnPolicy />} />

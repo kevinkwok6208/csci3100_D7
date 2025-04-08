@@ -1,23 +1,23 @@
-// src/components/Cart.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import cartService from '../services/cartService';
-// import productService from "../services/productService";
-import './Cart.css'; // Import CSS for styling
+import './Cart.css';
 
 const Cart = ({ username }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const response = await cartService.getCart(username);
-        console.log('Cart data:', response); // Log the response data
+        console.log('Cart data:', response);
         if (response.length > 0 && response[0].cart.items) {
-          setCartItems(response[0].cart.items); // Set cart items from the first element
+          setCartItems(response[0].cart.items);
         } else {
-          setCartItems([]); // Set to empty array if items are not present
+          setCartItems([]);
         }
       } catch (err) {
         setError(err.message);
@@ -30,12 +30,12 @@ const Cart = ({ username }) => {
   }, [username]);
 
   const handleRemove = async (productId) => {
-    console.log('Removing product with ID:', productId); // Log the product ID
+    console.log('Removing product with ID:', productId);
     try {
       const updatedCart = await cartService.removeFromCart(username, productId);
       setCartItems(updatedCart.items);
     } catch (err) {
-      console.error('Error removing from cart:', err); // Log the error
+      console.error('Error removing from cart:', err);
       setError(err.message);
     }
   };
@@ -47,6 +47,12 @@ const Cart = ({ username }) => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  // Add this function to handle payment button click
+  const handlePayment = () => {
+    // Navigate to the reservation page and pass cart items as state
+    navigate('/reservations', { state: { cartItems } });
   };
 
   if (loading) return <p>Loading cart...</p>;
@@ -68,7 +74,7 @@ const Cart = ({ username }) => {
         <tbody>
           {cartItems.map((item) => (
             <tr key={item._id}>
-              <td>{item.productId.productName}</td> {/* Display product ID for now */}
+              <td>{item.productId.productName}</td>
               <td>
                 <input
                   type="number"
@@ -90,6 +96,13 @@ const Cart = ({ username }) => {
           Total: $
           {cartItems.reduce((total, item) => total + item.productPrice, 0).toFixed(2)}
         </h2>
+        {/* Add the Pay button */}
+        <button 
+          className="pay-button" 
+          onClick={handlePayment}
+        >
+          Confirm to Pay
+        </button>
       </div>
     </div>
   );

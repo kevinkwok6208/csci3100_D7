@@ -1,0 +1,114 @@
+/* Reservations.css */
+.reservations-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .reservations-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservations-table th,
+  .reservations-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .reservations-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .reservations-table tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .reservations-table tfoot {
+    font-weight: bold;
+  }
+  
+  .total-label {
+    text-align: right;
+    font-size: 1.1em;
+  }
+  
+  .total-amount {
+    font-size: 1.1em;
+    color: #e63946;
+  }
+  
+  .reservation-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .checkout-button, 
+  .back-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .checkout-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .checkout-button:hover {
+    background-color: #45a049;
+  }
+  
+  .back-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .back-button:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Add to your Reservations.css file */
+.checkout-timer {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  
+  .timer {
+    font-weight: bold;
+    color: #dc3545;
+  }
+  
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Disabled button styles */
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
