@@ -1,0 +1,79 @@
+.product-management-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.update-dropdown {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.update-dropdown h2 {
+  margin-bottom: 15px;
+}
+
+.update-dropdown label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.update-dropdown input {
+  width: calc(100% - 22px); /* Full width minus padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+.update-dropdown input:focus {
+  border-color: #4CAF50; /* Change border color on focus */
+  outline: none; /* Remove outline */
+}
+
+.delete-button{
+  background-color: red;
+}
+.delete-button:hover{
+  background-color: rgb(150, 8, 8);
+}
+
+button{
+  margin: 10px;
+}
