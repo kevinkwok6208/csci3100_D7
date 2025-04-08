@@ -107,7 +107,7 @@ function App() {
             element={<PrivateRoute isLoggedIn={isLoggedIn} isAdmin={isAdmin} element={<SalesAnalytics />} />} 
           />
           <Route path="/cart" element={<Cart username={username} />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/order" element={<Order username={username}/>} />
           <Route path="/products/:id" element={<ProductDetail username={username} />} />
           <Route path="/reservations" element={<Reservations username={username}/>} />
           <Route path="/CheckoutFinish" element={<CheckoutFinish username={username} />} />

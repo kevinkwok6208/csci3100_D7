@@ -4,11 +4,11 @@ import orderService from "../services/orderService"; // Service to fetch orders
 import productService from "../services/productService"; // Service to fetch orders
 import "./Order.css";
 
-const Order = () => {
+const Order = (username) => {
   const [orders, setOrders] = useState([]); // State to store orders
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
-  const [username, setUsername] = useState(null); // State for userId
+  //const [username, setUsername] = useState(null); // State for userId
   const [token, setToken] = useState(null); // State for token
   const [allProducts, setAllProducts] = useState([]);
   const [filterId, setFilterId] = useState(""); // State for filter input
@@ -16,28 +16,28 @@ const Order = () => {
   const [statusMessage, setStatusMessage] = useState(""); // State for status
   const [currentStatusFilter, setCurrentStatusFilter] = useState("All"); // State for status filter
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      console.log("User data from local storage:", userData);
-      setUsername(userData.username); // Set username
-      setToken(userData.token); // Set token
-    } else {
-      console.error("No user data found in local storage");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) {
+  //     const userData = JSON.parse(storedUser);
+  //     console.log("User data from local storage:", userData);
+  //     setUsername(userData.username); // Set username
+  //     setToken(userData.token); // Set token
+  //   } else {
+  //     console.error("No user data found in local storage");
+  //   }
+  // }, []);
 
   useEffect(() => {
-    console.log("Username before API call:", username);
+    console.log("Username before API call:", username.username);
     console.log("Username:", username); // Log username for debugging
     console.log("Token:", token); // Log token for debugging
 
     // Ensure username and token are defined
-    if (username && token) {
+    if (username.username ) {
       const fetchOrders = async () => {
           try {
-              const data = await orderService.getOrdersByUserId(username);
+              const data = await orderService.getOrdersByUserId(username.username);
               console.log("Fetched orders:", data);
               //console.log("Check order status:", data.productId)
               setOrders(data);
@@ -53,7 +53,7 @@ const Order = () => {
   } else {
       setLoading(false); // Stop loading if username/token are not set
   }
-}, [username, token]);
+}, [username.username]);
 
 useEffect(() => {
   const fetchProducts = async () => {

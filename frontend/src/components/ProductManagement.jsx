@@ -14,7 +14,7 @@ const ProductManagement = () => {
     productDescription: '',
     productPrice: '',
     productStorage: '',
-    productImage: [] // Changed to singular
+    productImage: [] // Keep as is for now to avoid breaking existing code
   });
 
   const [addProduct, setAddProduct] = useState({
@@ -23,7 +23,7 @@ const ProductManagement = () => {
     productDescription: '',
     productPrice: '',
     productStorage: '',
-    productImage: [] // Changed to singular
+    productImage: [] // Keep as is for now to avoid breaking existing code
   });
 
   const [editingProductId, setEditingProductId] = useState(null); // Track the product being edited
@@ -47,7 +47,7 @@ const ProductManagement = () => {
   const handleDelete = async (productId) => {
     try {
       await productService.deleteProduct(productId);
-      setProducts(products.filter(product => product.id !== productId));
+      setProducts(products.filter(product => product.productID !== productId)); // Changed from product.id to product.productID
       if (editingProductId === productId) {
         setEditingProductId(null); // Reset editing state if the deleted product was being edited
       }
@@ -59,9 +59,10 @@ const ProductManagement = () => {
 
   const handleUpdate = async (productId) => {
     try {
-      await productService.updateProduct(productId, newProduct);
+      const response = await productService.updateProduct(productId, newProduct);
+      // Update the products list with the updated product
       setProducts(products.map(product => 
-        product.productID === productId ? { ...product, ...newProduct } : product
+        product.productID === productId ? response.product : product
       ));
       setEditingProductId(null); // Reset editing state
       setUploadError(''); // Clear any previous upload error
@@ -78,7 +79,7 @@ const ProductManagement = () => {
       productDescription: product.productDescription,
       productPrice: product.productPrice,
       productStorage: product.productStorage,
-      productImage: Array.isArray(product.productImage) ? product.productImage : [] // Make sure to get existing images
+      productImage: [] // Reset images array since we can't edit existing images directly
     });
     setEditingProductId(product.productID); // Set the ID of the product being edited
     setUploadError(''); // Reset upload error on edit
@@ -100,7 +101,7 @@ const ProductManagement = () => {
       }
     });
 
-    setNewProduct({ ...newProduct, productImage: validFiles }); // Changed to singular
+    setNewProduct({ ...newProduct, productImage: validFiles });
     setUploadError(errorMessage); // Set the error message if there are invalid files
   };
  
@@ -120,21 +121,28 @@ const ProductManagement = () => {
       }
     });
 
-    setAddProduct({ ...addProduct, productImage: validFiles }); // Changed to singular
+    setAddProduct({ ...addProduct, productImage: validFiles });
     setUploadError(errorMessage); // Set the error message if there are invalid files
   };
 
-  const handleDeleteImage = (imageIndex) => {
-    const updatedImages = newProduct.productImage.filter((_, index) => index !== imageIndex); // Changed to singular
-    setNewProduct({ ...newProduct, productImage: updatedImages }); // Changed to singular
+  const handleDeleteImage = (imageIndex, isAddForm = false) => {
+    if (isAddForm) {
+      const updatedImages = addProduct.productImage.filter((_, index) => index !== imageIndex);
+      setAddProduct({ ...addProduct, productImage: updatedImages });
+    } else {
+      const updatedImages = newProduct.productImage.filter((_, index) => index !== imageIndex);
+      setNewProduct({ ...newProduct, productImage: updatedImages });
+    }
     setUploadError(''); // Clear error message when an image is deleted
   };
 
   const handleAddProduct = async () => {
     try {
       const response = await productService.addProduct(addProduct);
-      setProducts([...products, response]); // Add the new product to the list
-      setAddProduct({ // Reset the newProduct state
+      // Add the new product to the list
+      setProducts([...products, response.product]);
+      // Reset the form
+      setAddProduct({
         productID: '',
         productName: '',
         productDescription: '',
@@ -208,7 +216,7 @@ const ProductManagement = () => {
           {Array.isArray(addProduct.productImage) && addProduct.productImage.map((image, index) => (
             <div key={index}>
               <span>{image.name}</span>
-              <button onClick={() => handleDeleteImage(index)}>Delete</button>
+              <button onClick={() => handleDeleteImage(index, true)}>Delete</button>
             </div>
           ))}
         </div>
@@ -232,7 +240,7 @@ const ProductManagement = () => {
         </thead>
         <tbody>
           {products.map(product => (
-            <tr key={product.id}>
+            <tr key={product.productID}>
               <td>{product.productID}</td>
               <td>{product.productName}</td>
               <td>{product.productDescription}</td>
@@ -280,14 +288,14 @@ const ProductManagement = () => {
           <input
             type="file"
             multiple
-            accept="image/jpeg,image/jpg,image/png,application/pdf"
+            accept="image/jpeg,image/jpg,image/png"
             onChange={handleFileChange}
           />
           <div className="image-preview">
             {Array.isArray(newProduct.productImage) && newProduct.productImage.map((image, index) => (
               <div key={index}>
                 <span>{image.name}</span>
-                <button onClick={() => handleDeleteImage(index)}>Delete</button>
+                <button onClick={() => handleDeleteImage(index, false)}>Delete</button>
               </div>
             ))}
           </div>
