@@ -1,55 +1,488 @@
-/* src/components/Home.css */
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #f8f9fc;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
 
 .home-container {
-    padding: 20px;
-  }
-  
-  .filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .filters input,
-  .filters select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .product-card {
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  
-  .product-name {
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-  
-  .product-description {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .product-price {
-    font-size: 16px;
-    font-weight: bold;
-    color: #4CAF50;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fffdf6;
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content h1 {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.hero-content .search-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.hero-content .search-bar input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  flex: 1;
+}
+
+.hero-content .search-bar button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hero-content .search-bar button:hover {
+  background-color: #f5b800;
+}
+
+.hero-shape {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-shape .circle-shape {
+  width: 100px;
+  height: 100px;
+  background-color: #ffcc00; /* Yellow color */
+  border-radius: 50%; /* Makes it a circle */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Full-Width Background Sections */
+.featured-books,
+.best-sellers {
+  width: 100%; /* Full screen width */
+  padding: 40px 5vw; /* Add horizontal padding */
+  box-sizing: border-box;
+}
+
+.featured-books {
+  /*background-color: #fffdf6; /* Light yellow background */
+}
+
+.best-sellers {
+  background-color: #333; /* Dark grey background */
+  color: white; /* White text */
+}
+
+.featured-books h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333; /* Dark color for Featured Books title */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.best-sellers h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: white; /* White title for Best Sellers */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between cards */
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Product Card (Featured Books) */
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+  max-width: 150px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.product-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-card p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Best Sellers Section */
+.best-sellers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 20px;
+}
+
+.best-seller-card {
+  display: flex;
+  align-items: flex-start; /* Top-align all content */
+  gap: 20px; /* Space between the image and text */
+  padding: 20px 0; /* Add vertical padding */
+  transition: transform 0.3s;
+}
+
+.best-seller-card:hover {
+  transform: translateY(-5px);
+}
+
+.tilted-book-wrapper {
+  flex-shrink: 0;
+  transform: rotate(-5deg);
+  background-color: transparent; /* No white background */
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.tilted-book-image {
+  max-width: 120px;
+  border-radius: 4px;
+}
+
+.book-info {
+  flex: 1; /* Make the text content take the remaining space */
+}
+
+.book-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white; /* White text */
+}
+
+.book-info .rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.book-info .rating span {
+  font-size: 20px;
+  color: #ffcc00; /* Gold stars */
+  margin-right: 5px;
+}
+
+.book-info .comment {
+  font-size: 16px;
+  color: #ccc; /* Light grey for comments */
+  line-height: 1.5;
+}
+
+.book-info .comment::before {
+  content: '“'; /* Open quotation mark */
+  font-size: 24px;
+  vertical-align: top;
+  margin-right: 5px;
+}
+
+.book-info .comment::after {
+  content: '”'; /* Close quotation mark */
+  font-size: 24px;
+  vertical-align: bottom;
+  margin-left: 5px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #f5b800;
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 40px;
+  position: relative; /* For positioning the circle */
+}
+
+.footer .max-w-6xl {
+  display: flex;
+  justify-content: flex-start; /* Align columns to the left */
+  align-items: flex-start; /* Align items at the top */
+  gap: 40px; /* Space between columns */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.footer h4 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+  color: #ffcc00; /* Highlight link on hover */
+}
+
+/* Footer Bottom */
+.footer .mt-8 {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: left; /* Align footer text to the left */
+}
+
+/* Yellow Circle */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 50%; /* Center vertically */
+  right: 100px; /* Position from the right */
+  transform: translateY(-50%); /* Center vertically using transform */
+  width: 100px; /* Circle size */
+  height: 100px; /* Circle size */
+  background-color: #ffcc00; /* Yellow color */
+  border-radius: 50%; /* Make it a circle */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add shadow */
+  z-index: 1; /* Ensure it's behind the content */
+}
+
+/* Shop by Category Section */
+.categories {
+  text-align: center; /* Center title and filters */
+  margin-top: 40px;
+}
+
+.categories h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.category-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 10px; /* Space between buttons */
+  margin-bottom: 20px;
+}
+
+.category-buttons button {
+  padding: 10px 20px;
+  background-color: #ffcc00; /* Yellow background */
+  color: #000; /* Black text */
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.category-buttons button:hover {
+  background-color: #f5b800; /* Slightly darker yellow on hover */
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns */
+  gap: 20px; /* Space between cards */
+  margin-top: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+  max-width: 150px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.product-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-card p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Best Sellers - Comment Styling */
+.book-info .rating {
+  margin-bottom: 10px; /* Add space below the stars */
+}
+
+.book-info .comment {
+  font-size: 16px;
+  color: #ccc; /* Light grey text */
+  line-height: 1.5;
+  text-align: left; /* Align comments to the left */
+  margin: 15px 0; /* Add even spacing above and below the comment */
+  position: relative; /* For the quotation marks */
+}
+
+.book-info .comment::before {
+  content: "“"; /* Open quotation mark */
+  font-size: 48px; /* Large size */
+  font-weight: bold;
+  color: #ffcc00; /* Yellow color for quotes */
+  line-height: 1; /* Align with the comment */
+  display: block; /* Ensure it appears on a new line */
+  margin-bottom: 5px; /* Space below the open quotation mark */
+}
+
+.book-info .comment::after {
+  content: "”"; /* Close quotation mark */
+  font-size: 48px; /* Large size */
+  font-weight: bold;
+  color: #ffcc00; /* Yellow color for quotes */
+  line-height: 1; /* Align with the comment */
+  display: block; /* Ensure it appears on a new line */
+  margin-top: 5px; /* Space above the close quotation mark */
+}
+
+.sign-in-prompt {
+  text-align: center;
+  margin-top: 40px;
+  background-color: #ffefc5;
+}
+
+.sign-in-prompt h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.sign-in-prompt p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.sign-in-prompt button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sign-in-prompt button:hover {
+  background-color: #f5b800;
+}
+
+.book-details {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.book-details h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.book-details p {
+  font-size: 14px;
+  color: #555;
+}
+

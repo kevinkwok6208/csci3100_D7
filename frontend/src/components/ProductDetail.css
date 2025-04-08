@@ -1,87 +1,197 @@
-/* src/components/ProductDetail.css */
-
+/* General Container */
 .product-detail-container {
-    padding: 20px;
-  }
-  
-  .back-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .product-detail {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-  }
-  
-  .product-image {
-    max-width: 300px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-info {
-    flex: 1;
-    padding: 10px;
-  }
-  
-  .product-name {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .product-description {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #666;
-  }
-  
-  .product-price {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #28a745;
-  }
-  
-  .product-stock {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .product-featured {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
-  }
-  
-  .product-id {
-    font-size: 14px;
-    color: #999;
-  }
+  padding: 40px; /* Add padding around the container */
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fffdf6; /* Light background similar to the home page */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
 
-  .reviews-section {
-    margin-top: 20px;
-  }
-  
-  .reviews-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .review-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
+/* Back Button */
+.back-button {
+  background-color: #ffcc00; /* Yellow background */
+  color: black; /* Black text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #f5b800; /* Darker yellow on hover */
+}
+
+/* Product Detail Section */
+.product-detail {
+  display: flex;
+  flex-wrap: wrap; /* Make it responsive */
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.product-image {
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Image shadow */
+}
+
+/* Product Info Section */
+.product-info {
+  flex: 1;
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #222; /* Darker color for the title */
+}
+
+.product-description {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.product-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #544300da; /* Green for price */
+}
+
+.product-stock,
+.product-featured,
+.product-id,
+/* Average Rating Stars */
+.product-avg-rating {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.product-avg-rating .stars {
+  color: #ffcc00; /* Yellow stars */
+  font-size: 18px; /* Slightly larger stars */
+}
+
+/* Quantity Input */
+input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+  max-width: 100px;
+}
+
+/* Add to Cart Button */
+.add-to-cart-button {
+  background-color: #ffcc00; /* Yellow background */
+  color: black; /* Black text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-button:hover {
+  background-color: #f5b800; /* Darker yellow on hover */
+}
+
+/* Reviews Section */
+/* Reviews Section - Container */
+.reviews-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #fffdf6; /* Light background similar to the product detail */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Reviews Section - Title */
+.reviews-section h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center; /* Center the title */
+  color: #222; /* Darker title color */
+}
+
+/* Reviews List */
+.reviews-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.review-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Review Rating */
+.review-item .rating {
+  font-size: 16px;
+  color: #ffcc00; /* Yellow stars */
+  margin-bottom: 10px;
+}
+
+.review-item p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+/* Error Message Styling */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Quantity Selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.quantity-selector input {
+  width: 60px;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.quantity-selector button {
+  padding: 10px 15px;
+  background-color: #ffcc00; /* Yellow background */
+  color: black; /* Black text */
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quantity-selector button:hover {
+  background-color: #f5b800; /* Darker yellow on hover */
+}

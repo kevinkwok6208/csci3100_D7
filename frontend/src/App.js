@@ -7,16 +7,18 @@ import ProductManagement from "./components/ProductManagement";
 import SalesAnalytics from "./components/SalesAnalytics";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import ProductDetail from "./components/ProductDetail";
+import Auth from "./components/Auth"; // Unified Login/Signup Component
+import AboutUs from "./components/AboutUs";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import ReturnPolicy from "./components/ReturnPolicy"
 import "./App.css";
 
 function App() {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); // To track if the user is an admin
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     console.log("Testing API connection...");
@@ -26,11 +28,10 @@ function App() {
       .catch((error) => console.error("Test endpoint error:", error));
   }, []);
 
-  // Function to handle login
   const handleLogin = (user) => {
     setUsername(user.username);
     setIsLoggedIn(true);
-    setIsAdmin(user.isadmin === 1); // Check if the user is an admin
+    setIsAdmin(user.isadmin === 1);
   };
 
   return (
@@ -61,21 +62,22 @@ function App() {
             </ul>
           </nav>
           <Link to="/" className="logo">
-            SHOP.COM
+            BOOK<span className="yellow-dot"></span>COM
           </Link>
+          {/* Updated user actions */}
           <div className="user-actions">
-            <Link to="/order" className="icon order-history" title="Order History">
-              🕒
+            <Link to="/order" className="order-history">
+              Order History
             </Link>
-            <Link to="/cart" className="icon shopping-cart" title="Shopping Cart">
-              🛒
+            <Link to="/cart" className="shopping-cart">
+              Shopping Cart
             </Link>
             {isLoggedIn ? (
               <Link to="/profile" className="username">
                 {username}
               </Link>
             ) : (
-              <Link to="/login" className="login-button" title="Login">
+              <Link to="/auth" className="login-button" title="Login">
                 Login
               </Link>
             )}
@@ -83,25 +85,27 @@ function App() {
         </header>
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home isLoggedIn={isLoggedIn} />}
+          />
           <Route path="/product-api-tester" element={<ProductApiTester />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/product-management" element={<ProductManagement />} />
-          <Route path="/sales-analytics" element={<SalesAnalytics/>} />
-          <Route path="/cart" element={<Cart username={username}/>} />
+          <Route path="/sales-analytics" element={<SalesAnalytics />} />
+          <Route path="/cart" element={<Cart username={username} />} />
           <Route path="/order" element={<Order />} />
           <Route path="/products/:id" element={<ProductDetail username={username} />} />
           <Route
-            path="/login"
+            path="/auth"
             element={
-              <Login
+              <Auth
                 setIsLoggedIn={setIsLoggedIn}
                 setUsername={setUsername}
                 setIsAdmin={setIsAdmin}
               />
             }
           />
-          <Route path="/signup" element={<Signup />} />
           <Route
             path="/profile"
             element={
@@ -113,6 +117,9 @@ function App() {
             }
           />
           <Route path="/forgot-password" element={<div>Forgot Password Page</div>} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/return-policy" element={<ReturnPolicy />} />
         </Routes>
       </div>
     </Router>

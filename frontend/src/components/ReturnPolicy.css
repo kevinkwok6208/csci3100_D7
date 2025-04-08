@@ -1,0 +1,201 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #f8f9fc;
+  overflow-x: hidden;
+}
+
+/* Return Policy Container */
+.return-policy-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero Section */
+.heros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.heros-content h1 {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.heros-content p {
+  font-size: 18px;
+  color: #e0e0e0;
+}
+
+.heros-shape .circle-shape {
+  width: 100px;
+  height: 100px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Styles */
+.policy-intro-section,
+.return-eligibility-section,
+.refund-process-section,
+.exceptions-section,
+.contact-section {
+  text-align: center;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Highlighted Sections */
+/* Highlighted Sections */
+.highlight-yellow {
+  background-color: #fffdf6; /* Light yellow */
+}
+
+.highlight-dark {
+  background-color: #333; /* Dark grey */
+  color: white; /* White text for the entire section */
+}
+
+.highlight-dark h2 {
+  color: #ffcc00; /* Yellow text for headings */
+}
+
+.highlight-dark p,
+.highlight-dark ul,
+.highlight-dark ol {
+  color: white; /* White text for content */
+}
+
+.highlight-dark a {
+  color: #ffcc00; /* Yellow links */
+  text-decoration: none;
+}
+
+.highlight-dark a:hover {
+  text-decoration: underline;
+}
+
+.policy-intro-section h2,
+.return-eligibility-section h2,
+.refund-process-section h2,
+.exceptions-section h2,
+.contact-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.policy-intro-section p,
+.return-eligibility-section ul,
+.refund-process-section ol,
+.exceptions-section ul,
+.contact-section p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Lists */
+.eligibility-list,
+.refund-steps-list,
+.exceptions-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  text-align: left;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.eligibility-list li,
+.refund-steps-list li,
+.exceptions-list li {
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.eligibility-list li::before,
+.refund-steps-list li::before,
+.exceptions-list li::before {
+  content: "•";
+  color: #ffcc00;
+  font-size: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Contact Button */
+.contact-button {
+  background-color: #ffcc00;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contact-button:hover {
+  background-color: #f5b800;
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 40px;
+}
+
+.footer h4 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.footer ul li a:hover {
+  color: #ffcc00;
+}
+
+.mt-8 {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+}
