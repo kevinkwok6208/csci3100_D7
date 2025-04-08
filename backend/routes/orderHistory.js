@@ -10,7 +10,7 @@ const orderHistoryController = require('../controllers/orderHistoryController');
     Function: Retrieve all order histories for the specified user.
     Method: GET
 */
-router.get('/user/:userId', orderHistoryController.getOrderHistories.bind(orderHistoryController)); 
+router.get('/user/:username', orderHistoryController.getOrderHistories.bind(orderHistoryController)); 
 
 /* 
     "http://localhost:5001/api/orderhistories/order/:orderId"

@@ -1,7 +1,7 @@
 const OrderHistory = require('../models/Order');
 
 class OrderHistoryService {
-    async getOrderHistoriesByUserId(userId) {
+    async getOrderHistoriesByUserId(userId) { //changed from userId to username
         try {
             const orders = await OrderHistory.find({ userId }).populate('products.productId'); // Populate product details
             return orders;
@@ -12,7 +12,9 @@ class OrderHistoryService {
 
     async getOrderById(orderId) {
         try {
-            const order = await OrderHistory.findById(orderId).populate('products.productId');
+            //const order = await OrderHistory.findById(orderId).populate('products.productId');
+            const order = await OrderHistory.findOne({ orderId: orderId }).populate('products.productId');
+
             return order; // Should return the order object or null if not found
         } catch (error) {
             throw new Error('Error fetching order: ' + error.message);
@@ -31,7 +33,8 @@ class OrderHistoryService {
     async updateOrderStatus(orderId) {
         try {
             // Find the order by ID
-            const order = await OrderHistory.findById(orderId);
+            //const order = await OrderHistory.findById(orderId);
+            const order = await OrderHistory.findOne({ orderId: orderId });
             if (!order || order.status === true) {
                 return null; // Return null if order doesn't exist or is already received
             }

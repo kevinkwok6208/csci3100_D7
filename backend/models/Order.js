@@ -34,6 +34,11 @@ const OrderHistorySchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    username: {
+        type: String, // Reference to the User model
+        //required: true,
+        ref: 'User'
+    },
     products: [ProductDetailSchema], // Include products array
     Name: {
         type: String,
