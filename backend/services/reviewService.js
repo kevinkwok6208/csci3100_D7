@@ -1,5 +1,6 @@
 const Product = require('../models/Products');
 const Comment = require('../models/Comments');
+const User = require('../models/User');
 
 class ReviewService {
   // Get reviews for a product
@@ -32,8 +33,27 @@ class ReviewService {
     }
   }
   
+  // Find user by username or ID
+  static async findUser(userId, username) {
+    if (userId) {
+      return userId; // Already have user ID
+    }
+    
+    if (!username) {
+      throw new Error('Either userId or username must be provided');
+    }
+    
+    // Find user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      throw new Error(`User with username "${username}" not found`);
+    }
+    
+    return user._id;
+  }
+  
   // Add a review for a product
-  static async addProductReview(productID, userId, content, rating) {
+  static async addProductReview(productID, userId, content, rating, username) {
     try {
       const product = await Product.findOne({ productID });
       
@@ -41,10 +61,13 @@ class ReviewService {
         throw new Error('Product not found');
       }
       
+      // Resolve user ID from username if needed
+      const resolvedUserId = await this.findUser(userId, username);
+      
       // Check if user already reviewed this product
       const existingReview = await Comment.findOne({
         productID: product._id,
-        user: userId
+        user: resolvedUserId
       });
       
       if (existingReview) {
@@ -53,12 +76,15 @@ class ReviewService {
         existingReview.Rating = rating;
         existingReview.timestamp = Date.now();
         await existingReview.save();
+        
+        // Populate user details before returning
+        await existingReview.populate('user', 'username email');
         return existingReview;
       }
       
       // Create new review
       const newReview = new Comment({
-        user: userId,
+        user: resolvedUserId,
         productID: product._id,
         Rating: rating,
         content,
@@ -66,6 +92,9 @@ class ReviewService {
       });
       
       await newReview.save();
+      
+      // Populate user details before returning
+      await newReview.populate('user', 'username email');
       
       // Increment product reservation as a proxy for popularity
       // since we can't modify the Products schema
@@ -80,7 +109,7 @@ class ReviewService {
   }
   
   // Update a review
-  static async updateReview(reviewId, userId, content, rating) {
+  static async updateReview(reviewId, userId, content, rating, username) {
     try {
       const review = await Comment.findById(reviewId);
       
@@ -88,8 +117,11 @@ class ReviewService {
         throw new Error('Review not found');
       }
       
+      // Resolve user ID from username if needed
+      const resolvedUserId = await this.findUser(userId, username);
+      
       // Check if the user owns this review
-      if (review.user.toString() !== userId.toString()) {
+      if (review.user.toString() !== resolvedUserId.toString()) {
         throw new Error('Unauthorized to update this review');
       }
       
@@ -98,6 +130,9 @@ class ReviewService {
       review.timestamp = Date.now();
       
       await review.save();
+      
+      // Populate user details before returning
+      await review.populate('user', 'username email');
       return review;
     } catch (error) {
       throw new Error(`Error updating review: ${error.message}`);
@@ -105,7 +140,7 @@ class ReviewService {
   }
   
   // Delete a review
-  static async deleteReview(reviewId, userId) {
+  static async deleteReview(reviewId, userId, username) {
     try {
       const review = await Comment.findById(reviewId);
       
@@ -113,8 +148,11 @@ class ReviewService {
         throw new Error('Review not found');
       }
       
-      // Check if the user owns this review or is admin
-      if (review.user.toString() !== userId.toString()) {
+      // Resolve user ID from username if needed
+      const resolvedUserId = await this.findUser(userId, username);
+      
+      // Check if the user owns this review
+      if (review.user.toString() !== resolvedUserId.toString()) {
         throw new Error('Unauthorized to delete this review');
       }
       

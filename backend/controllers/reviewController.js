@@ -25,8 +25,17 @@ exports.getProductReviews = async (req, res) => {
 exports.addProductReview = async (req, res) => {
   try {
     const { productID } = req.params;
-    const { content, rating } = req.body;
-    const userId = req.user._id;
+    const { content, rating, username } = req.body;
+    
+    // If username is provided in body, use it; otherwise use authenticated user
+    let userId;
+    if (username) {
+      // Username provided in request body - will be resolved in service
+      userId = null;
+    } else {
+      // Use authenticated user
+      userId = req.user._id;
+    }
     
     if (!content || rating === undefined) {
       return res.status(400).json({
@@ -46,7 +55,8 @@ exports.addProductReview = async (req, res) => {
       productID,
       userId,
       content,
-      rating
+      rating,
+      username
     );
     
     res.status(201).json({
@@ -67,8 +77,17 @@ exports.addProductReview = async (req, res) => {
 exports.updateReview = async (req, res) => {
   try {
     const { reviewId } = req.params;
-    const { content, rating } = req.body;
-    const userId = req.user._id;
+    const { content, rating, username } = req.body;
+    
+    // If username is provided in body, use it; otherwise use authenticated user
+    let userId;
+    if (username) {
+      // Username provided in request body - will be resolved in service
+      userId = null;
+    } else {
+      // Use authenticated user
+      userId = req.user._id;
+    }
     
     if (!content || rating === undefined) {
       return res.status(400).json({
@@ -88,7 +107,8 @@ exports.updateReview = async (req, res) => {
       reviewId,
       userId,
       content,
-      rating
+      rating,
+      username
     );
     
     res.status(200).json({
@@ -109,9 +129,19 @@ exports.updateReview = async (req, res) => {
 exports.deleteReview = async (req, res) => {
   try {
     const { reviewId } = req.params;
-    const userId = req.user._id;
+    const { username } = req.body;
     
-    const result = await ReviewService.deleteReview(reviewId, userId);
+    // If username is provided in body, use it; otherwise use authenticated user
+    let userId;
+    if (username) {
+      // Username provided in request body - will be resolved in service
+      userId = null;
+    } else {
+      // Use authenticated user
+      userId = req.user._id;
+    }
+    
+    const result = await ReviewService.deleteReview(reviewId, userId, username);
     
     res.status(200).json({
       success: true,
