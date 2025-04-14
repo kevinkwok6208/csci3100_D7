@@ -52,14 +52,7 @@ class Server {
     }
 
     startServer() {
-        const PORT = process.env.PORT || 5001;
         const HTTPS_PORT = process.env.HTTPS_PORT || 5443;
-
-        // Start HTTP server (optional, can be removed if you only want HTTPS)
-        this.app.listen(PORT, () => {
-            console.log(`HTTP Server running on port ${PORT}`);
-        });
-        
         try {
             // SSL certificate options - adjust paths as needed
             const options = {
