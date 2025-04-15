@@ -22,6 +22,13 @@ const authService = {
         throw new Error(data.message || 'Login failed');
       }
 
+      // Store auth data in localStorage
+      localStorage.setItem('authUser', JSON.stringify({
+        username: data.username,
+        isadmin: data.isadmin,
+        token: data.token
+      }));
+
       return {
         username: data.username,
         isadmin: data.isadmin,
@@ -70,6 +77,9 @@ const authService = {
       if (!response.ok) {
         throw new Error(data.message || 'Logout failed');
       }
+      
+      // Clear localStorage on logout
+      localStorage.removeItem('authUser');
       
       return data;
     } catch (error) {
@@ -184,6 +194,47 @@ const authService = {
       console.error("Reset Password error:", error);
       throw error;
     }
+  },
+
+  // Add this method to the authService object
+  async authByCookie() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth-by-cookie`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Important for sending cookies
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Authentication by cookie failed');
+      }
+
+      // Store auth data in localStorage
+      localStorage.setItem('authUser', JSON.stringify({
+        username: data.username,
+        isadmin: data.isadmin,
+        token: data.token
+      }));
+
+      return {
+        username: data.username,
+        isadmin: data.isadmin,
+        token: data.token,
+      };
+    } catch (error) {
+      console.error('Cookie auth error:', error);
+      throw error;
+    }
+  },
+
+  // Get user from localStorage
+  getStoredUser() {
+    const authUser = localStorage.getItem('authUser');
+    return authUser ? JSON.parse(authUser) : null;
   }
 };
 

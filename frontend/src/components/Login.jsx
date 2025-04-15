@@ -41,8 +41,8 @@ function Login({ setIsLoggedIn, setUsername, setIsAdmin }) {
         <p>Login to your account</p>
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Email or Username"
             className="input-field"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

@@ -18,6 +18,7 @@ import ReturnPolicy from "./components/ReturnPolicy";
 import Reservations from "./components/Reservations";
 import CheckoutFinish from './components/CheckoutFinish';
 import PrivateRoute from "./components/PrivateRoute"; 
+import authService from "./services/authService";
 import HowToSearch from "./components/HowToSearch";
 import MakingPayment from "./components/MakingPayment";
 import FAQ from "./components/FAQ"
@@ -40,11 +41,13 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    console.log("Testing API connection...");
-    fetch("/api/test")
-      .then((response) => response.json())
-      .then((data) => console.log("Test endpoint response:", data))
-      .catch((error) => console.error("Test endpoint error:", error));
+    // Check if user is stored in localStorage
+    const storedUser = authService.getStoredUser();
+    if (storedUser) {
+      setUsername(storedUser.username);
+      setIsLoggedIn(true);
+      setIsAdmin(storedUser.isadmin === 1);
+    }
   }, []);
 
   return (

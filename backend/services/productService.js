@@ -72,7 +72,7 @@ class ProductService {
     if (!files || files.length === 0) {
       throw new Error('At least one product image is required');
     }
-
+  
     try {
       // Upload images to Cloudinary
       const imageUrls = await this.uploadImagesToCloudinary(files);
@@ -81,21 +81,37 @@ class ProductService {
       productData.productImages = imageUrls;
       // Keep the first image as the main product image for backward compatibility
       productData.productImage = imageUrls[0];
-
+  
+      // Handle category assignment if categoryName is provided
+      if (productData.categoryName) {
+        const category = await Category.findOne({
+          name: { $regex: new RegExp(`^${productData.categoryName}`, 'i') }
+        });
+        
+        if (category) {
+          productData.category = category._id;
+        }else{
+          
+        }
+        
+        // Remove categoryName as it's not part of the Product schema
+        delete productData.categoryName;
+      }
+  
       // Create and save the product
-      return await this.createProduct(productData);
+      return (await this.createProduct(productData)).populate('category');
     } catch (error) {
       throw new Error(error.message);
     }
   }
-
+  
   // Update product  
   async updateProduct(productID, updateData) {
     const updatedProduct = await Product.findOneAndUpdate(
       { productID },
       updateData,
       { new: true, runValidators: true }
-    );
+    ).populate('category');
     
     return updatedProduct;
   }
@@ -117,7 +133,7 @@ class ProductService {
         { productID },
         updateData,
         { new: true, runValidators: true }
-      );
+      ).populate('category');
       
       return updatedProduct;
     } catch (error) {
@@ -165,7 +181,7 @@ async updateSpecificImage(productID, index, file, updateData) {
       { productID },
       updateData,
       { new: true, runValidators: true }
-    );
+    ).populate('category');
     
     return updatedProduct;
   } catch (error) {
@@ -189,7 +205,7 @@ async updateSpecificImage(productID, index, file, updateData) {
       { productID },
       { productStorage },
       { new: true, runValidators: true }
-    );
+    ).populate('category');
     if (!updatedProduct) {
       throw new Error('Product not found');
     }
@@ -203,7 +219,7 @@ async updateSpecificImage(productID, index, file, updateData) {
       { productID },
       { productPrice },
       { new: true, runValidators: true }
-    );
+    ).populate('category');
     if (!updatedProduct) {
       throw new Error('Product not found');
     }

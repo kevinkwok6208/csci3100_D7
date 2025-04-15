@@ -138,8 +138,8 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
           {successMessage && <p className="success-message">{successMessage}</p>}
           <form onSubmit={handleLogin}>
             <input
-              type="email"
-              placeholder="Email"
+              type="text"
+              placeholder="Email Or Username"
               className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
