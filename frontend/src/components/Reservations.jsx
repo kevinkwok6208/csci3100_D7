@@ -14,7 +14,7 @@ const Reservations = ({ username: propUsername }) => {
   const [checkoutError, setCheckoutError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
   const [timerId, setTimerId] = useState(null);
-  const apiBaseUrl = 'http://localhost:5001'; // Hardcoded for simplicity
+  const apiBaseUrl = 'https://localhost:5443'; // Hardcoded for simplicity
 
   // Add shipping information state
   const [shippingInfo, setShippingInfo] = useState({
