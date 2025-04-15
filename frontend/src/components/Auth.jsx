@@ -232,16 +232,16 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
         </div>
       </div>
 
-      {/* Overlay */}
-      <div className="auth-overlay">
-        <div className="overlay-content">
+      {/* overlays */}
+      <div className="auth-overlays">
+        <div className="overlays-content">
           <h1>{isSignUp ? "Welcome Back!" : "Hello, Friend!"}</h1>
           <p>
             {isSignUp
               ? "Already have an account? Login to stay connected."
               : "Don't have an account? Sign up and join us today!"}
           </p>
-          <button className="auth-button toggle-overlay" onClick={toggleForm}>
+          <button className="auth-button toggle-overlays" onClick={toggleForm}>
             {isSignUp ? "Login" : "Sign Up"}
           </button>
         </div>

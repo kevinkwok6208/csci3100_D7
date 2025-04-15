@@ -1,0 +1,193 @@
+/* General Container */
+.contact-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+    background-color: #f8f9fc;
+  }
+  
+  /* Hero Section */
+  .heros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heros-content h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .heros-content p {
+    font-size: 18px;
+    color: #e0e0e0;
+    text-align: left;
+  }
+  
+  .circle-shape {
+    width: 100px;
+    height: 100px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+/* Contact Info Box */
+.contact-info-box {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .contact-info-box h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .contact-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .contact-card:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Increased shadow for hover */
+    background-color: #f9f9f9; /* Light gray background on hover */
+  }
+  
+  .icon {
+    margin: 0 auto 10px;
+    width: 50px;
+    height: 50px;
+    color: #ffcc00; /* Icon color */
+    transition: color 0.3s ease;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contact-card:hover .icon {
+    color: #ffa500; /* Slightly darker yellow for hover */
+  }
+  
+  .contact-card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 15px 0 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .contact-card:hover h3 {
+    color: #000; /* Darker text on hover */
+  }
+  
+  .contact-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+  }
+  
+  .contact-card:hover p {
+    color: #333; /* Darker paragraph text on hover */
+  }  
+  
+  
+  /*.icon-svg {
+    width: 100%;
+    height: 100%;
+  }*/
+
+
+  /* Social Media Section */
+  .social-media-section {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .social-media-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .social-media-section p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .social-media-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .social-link {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .social-link.facebook {
+    background-color: #4267b2;
+  }
+  
+  .social-link.facebook:hover {
+    background-color: #365899;
+  }
+  
+  .social-link.instagram {
+    background: linear-gradient(
+      45deg,
+      #f09433,
+      #e6683c,
+      #dc2743,
+      #cc2366,
+      #bc1888
+    );
+  }
+  
+  .social-link.instagram:hover {
+    background: linear-gradient(
+      45deg,
+      #e6683c,
+      #dc2743,
+      #cc2366,
+      #bc1888,
+      #9a3e95
+    );
+  }
+  
+  .social-link.twitter {
+    background-color: #000000;
+  }
+  
+  .social-link.twitter:hover {
+    background-color: #363636;
+  }

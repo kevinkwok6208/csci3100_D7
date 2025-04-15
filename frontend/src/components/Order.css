@@ -1,45 +1,197 @@
-/* src/components/Order.css */
-
 .order-container {
-    padding: 20px;
-  }
-  
-  .order-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .order-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .order-card h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .order-card p {
-    margin: 5px 0;
-    color: #555;
-  }
-  
-  .order-card ul {
-    margin: 10px 0 0;
-    padding-left: 20px;
-  }
-  
-  .order-card ul li {
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .error-message {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+.order-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.filter-sort-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.filter-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 400px;
+}
+
+.filter-input-wrapper button {
+  color: white;
+}
+
+.filter-input-wrapper button:hover {
+  background-color: #333;
+  font-weight: bold;
+}
+
+.filter-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  flex-grow: 1;
+}
+
+.filter-button {
+  background-color: #ffcc00;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.status-filter-section {
+  display: flex;
+  gap: 10px;
+}
+
+.status-filter-button {
+  background-color: #ddd;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.status-filter-button:hover {
+  background-color: #333;
+  font-weight: bold;
+}
+
+.status-filter-button.active {
+  background-color: #ffcc00;
+  font-weight: bold;
+}
+
+.order-list {
+  margin-top: 20px;
+}
+
+.order-table {
+  width: 100%;
+  border-spacing: 0;
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Prevents corners from being clipped */
+}
+
+.order-table th {
+  background-color: #333; /* Dark grey background for the title row */
+  color: white; /* White text for the title row */
+  font-weight: bold;
+  cursor: pointer;
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Add horizontal line below header row */
+  border-left: none;
+  border-right: none;
+}
+
+.order-table td {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-top: none;
+}
+
+.order-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Light grey background for odd rows */
+}
+
+.order-table tbody tr:nth-child(even) {
+  background-color: #ffffff; /* White background for even rows */
+}
+
+.order-table tbody tr:hover {
+  background-color: #f1f1f1; /* Change row color on hover */
+}
+
+.order-table .product-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.product-quantity {
+  color: #555;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.order-id {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.status-received {
+  color: rgb(128, 55, 0);
+  font-weight: bold;
+}
+
+.status-shipped {
+  color: orange;
+  font-weight: bold;
+}
+
+/* Add numbering for products */
+.product-list {
+  list-style-type: decimal; /* Numbered list */
+  padding-left: 20px; /* Add space for numbers */
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.product-list-item {
+  margin-bottom: 5px; /* Add spacing between items */
+}
+
+.empty-history-message {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.update-status-button {
+  background-color: #ffcc00;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.update-status-button:hover {
+  background-color: #333;
+  color: #fff;
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.status-filter-button.active {
+  background-color: #ffcc00;
+  font-weight: bold;
+}

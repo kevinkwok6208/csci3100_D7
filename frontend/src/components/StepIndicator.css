@@ -1,0 +1,97 @@
+/* Step Indicator Wrapper */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto; /* Center the step indicator */
+    padding: 20px 0; /* Add spacing above and below */
+    width: 100%; /* Ensure it spans the full width */
+    max-width: 800px; /* Optional: Limit indicator width */
+    position: relative; /* Ensure proper positioning */
+    background-color: #f8f9fc; /* Light background */
+  }
+  
+  /* Step Container */
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    text-align: center;
+    color: #ccc; /* Default text color */
+  }
+  
+  .step.active {
+    color: #333; /* Highlighted text color */
+  }
+  
+  /* Circle Styles */
+  .step .circle {
+    width: 40px; /* Circle size */
+    height: 40px; /* Circle size */
+    border-radius: 50%; /* Make it round */
+    background-color: #333; /* Dark grey background */
+    color: #ffcc00; /* Yellow numbers */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .step.active .circle {
+    background-color: #ffcc00; /* Yellow for active step */
+    color: #333; /* Dark grey text for active step */
+  }
+  /* Connecting Lines */
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px; /* Align line with circles */
+  right: -50%; /* Position to connect circles */
+  height: 2px; /* Line thickness */
+  width: 100%; /* Line width */
+  background: #ddd; /* Light grey line */
+  z-index: -1;
+}
+
+.step.active:not(:last-child)::after {
+  background: #ffcc00; /* Highlighted line color for active steps */
+}
+
+  /* Step Description Text */
+  .step span {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  
+  /* Connecting Lines */
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px; /* Align line with circles */
+    right: -50%;
+    height: 2px;
+    width: 100%;
+    background: #ccc; /* Default line color */
+    z-index: -1;
+  }
+  
+  .step.active:not(:last-child)::after {
+    background: #ffcc00; /* Highlighted line color */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .step-indicator {
+      flex-direction: column; /* Stack steps vertically */
+      align-items: flex-start;
+      gap: 15px;
+    }
+  
+    .step:not(:last-child)::after {
+      display: none; /* Hide connecting lines on small screens */
+    }
+  }

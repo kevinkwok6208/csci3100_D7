@@ -1,7 +1,10 @@
 import "./AboutUs.css"; // Keep the existing styles
+import { useNavigate, Link } from "react-router-dom";
 import React from "react";
 
-function AboutUs() {
+function AboutUs({username}) {
+  const navigate = useNavigate();
+
   return (
     <div className="about-us-container">
       {/* Hero Section */}
@@ -83,7 +86,7 @@ function AboutUs() {
           Have questions or need assistance? Reach out to us, and we'll be happy
           to help!
         </p>
-        <button className="contact-button" onClick={() => alert("Redirecting to Contact Page!")}>
+        <button className="contact-button" onClick={() => navigate("/contact-us")}>
           Contact Us
         </button>
       </section>
@@ -95,13 +98,13 @@ function AboutUs() {
             <h4>Company</h4>
             <ul>
               <li>
-                <a href="about-us">About Us</a>
+                <Link to="/about-us">About Us</Link>
               </li>
               <li>
-                <a href="privacy-policy">Privacy Policy</a>
+                <Link to="/privacy-policy">Privacy Policy</Link>
               </li>
               <li>
-                <a href="return-policy">Return Policy</a>
+                <Link to="/return-policy">Return Policy</Link>
               </li>
             </ul>
           </div>
@@ -109,10 +112,10 @@ function AboutUs() {
             <h4>Guides</h4>
             <ul>
               <li>
-                <a href="how-to-search">How to Search</a>
+                <Link to="/how-to-search">How to Search</Link>
               </li>
               <li>
-                <a href="making-payment">Making Payment</a>
+                <Link to="/making-payment">Making Payment</Link>
               </li>
             </ul>
           </div>
@@ -120,10 +123,10 @@ function AboutUs() {
             <h4>Support</h4>
             <ul>
               <li>
-                <a href="FAQ">FAQ</a>
+                <Link to="/FAQ">FAQ</Link>
               </li>
               <li>
-                <a href="contact-us">Contact Us</a>
+                <Link to="/contact-us">Contact Us</Link>
               </li>
             </ul>
           </div>

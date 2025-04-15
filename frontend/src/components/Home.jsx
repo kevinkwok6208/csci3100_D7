@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect , useRef } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import productService from "../services/productService";
 import reviewService from "../services/reviewService";
 import FeaturedBooksSlider from "./FeaturedBooksSlider";
 import "./Home.css";
+import LoadingSpinner from "./LoadingSpinner"; 
 
 function Home({ isLoggedIn }) {
   const [books, setBooks] = useState([]);
@@ -15,6 +16,8 @@ function Home({ isLoggedIn }) {
   const [loadingFeatured, setLoadingFeatured] = useState(true); // Loading state for Featured Books
   const [loadingTopRatings, setLoadingTopRatings] = useState(true); // Loading state for Top Ratings
   const [loadingCategories, setLoadingCategories] = useState(true); // Loading state for Shop by Category
+  const [isVisible, setIsVisible] = useState(false);
+  const topRatingsRef = useRef(null);
   const navigate = useNavigate();
 
   const itemsPerPage = 6;
@@ -40,6 +43,8 @@ function Home({ isLoggedIn }) {
         }
       } catch (error) {
         console.error("Error fetching books:", error);
+      } finally {
+        setLoadingFeatured(false); // Simulate loading completion
       }
     }
     fetchBooks();
@@ -54,10 +59,12 @@ function Home({ isLoggedIn }) {
             const reviewsResponse = await reviewService.getProductReviews(book.productID);
             const reviews = reviewsResponse.reviews || [];
             const avgRating = reviewsResponse.avgRating || 0;
-            const highestRatedComment = reviews.reduce(
-              (max, review) => (review.Rating > (max?.Rating || 0) ? review : max),
-              null
-            );
+            const highestRatedComment = reviews.reduce((max, review) => {
+              const trimmedContent = review.content.trim(); // Trim comment content
+              return review.Rating > (max?.Rating || 0)
+                ? { ...review, content: trimmedContent }
+                : max;
+            }, null);
 
             return {
               ...book,
@@ -70,7 +77,7 @@ function Home({ isLoggedIn }) {
         const sortedBestSellers = productsWithRatings
           .filter((p) => p.avgRating > 0)
           .sort((a, b) => b.avgRating - a.avgRating)
-          .slice(0, 5);
+          .slice(0, 6);
 
         setBestSellers(sortedBestSellers);
 
@@ -78,6 +85,8 @@ function Home({ isLoggedIn }) {
         setLoadingTopRatings(false);
       } catch (error) {
         console.error("Error fetching best sellers:", error);
+      } finally {
+        setLoadingTopRatings(false); // Simulate loading completion
       }
     }
 
@@ -97,7 +106,7 @@ function Home({ isLoggedIn }) {
     if (category === "all") {
       setFilteredBooks(books);
     } else {
-      setFilteredBooks(books.filter((book) => book.category === category));
+      setFilteredBooks(books.filter((book) => book.category && book.category.name.toLowerCase() === category.toLowerCase()));
     }
   };
 
@@ -112,6 +121,25 @@ function Home({ isLoggedIn }) {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting); // Set visibility based on whether the section is in view
+      },
+      { threshold: 0} // Adjust this threshold as needed
+    );
+
+    if (topRatingsRef.current) {
+      observer.observe(topRatingsRef.current);
+    }
+
+    return () => {
+      if (topRatingsRef.current) {
+        observer.unobserve(topRatingsRef.current);
+      }
+    };
+  }, []);
 
   // Helper function to generate star symbols for rating
   const generateStars = (rating) => {
@@ -136,10 +164,10 @@ function Home({ isLoggedIn }) {
         <div className="hero-content">
           <h1>The Store That Feeds Your Mind. Visit Us Today</h1>
           <p>Where you can browse, buy, and read books in minutes.</p>
-          <div className="search-bar">
+          <div className="search-bars">
             <input
               type="text"
-              placeholder="Search by Title or Author..."
+              placeholder="Search by Title or Description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -161,18 +189,34 @@ function Home({ isLoggedIn }) {
 
       {/* Featured Books */}
       <section className="featured-books">
+      <div className="title-wrappers">
+      <h2 className="section-title">Featured Books</h2>
+      </div>
+      <p className="section-description">
+        Explore our handpicked selection of featured books, showcasing the best reads for every book lover.
+      </p>
       {loadingFeatured ? (
-        <p>Loading featured books...</p>
+        <LoadingSpinner message="Loading featured books..." />
       ) : (
         <FeaturedBooksSlider featuredBooks={featuredBooks} />
       )}
       </section>
 
-      {/* Top Ratings */}
-      <section className="best-sellers">
-        <h2 className="best-sellers-title">Top Ratings</h2>
+      {/* Top Ratings Section */}
+      <section
+        ref={topRatingsRef}
+        className={`best-sellers ${
+          isVisible ? "slide-in visible" : "slide-out hidden"
+        }`}
+      >
+        <div className="title-wrappers">
+        <h2 className="section-title-d">Top Ratings</h2>
+        </div>
+        <p className="section-description-d">
+          Discover the top-rated books loved by our readers. See what's trending and find your next favorite read.
+        </p>
         {loadingTopRatings ? (
-          <p>Loading top-rated books...</p>
+          <LoadingSpinner message="Loading top-rated books..." />
         ) : (
           <div className="product-grid best-sellers-grid">
             {bestSellers.map((book) => (
@@ -183,7 +227,7 @@ function Home({ isLoggedIn }) {
               >
                 <div className="tilted-book-wrapper">
                   <img
-                    src="https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
+                    src={book.productImages[0]}
                     alt={book.productName}
                     className="tilted-book-image"
                   />
@@ -192,7 +236,7 @@ function Home({ isLoggedIn }) {
                   <h3>{book.productName}</h3>
                   <div className="rating">{generateStars(book.avgRating)}</div>
                   {book.highestComment && (
-                    <p className="comment">{book.highestComment.content}</p>
+                    <p className="comments">{book.highestComment.content}</p>
                   )}
                 </div>
               </div>
@@ -203,9 +247,14 @@ function Home({ isLoggedIn }) {
 
       {/* Shop by Category */}
       <section className="categories">
-        <h2>Shop by Category</h2>
+      <div className="title-wrappers">
+      <h2 className="section-title">Shop by Category</h2>
+      </div>
+      <p className="section-description">
+        Browse our wide range of categories to find books that match your interests. From fiction to history, we have it all.
+      </p>
         {loadingCategories ? (
-          <p>Loading categories...</p>
+          <LoadingSpinner message="Loading featured books..." />
         ) : (
           <>
             <div className="category-buttons">
@@ -220,6 +269,23 @@ function Home({ isLoggedIn }) {
                 )
               )}
             </div>
+            <div className="search-bars">
+            <input
+              type="text"
+              placeholder="Search by Title or Description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button
+              onClick={() => {
+                handleSearch(); // Filter books
+                const categorySection = document.querySelector(".categories");
+                categorySection.scrollIntoView({ behavior: "smooth" }); // Scroll to "Shop by Category"
+              }}
+            >
+              Search
+            </button>
+          </div>
             <div className="product-grid">
               {filteredBooks
                 .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
@@ -230,7 +296,7 @@ function Home({ isLoggedIn }) {
                     onClick={() => navigate(`/products/${book.productID}`)}
                   >
                     <img
-                      src="https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
+                      src={book.productImages}
                       alt={book.productName}
                       className="product-image"
                     />
@@ -266,25 +332,25 @@ function Home({ isLoggedIn }) {
           <div>
             <h4>Company</h4>
             <ul>
-              <li><a href="about-us">About Us</a></li>
-              <li><a href="privacy-policy">Privacy Policy</a></li>
-              <li><a href="return-policy">Return Policy</a></li>
+              <li><Link to="about-us">About Us</Link></li>
+              <li><Link to="privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="return-policy">Return Policy</Link></li>
             </ul>
           </div>
 
           <div>
             <h4>Guides</h4>
             <ul>
-              <li><a href="how-to-search">How to Search</a></li>
-              <li><a href="making-payment">Making Payment</a></li>
+              <li><Link to="how-to-search">How to Search</Link></li>
+              <li><Link to="making-payment">Making Payment</Link></li>
             </ul>
           </div>
 
           <div>
             <h4>Support</h4>
             <ul>
-              <li><a href="FAQ">FAQ</a></li>
-              <li><a href="contact-us">Contact Us</a></li>
+              <li><Link to="FAQ">FAQ</Link></li>
+              <li><Link to="contact-us">Contact Us</Link></li>
             </ul>
           </div>
         </div>

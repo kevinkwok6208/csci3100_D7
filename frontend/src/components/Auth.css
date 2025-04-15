@@ -51,10 +51,10 @@
     left: 100%; /* Shift to the right of the container */
   }
   
-  /* Overlay */
-  .auth-overlay {
+  /* overlays */
+  .auth-overlays {
     position: absolute;
-    width: 50%; /* Fixed width for the overlay */
+    width: 50%; /* Fixed width for the overlays */
     height: 100%; /* Full height of the container */
     right: 0;
     top: 0;
@@ -69,12 +69,16 @@
     z-index: 2;
   }
   
-  .forms-container.sign-up-active + .auth-overlay {
+  .forms-container.sign-up-active + .auth-overlays {
     transform: translateX(-100%);
   }
   
-  .overlay-content {
+  .overlays-content {
     padding: 20px;
+  }
+
+  .overlays-content h1{
+    color: white;
   }
   
   /* Input Fields */

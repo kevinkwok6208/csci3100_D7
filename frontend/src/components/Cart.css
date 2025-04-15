@@ -1,49 +1,173 @@
-/* src/components/Cart.css */
+.cart-page {
+  background-color: #f8f9fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
 .cart-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-}
-
-.cart-table {
+  display: flex;
+  max-width: 1200px;
   width: 100%;
-  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.cart-table th,
-.cart-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+.cart-items {
+  flex: 2;
+  padding: 20px;
 }
 
-.cart-table th {
-  background-color: #f2f2f2;
+.cart-header h1{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.cart-table input {
-  width: 50px;
-  text-align: center;
+.cart-header h4{
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-weight: lighter;
 }
 
-.cart-table button {
-  background-color: #ff4d4d;
-  color: white;
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.cart-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 50px;
+}
+
+.item-details {
+  flex: 2;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-quantity button {
   border: none;
+  background: #ffcc00; /* Yellow background */
+  color: #333; /* Dark grey symbol */
   padding: 5px 10px;
   cursor: pointer;
-}
-
-.cart-table button:hover {
-  background-color: #ff1a1a;
-}
-
-.cart-total {
-  margin-top: 20px;
-  font-size: 1.5em;
+  border-radius: 5px;
+  font-size: 16px;
   font-weight: bold;
 }
 
-.error-message {
+.item-quantity span {
+  font-size: 16px;
+}
+
+.item-total {
+  flex: 1;
+  text-align: right;
+}
+
+.remove-item {
+  background: none;
+  border: none;
   color: red;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.remove-item:hover {
+  background-color: #c8c8c8;
+}
+
+.order-summarys {
+  flex: 1;
+  background-color: #333; /* Dark grey background */
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-summarys h2 {
+  margin-bottom: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffcc00; /* Yellow title */
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: white;
+}
+
+.summary-row.total {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.proceed-checkout-button {
+  margin-top: 20px;
+  width: 100%;
+  background-color: #ffcc00;
+  color: #333;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.proceed-checkout-button:hover {
+  background-color: #f5b800;
+}
+
+.empty-cart-message {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+}
+
+.order-summarys-empty {
+  text-align: center;
+  font-size: 16px;
+  color: #ccc;
+  margin-top: 20px;
+}
+
+.order-summarys-divider {
+  border: none;
+  border-top: 1px solid #ccc; /* Light gray line */
+  margin: 20px 0; /* Add vertical spacing */
+}
+
+.cart-item input[type="checkbox"] {
+  width: 20px; /* Set a smaller width */
+  height: 20px; /* Set a smaller height */
+  margin-right: 25px; /* Add spacing between the checkbox and the image */
+  accent-color: #ffcc00; /* Customize the checkbox color (modern browsers only) */
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+  vertical-align: middle; /* Align with the text and image */
+  border-radius: 12px;
 }
