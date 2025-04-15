@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import productService from '../services/productService'; // Import productService
+import './CheckoutFinish.css';
+import StepIndicator from './StepIndicator';
 
 const CheckoutFinish = ({ username }) => {
   const location = useLocation();
@@ -8,10 +11,35 @@ const CheckoutFinish = ({ username }) => {
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [allProducts, setAllProducts] = useState([]); // Add state for all products
   
-  // Get the order ID from either location state or URL query parameter
-  const orderId = location.state?.orderId || new URLSearchParams(location.search).get('token');
+  // Get the order ID from either location state, URL query parameter, or PayPal token
+  const orderId = location.state?.orderId || 
+                  new URLSearchParams(location.search).get('orderId') || 
+                  new URLSearchParams(location.search).get('token');
+                  
   const apiBaseUrl = 'http://localhost:5001'; // Hardcoded for simplicity
+
+  // Fetch all products for name lookup
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productsData = await productService.getAllProducts();
+        if (productsData && Array.isArray(productsData.products)) {
+          setAllProducts(productsData.products);
+          console.log('Fetched all products for name lookup:', productsData.products.length);
+        } else {
+          console.error("Fetched productsData.products is not an array:", productsData);
+          setAllProducts([]);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err.message);
+        setAllProducts([]);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     console.log('Location state:', location.state);
@@ -35,13 +63,28 @@ const CheckoutFinish = ({ username }) => {
       }
 
       try {
-        // Use the orderId field instead of _id for lookup
-        console.log(`Fetching order details from: ${apiBaseUrl}/api/orderhistories/order/${orderId}`);
-        const response = await axios.get(`${apiBaseUrl}/api/orderhistories/order/${orderId}`);
+        // Try multiple endpoints to find the order
+        console.log(`Attempting to fetch order details with ID: ${orderId}`);
+        
+        // First try the orderhistories endpoint
+        let response;
+        try {
+          console.log(`Trying: ${apiBaseUrl}/api/orderhistories/order/${orderId}`);
+          response = await axios.get(`${apiBaseUrl}/api/orderhistories/order/${orderId}`);
+        } catch (err) {
+          console.log('First endpoint failed, trying alternative...');
+          // If that fails, try the orders endpoint
+          console.log(`Trying: ${apiBaseUrl}/api/orders/${orderId}`);
+          response = await axios.get(`${apiBaseUrl}/api/orders/${orderId}`);
+        }
+        
         console.log('API response:', response.data);
         
-        if (response.data.success) {
-          setOrderDetails(response.data.order);
+        if (response.data.success || response.data.order || response.data._id) {
+          // Handle different response formats
+          const orderData = response.data.order || response.data;
+          setOrderDetails(orderData);
+          console.log('Successfully set order details:', orderData);
         } else {
           setError(response.data.message || 'Failed to load order details');
         }
@@ -60,6 +103,20 @@ const CheckoutFinish = ({ username }) => {
           errorMessage += ` Error: ${err.message}`;
         }
         setError(errorMessage);
+        
+        // Try to get order from orderService as a last resort
+        try {
+          console.log('Attempting to use orderService as fallback');
+          const orderService = require('../services/orderService').default;
+          const order = await orderService.getOrderById(orderId);
+          if (order) {
+            console.log('Successfully retrieved order via orderService:', order);
+            setOrderDetails(order);
+            setError(null);
+          }
+        } catch (serviceErr) {
+          console.error('orderService fallback also failed:', serviceErr);
+        }
       } finally {
         setLoading(false);
       }
@@ -73,7 +130,26 @@ const CheckoutFinish = ({ username }) => {
   };
 
   const handleViewOrders = () => {
-    navigate('/profile');
+    navigate('/order');
+  };
+
+  // Function to get product name
+  const getProductName = (product) => {
+    // First try to get product name directly from the product object
+    if (typeof product.productId === 'object' && product.productId.productName) {
+      return product.productId.productName;
+    }
+    
+    // If not available, try to find it in allProducts
+    const productId = typeof product.productId === 'object' ? product.productId._id : product.productId;
+    const foundProduct = allProducts.find(p => p._id === productId);
+    
+    if (foundProduct) {
+      return foundProduct.productName;
+    }
+    
+    // Fallback
+    return 'Product Name Not Available';
   };
 
   if (loading) {
@@ -96,7 +172,9 @@ const CheckoutFinish = ({ username }) => {
   }
 
   return (
-    <div className="checkout-finish-container">
+    <>
+      <StepIndicator currentStep={3} />
+      <div className="checkout-finish-container">
       <div className="success-header">
         <h1>Order Confirmed!</h1>
         <p>Thank you for your purchase.</p>
@@ -105,44 +183,64 @@ const CheckoutFinish = ({ username }) => {
       {orderDetails && (
         <div className="order-summary">
           <h2>Order Summary</h2>
-          <p><strong>Order ID:</strong> {orderDetails.orderId}</p>
+          <p><strong>Order ID:</strong> {orderDetails.orderId || orderDetails._id}</p>
           <p><strong>Date:</strong> {new Date(orderDetails.createdAt).toLocaleString()}</p>
-          <p><strong>Total Amount:</strong> ${orderDetails.totalPrice?.toFixed(2) || '0.00'}</p>
-          
+
+          {/* Items Purchased Table */}
           <div className="order-items">
             <h3>Items Purchased</h3>
             {orderDetails.products && orderDetails.products.length > 0 ? (
-              <ul>
-                {orderDetails.products.map((item, index) => (
-                  <li key={index}>
-                    Product ID: {item.productId.toString()} - Qty: {item.quantity} - ${item.price?.toFixed(2) || '0.00'} each
-                  </li>
-                ))}
-              </ul>
+              <table className="items-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price (Each)</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderDetails.products.map((item, index) => (
+                    <tr key={index}>
+                      <td>{getProductName(item)}</td>
+                      <td>{item.quantity}</td>
+                      <td>${item.price?.toFixed(2) || '0.00'}</td>
+                      <td>${(item.quantity * (item.price || 0)).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             ) : (
               <p>No items found in this order.</p>
             )}
           </div>
-          
-          <div className="shipping-info">
-            <h3>Shipping Information</h3>
-            <p><strong>Name:</strong> {orderDetails.Name}</p>
-            <p><strong>Address:</strong> {orderDetails.ShippingAddress}</p>
-          </div>
-          
-          <div className="payment-info">
-            <h3>Payment Information</h3>
-            <p><strong>Payment Method:</strong> PayPal</p>
-            <p><strong>Payment Status:</strong> Completed</p>
+
+          <p><strong>Total Amount:</strong> ${orderDetails.totalPrice?.toFixed(2) || '0.00'}</p>
+
+          {/* Shipping and Payment Information Side-by-Side */}
+          <div className="info-sections">
+            {/* Shipping Information */}
+            <div className="shipping-info">
+              <h3>Shipping Information</h3>
+              <p><strong>Name:</strong> {orderDetails.Name || username || 'Not available'}</p>
+              <p><strong>Address:</strong> {orderDetails.ShippingAddress || 'Not available'}</p>
+            </div>
+
+            {/* Payment Information */}
+            <div className="payment-info">
+              <h3>Payment Information</h3>
+              <p><strong>Payment Method:</strong> PayPal</p>
+              <p><strong>Payment Status:</strong> Completed</p>
+            </div>
           </div>
         </div>
       )}
-
       <div className="action-buttons">
         <button onClick={handleContinueShopping}>Continue Shopping</button>
         <button onClick={handleViewOrders}>View All Orders</button>
       </div>
     </div>
+  </>
   );
 };
 

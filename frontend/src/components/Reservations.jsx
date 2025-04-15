@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Reservations.css';
+import StepIndicator from './StepIndicator';
 
 const Reservations = ({ username: propUsername }) => {
   const location = useLocation();
@@ -27,7 +28,7 @@ const Reservations = ({ username: propUsername }) => {
 
   // Calculate total with correct calculation using quantity
   const totalPrice = cartItems.reduce((total, item) => 
-    total + (item.productPrice * (item.quantity || 1)), 0).toFixed(2);
+    total + (item.productPrice ), 0).toFixed(2);
 
   // Set up username and cart items on component mount
   useEffect(() => {
@@ -406,17 +407,19 @@ const Reservations = ({ username: propUsername }) => {
   };
 
   return (
-    <div className="reservations-container">
+    <>
+      <StepIndicator currentStep={2} />
+      <div className="reservations-container">
       <h1>Your Reservations</h1>
       
       {/* Debug information section - only show in development */}
+      {/* 
       {process.env.NODE_ENV === 'development' && (
         <div className="debug-info" style={{background: '#f0f0f0', padding: '10px', marginBottom: '20px', fontSize: '12px'}}>
-          <h4>Debug Info:</h4>
+          <h4>Order Info:</h4>
           <p>Username: {username || 'Not set'}</p>
-          <p>API Base URL: {apiBaseUrl || 'Not set'}</p>
-          <p>Cart Items: {cartItems.length}</p>
-          <p>Timer Active: {timeLeft !== null ? 'Yes' : 'No'}</p>
+          <p>Product Items: {cartItems.length}</p>
+          
         </div>
       )}
       
@@ -437,6 +440,7 @@ const Reservations = ({ username: propUsername }) => {
           {checkoutError}
         </div>
       )}
+      */}
       
       <div className="cart-summary">
         <h2>Cart Summary</h2>
@@ -456,9 +460,9 @@ const Reservations = ({ username: propUsername }) => {
               <tbody>
                 {cartItems.map((item, index) => {
                   const productName = item.productName || (item.productId?.productName || 'Unknown Product');
-                  const productPrice = Number(item.productPrice) || 0;
                   const quantity = Number(item.quantity) || 1;
-                  const subtotal = (productPrice * quantity).toFixed(2);
+                  const productPrice = Number(item.productPrice/item.quantity) || 0;
+                  const subtotal = (productPrice).toFixed(2);
                   
                   return (
                     <tr key={index}>
@@ -528,6 +532,7 @@ const Reservations = ({ username: propUsername }) => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

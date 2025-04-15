@@ -22,7 +22,6 @@ function FeaturedBooksSlider({ featuredBooks = [] }) {
   if (featuredBooks.length < 3) {
     return (
       <div className="featured-books-slider">
-        <h2>Featured Books</h2>
         <p>Not enough books to display a full slider.</p>
       </div>
     );
@@ -30,7 +29,6 @@ function FeaturedBooksSlider({ featuredBooks = [] }) {
 
   return (
     <section className="featured-books-slider">
-      <h2>Featured Books</h2>
       <div className="slider-container">
         {/* Left Arrow */}
         <button

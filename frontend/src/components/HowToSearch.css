@@ -1,0 +1,153 @@
+/* General Container */
+.how-to-search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+/* Hero Section */
+.heros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heros-content h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .heros-content p {
+    font-size: 18px;
+    color: #e0e0e0;
+    text-align: left;
+  }
+  
+  .heros-shape .circle-shape {
+    width: 100px;
+    height: 100px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+    
+  /* Steps Section */
+  .steps-section {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .steps-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .step-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .step-card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+  }
+  
+  .step-card p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* FAQ Section */
+  .faq-section {
+    margin: 40px 0;
+    text-align: center;
+  }
+  
+  .faq-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .faq-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .faq-card h3 {
+    font-size: 20px;
+    color: #222;
+    margin-bottom: 10px;
+  }
+  
+  .faq-card p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* Call to Action Section */
+  .cta-section {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .cta-section h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .cta-section p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .contact-button {
+    background-color: #ffcc00;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .contact-button:hover {
+    background-color: #f5b800;
+  }

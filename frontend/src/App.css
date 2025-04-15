@@ -7,6 +7,17 @@
   padding: 15px 30px;
   border-bottom: 1px solid #ddd;
   position: relative; /* Needed for centering the logo */
+  flex-wrap: nowrap; /* Prevent items from wrapping */
+  gap: 20px; /* Ensure spacing between sections */
+}
+
+/* User Actions (Right Side) */
+.user-actions {
+  display: flex;
+  gap: 20px; /* Space between items */
+  align-items: center;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  white-space: nowrap; /* Prevent text from wrapping inside buttons */
 }
 
 /* Center the Logo */
@@ -25,12 +36,30 @@
 }
 
 .yellow-dot {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   background-color: #ffcc00;
   border-radius: 50%; /* Make it a circle */
   display: inline-block;
   margin: 0 4px; /* Space around the dot */
+}
+
+/* Keyframe Animation for Bouncing and Squeezing */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0.05) scaleX(1.05); /* Ball at the bottom */
+  }
+  50% {
+    transform: translateY(-13px) scaleX(0.75); /* Ball moves upward and squeezes */
+  }
+  75% {
+    transform: translateY(0) scaleX(1.25); /* Ball lands and stretches slightly */
+  }
+}
+
+/* Apply Bounce Animation on Hover */
+.logo:hover .yellow-dot {
+  animation: bounce 1s ease-in-out infinite; /* Smooth bounce with delay */
 }
 
 /* Navigation Menu (Left Side) */
@@ -62,20 +91,80 @@
 }
 
 /* Order History and Shopping Cart Links */
+/* Order History and Shopping Cart Links (with SVG icons) */
+/* Order History and Shopping Cart Links (Transparent Background) */
+.home-button,
+.contact-us-button,
 .order-history,
-.shopping-cart {
-  color: #333;
-  font-size: 16px;
+.shopping-cart,
+.user-management-button,
+.product-management-button {
+  display: flex;
+  align-items: center; /* Vertically align the icons */
+  justify-content: center; /* Center the icons horizontally */
+  color: #333; /* Default icon color */
+  font-size: 14px;
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.2s;
+  padding: 5px; /* Add some padding for clickability */
+  border-radius: 50%; /* Make the clickable area circular */
+  background-color: transparent; /* Transparent background */
+  cursor: pointer;
 }
 
+.home-button:hover,
+.contact-us-button:hover,
 .order-history:hover,
-.shopping-cart:hover {
-  color: #ffcc00;
+.shopping-cart:hover,
+.user-management-button:hover,
+.product-management-button:hover {
+  color: #ffcc00; /* Highlight the icon on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
+/* Adjust SVG size */
+.order-history svg {
+  width: 32px; /* Adjust icon width */
+  height: 32px; /* Adjust icon height */
+  fill: currentColor; /* Use the current text color */
+}
+
+.shopping-cart svg {
+  width: 32px; /* Adjust the icon width */
+  height: 32px; /* Adjust the icon height */
+  fill: currentColor; /* Use the current text color */
+}
+
+.user-management-button svg {
+  width: 32px; /* Adjust the icon width */
+  height: 32px; /* Adjust the icon height */
+  fill: currentColor; /* Use the current text color */
+}
+
+.product-management-button svg {
+  width: 32px; /* Adjust the icon width */
+  height: 32px; /* Adjust the icon height */
+  fill: currentColor; /* Use the current text color */
+}
+
+/* Username (after login) */
+.username {
+  background-color: #ffcc00; /* Same yellow background as the login button */
+  color: #000; /* Black text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.username:hover {
+  background-color: #f5b800;
+}
 /* Login Button */
 .login-button {
   background-color: #ffcc00;
@@ -87,26 +176,30 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  min-width: 80px; /* Add a consistent minimum width */
+  text-align: center; /* Center text inside button */
 }
 
 .login-button:hover {
   background-color: #f5b800;
 }
 
-/* Username Link (after login) */
-.username {
-  background-color: #ffcc00; /* Same yellow background as the login button */
-  color: #000; /* Black text */
-  padding: 10px 20px; /* Same padding as the login button */
-  border: none;
-  border-radius: 25px; /* Rounded button style */
-  font-size: 14px; /* Same font size as the login button */
-  font-weight: bold;
-  text-decoration: none; /* Remove underline for links */
-  cursor: pointer; /* Pointer cursor for clickable links */
-  transition: background-color 0.3s ease; /* Smooth hover transition */
-}
+@media (max-width: 768px) {
+  .top-bar {
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    padding: 10px 20px; /* Reduce padding */
+  }
 
-.username:hover {
-  background-color: #f5b800; /* Slightly darker yellow on hover */
+  .user-actions {
+    gap: 10px; /* Reduce spacing between items */
+  }
+
+  .order-history,
+  .shopping-cart,
+  .login-button,
+  .username {
+    min-width: 100px; /* Adjust button width for smaller screens */
+    font-size: 12px; /* Reduce font size */
+    padding: 8px 15px; /* Reduce padding */
+  }
 }

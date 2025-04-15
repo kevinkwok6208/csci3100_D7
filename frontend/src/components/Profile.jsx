@@ -68,10 +68,16 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
 
   // Handle Logout
   const handleLogout = () => {
+    // Clear user-related data
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("username");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isAdmin");
+  
+    // Reset state
     setIsLoggedIn(false);
     setUsername("");
-    navigate("/");
+    navigate("/"); // Redirect to the homepage (or any other page)
   };
 
   return (
@@ -94,7 +100,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
       <div className="profile-right">
         <h1 className="profile-title">User Profile</h1>
         <div className="profile-form">
-          <div className="form-group">
+          <div className="form-groups">
             <label>Email</label>
             <input type="email" value={email} disabled />
           </div>
@@ -115,7 +121,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
             <>
               <p className="status-message success">OTP has been sent to your email.</p>
               <form onSubmit={handleResetPassword}>
-                <div className="form-group">
+                <div className="form-groups">
                   <label>OTP</label>
                   <input
                     type="text"
@@ -125,7 +131,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
                     required
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-groups">
                   <label>New Password</label>
                   <input
                     type="password"
