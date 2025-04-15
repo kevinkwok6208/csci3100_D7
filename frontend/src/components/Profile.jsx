@@ -14,6 +14,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Fetch email from localStorage on component mount
   useEffect(() => {
@@ -53,11 +54,18 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
       return;
     }
 
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
     try {
       await authService.resetPassword(email, otp, newPassword);
       setStatusMessage("Password reset successfully! You can now log in with your new password.");
       setOtp("");
       setNewPassword("");
+      setConfirmPassword("");
       setShowResetFields(false); // Hide OTP and password fields
     } catch (err) {
       setError(err.message || "Failed to reset password.");
@@ -68,16 +76,10 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
 
   // Handle Logout
   const handleLogout = () => {
-    // Clear user-related data
     localStorage.removeItem("userEmail");
-    localStorage.removeItem("username");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("isAdmin");
-  
-    // Reset state
     setIsLoggedIn(false);
     setUsername("");
-    navigate("/"); // Redirect to the homepage (or any other page)
+    navigate("/");
   };
 
   return (
@@ -100,7 +102,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
       <div className="profile-right">
         <h1 className="profile-title">User Profile</h1>
         <div className="profile-form">
-          <div className="form-groups">
+          <div className="form-group">
             <label>Email</label>
             <input type="email" value={email} disabled />
           </div>
@@ -121,7 +123,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
             <>
               <p className="status-message success">OTP has been sent to your email.</p>
               <form onSubmit={handleResetPassword}>
-                <div className="form-groups">
+                <div className="form-group">
                   <label>OTP</label>
                   <input
                     type="text"
@@ -131,7 +133,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
                     required
                   />
                 </div>
-                <div className="form-groups">
+                <div className="form-group">
                   <label>New Password</label>
                   <input
                     type="password"
@@ -141,6 +143,17 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
                     required
                   />
                 </div>
+                <div className="form-group">
+                  <label>Confirm New Password</label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                    />
+                </div>
+                {error && <div className="error-message">{error}</div>}
                 <button
                   type="submit"
                   className="reset-password-button"

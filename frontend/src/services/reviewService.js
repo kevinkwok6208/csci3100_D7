@@ -17,7 +17,7 @@ const reviewService = {
 
     // Add a review for a specific product
     addProductReview: async (productID, reviewData) => {
-        const response = await fetch(`/api/reviews/products/${productID}`, {
+        const response = await fetch(`/api/reviews/products/${productID}/user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

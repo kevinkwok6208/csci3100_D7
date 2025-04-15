@@ -296,7 +296,7 @@ function Home({ isLoggedIn }) {
                     onClick={() => navigate(`/products/${book.productID}`)}
                   >
                     <img
-                      src={book.productImages}
+                      src={book.productImages[0]}
                       alt={book.productName}
                       className="product-image"
                     />

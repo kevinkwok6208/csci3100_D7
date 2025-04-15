@@ -15,8 +15,12 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
   const [error, setError] = useState(null); // Error messages
   const [statusMessage, setStatusMessage] = useState(""); // Temporary success messages
   const [successMessage, setSuccessMessage] = useState(""); // Persistent success message for login form
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle the state
+  };
 
   // Handle Login
   const handleLogin = async (e) => {
@@ -142,13 +146,21 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               required
             />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               className="input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <label className="show-password-label">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={togglePasswordVisibility}
+              />
+              Show Password
+            </label>
             <button className="auth-button" type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -232,16 +244,16 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
         </div>
       </div>
 
-      {/* overlays */}
-      <div className="auth-overlays">
-        <div className="overlays-content">
+      {/* Overlay */}
+      <div className="auth-overlay">
+        <div className="overlay-content">
           <h1>{isSignUp ? "Welcome Back!" : "Hello, Friend!"}</h1>
           <p>
             {isSignUp
               ? "Already have an account? Login to stay connected."
               : "Don't have an account? Sign up and join us today!"}
           </p>
-          <button className="auth-button toggle-overlays" onClick={toggleForm}>
+          <button className="auth-button toggle-overlay" onClick={toggleForm}>
             {isSignUp ? "Login" : "Sign Up"}
           </button>
         </div>
