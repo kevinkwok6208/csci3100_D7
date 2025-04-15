@@ -16,6 +16,7 @@ const productRoutes = require('./routes/product.js');
 const orderHistoryRoutes = require('./routes/orderHistory');
 const searchRoutes = require('./routes/search');
 const reviewRoutes = require('./routes/reviews');
+const categoryRoutes = require('./routes/category');
 
 class Server {
     constructor() {
@@ -48,6 +49,7 @@ class Server {
         this.app.use('/api/orderhistories', orderHistoryRoutes)
         this.app.use('/api/search', searchRoutes);
         this.app.use('/api/reviews', reviewRoutes);
+        this.app.use('/api/categories', categoryRoutes);
 
     }
 

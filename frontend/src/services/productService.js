@@ -14,6 +14,21 @@ const productService = {
     return response.json();
   },
   
+  // Get all categories
+  getAllCategories: async () => {
+    const response = await fetch('/api/categories', {
+      credentials: 'include'
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to get categories');
+    }
+    
+    const data = await response.json();
+    return data.categories; // Return just the categories array
+  },
+  
   // Get product by ID
   getProductById: async (productID) => {
     console.log('Fetching product by productID:', productID); // Debugging
@@ -40,6 +55,7 @@ const productService = {
     formData.append('productDescription', productData.productDescription);
     formData.append('productPrice', productData.productPrice);
     formData.append('productStorage', productData.productStorage);
+    formData.append('categoryName', productData.categoryName);
     
     // Add image files
     if (productData.productImage && productData.productImage.length > 0) {
@@ -71,7 +87,8 @@ const productService = {
     if (productData.productDescription) formData.append('productDescription', productData.productDescription);
     if (productData.productPrice) formData.append('productPrice', productData.productPrice);
     if (productData.productStorage) formData.append('productStorage', productData.productStorage);
-    
+    if (productData.categoryName) formData.append('categoryName', productData.categoryName);
+
     // Add image files
     if (productData.productImage && productData.productImage.length > 0) {
       productData.productImage.forEach(file => {
@@ -141,6 +158,25 @@ const productService = {
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Failed to delete product');
+    }
+    
+    return response.json();
+  },
+
+  //update category
+  updateCategory: async (productID, categoryName) => {
+    const response = await fetch(`/api/products/${productID}/category`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ categoryName }),
+      credentials: 'include'
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to update category');
     }
     
     return response.json();

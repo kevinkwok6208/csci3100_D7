@@ -3,7 +3,7 @@ const Comment = require('../models/Comments');
 class ProductDisplayService {
     async getAllProducts() {
         try {
-            const products = await Product.find();
+            const products = await Product.find().populate('category');
             return products;
         } catch (err) {
             console.error('Error fetching products:', err);
@@ -13,7 +13,7 @@ class ProductDisplayService {
 
     async getProductById(productId) {
         try {
-            const product = await Product.findOne({productID:productId});
+            const product = await Product.findOne({productID:productId}).populate('category');
             if (!product) {
                 throw new Error('Product not found');
             }

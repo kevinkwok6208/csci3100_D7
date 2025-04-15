@@ -7,6 +7,8 @@ const ProductManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [addingProduct, setAddingProduct] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   
   const [newProduct, setNewProduct] = useState({
     productID: '',
@@ -14,6 +16,7 @@ const ProductManagement = () => {
     productDescription: '',
     productPrice: '',
     productStorage: '',
+    categoryName: '',
     productImage: [] // Keep as is for now to avoid breaking existing code
   });
 
@@ -23,6 +26,7 @@ const ProductManagement = () => {
     productDescription: '',
     productPrice: '',
     productStorage: '',
+    categoryName: '',
     productImage: [] // Keep as is for now to avoid breaking existing code
   });
 
@@ -41,7 +45,30 @@ const ProductManagement = () => {
         setLoading(false);
       }
     }
+    
+    async function fetchCategories() {
+      try {
+        setCategoriesLoading(true);
+        const response = await fetch('/api/categories');
+        const data = await response.json();
+        console.log('Categories data:', data); // Debug log
+        
+        // Extract the categories array from the response
+        if (data && data.success && Array.isArray(data.categories)) {
+          setCategories(data.categories);
+        } else {
+          setCategories([]);
+        }
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        setCategories([]);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    }
+    
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const handleDelete = async (productId) => {
@@ -59,11 +86,31 @@ const ProductManagement = () => {
 
   const handleUpdate = async (productId) => {
     try {
-      const response = await productService.updateProduct(productId, newProduct);
+      // First, check if category is being updated
+      const originalProduct = products.find(p => p.productID === productId);
+      const originalCategoryName = originalProduct.category ? originalProduct.category.name : '';
+      
+      // If category name has changed, update it using the dedicated endpoint
+      if (newProduct.categoryName && newProduct.categoryName !== originalCategoryName) {
+        await productService.updateCategory(productId, newProduct.categoryName);
+      }
+      
+      // Create a copy of newProduct without categoryName for the general update
+      const productDataForUpdate = { ...newProduct };
+      delete productDataForUpdate.categoryName; // Remove categoryName as it's handled separately
+      
+      // Then update the rest of the product data
+      const response = await productService.updateProduct(productId, productDataForUpdate);
+      
+      // Fetch the updated product to ensure we have the latest data
+      const updatedProductResponse = await productService.getProductById(productId);
+      const updatedProduct = updatedProductResponse.product;
+      
       // Update the products list with the updated product
       setProducts(products.map(product => 
-        product.productID === productId ? response.product : product
+        product.productID === productId ? updatedProduct : product
       ));
+      
       setEditingProductId(null); // Reset editing state
       setUploadError(''); // Clear any previous upload error
     } catch (err) {
@@ -79,6 +126,7 @@ const ProductManagement = () => {
       productDescription: product.productDescription,
       productPrice: product.productPrice,
       productStorage: product.productStorage,
+      categoryName: product.category ? product.category.name : '',
       productImage: [] // Reset images array since we can't edit existing images directly
     });
     setEditingProductId(product.productID); // Set the ID of the product being edited
@@ -148,6 +196,7 @@ const ProductManagement = () => {
         productDescription: '',
         productPrice: '',
         productStorage: '',
+        categoryName: '',
         productImage: []
       });
       setUploadError(''); // Clear any previous upload error
@@ -205,6 +254,23 @@ const ProductManagement = () => {
           onChange={(e) => setAddProduct({ ...addProduct, productStorage: e.target.value })}
         />
         
+        <label>Category:</label>
+        <select
+          value={addProduct.categoryName}
+          onChange={(e) => setAddProduct({ ...addProduct, categoryName: e.target.value })}
+        >
+          <option value="">Select a category</option>
+          {categories && categories.length > 0 ? (
+            categories.map(category => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ))
+          ) : (
+            <option disabled>No categories available</option>
+          )}
+        </select>
+        
         <label>Upload Images:</label>
         <input
           type="file"
@@ -235,6 +301,7 @@ const ProductManagement = () => {
             <th>Description</th>
             <th>Price</th>
             <th>Stock</th>
+            <th>Category</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -246,6 +313,7 @@ const ProductManagement = () => {
               <td>{product.productDescription}</td>
               <td>{product.productPrice}</td>
               <td>{product.productStorage}</td>
+              <td>{product.category ? product.category.name : 'None'}</td>
               <td>
                 <button onClick={() => handleEdit(product)}>Update</button>
                 <button onClick={() => handleDelete(product.productID)}>Delete</button>
@@ -283,6 +351,23 @@ const ProductManagement = () => {
             value={newProduct.productStorage}
             onChange={(e) => setNewProduct({ ...newProduct, productStorage: e.target.value })}
           />
+          
+          <label>Update Category:</label>
+          <select
+            value={newProduct.categoryName}
+            onChange={(e) => setNewProduct({ ...newProduct, categoryName: e.target.value })}
+          >
+            <option value="">Select a category</option>
+            {categories && categories.length > 0 ? (
+              categories.map(category => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>No categories available</option>
+            )}
+          </select>
           
           <label>Upload Images:</label>
           <input

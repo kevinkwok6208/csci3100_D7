@@ -3,7 +3,7 @@ const router = express.Router();
 const categoryController = require('../controllers/categoryController');
 
 // Public routes
-/* "http://localhost:5001/api/categories"
+/* "https://localhost:5443/api/categories"
     Parameters: None
     Function: Returns all categories from the database
     Method: GET
