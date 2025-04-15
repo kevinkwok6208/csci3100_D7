@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import productService from "../services/productService"; // Corrected import path
 import './ProductManagement.css';
 
@@ -6,9 +6,16 @@ const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [fileError, setFileError] = useState(null);
+  const [addFileError, setAddFileError] = useState(null);
   const [addingProduct, setAddingProduct] = useState(true);
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const fileInputRef = useRef(null);
+  const [editingProductId, setEditingProductId] = useState(null); // Track the product being edited
+  const [uploadError, setUploadError] = useState(''); // State for upload error message
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   
   const [newProduct, setNewProduct] = useState({
     productID: '',
@@ -29,9 +36,6 @@ const ProductManagement = () => {
     categoryName: '',
     productImage: [] // Keep as is for now to avoid breaking existing code
   });
-
-  const [editingProductId, setEditingProductId] = useState(null); // Track the product being edited
-  const [uploadError, setUploadError] = useState(''); // State for upload error message
 
   useEffect(() => {
     async function fetchProducts() {
@@ -85,6 +89,7 @@ const ProductManagement = () => {
   };
 
   const handleUpdate = async (productId) => {
+    setUpdateLoading(true);
     try {
       // First, check if category is being updated
       const originalProduct = products.find(p => p.productID === productId);
@@ -117,6 +122,7 @@ const ProductManagement = () => {
       console.error("Error updating product:", err);
       setError(err.message || "Failed to update product.");
     }
+    setUpdateLoading(false);
   };
 
   const handleEdit = (product) => {
@@ -127,36 +133,58 @@ const ProductManagement = () => {
       productPrice: product.productPrice,
       productStorage: product.productStorage,
       categoryName: product.category ? product.category.name : '',
-      productImage: [] // Reset images array since we can't edit existing images directly
+      productImage: product.productImages || []// Reset images array since we can't edit existing images directly
     });
-    setEditingProductId(product.productID); // Set the ID of the product being edited
-    setUploadError(''); // Reset upload error on edit
+    setFileError(null);
+    setEditingProductId(product.productID);
+    setUploadError('');
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
+    const newFiles = Array.from(e.target.files);
     const validFiles = [];
     let errorMessage = '';
+    const tmpFiles = [...newProduct.productImage, ...newFiles]
+    setFileError(null);
 
-    files.forEach(file => {
+    if (tmpFiles.length > 3) {
+      errorMessage = 'You cannot upload more than 3 images.';
+      setFileError(errorMessage);
+      fileInputRef.current.value = '';
+      return;
+    }
+
+    newFiles.forEach(file => {
       const isValidType = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
       const isValidSize = file.size <= 2 * 1024 * 1024; // < 2 MB
 
       if (isValidType && isValidSize) {
         validFiles.push(file);
+        console.log(file);
       } else {
         errorMessage = 'Invalid file format or size. Please upload JPEG, JPG, or PNG files under 2MB.';
       }
     });
-
-    setNewProduct({ ...newProduct, productImage: validFiles });
+    console.log("productId",editingProductId);
+    const updatesFiles = [...newProduct.productImage, ...validFiles];
+    setNewProduct({ ...newProduct, productImage: updatesFiles });
+    // handleUpdate(productId);
     setUploadError(errorMessage); // Set the error message if there are invalid files
+
   };
  
   const handleFileChangeAdd = (e) => {
     const files = Array.from(e.target.files);
     const validFiles = [];
     let errorMessage = '';
+    setAddFileError(null);
+
+    if (files.length > 3) {
+      errorMessage = 'You cannot upload more than 3 images.';
+      setAddFileError(errorMessage);
+      fileInputRef.current.value = '';
+      return;
+    }
 
     files.forEach(file => {
       const isValidType = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
@@ -164,6 +192,7 @@ const ProductManagement = () => {
 
       if (isValidType && isValidSize) {
         validFiles.push(file);
+        console.log(file);
       } else {
         errorMessage = 'Invalid file format or size. Please upload JPEG, JPG, or PNG files under 2MB.';
       }
@@ -179,12 +208,18 @@ const ProductManagement = () => {
       setAddProduct({ ...addProduct, productImage: updatedImages });
     } else {
       const updatedImages = newProduct.productImage.filter((_, index) => index !== imageIndex);
-      setNewProduct({ ...newProduct, productImage: updatedImages });
+      console.log(updatedImages);
+      setNewProduct({ ...newProduct, productImage: updatedImages});
     }
     setUploadError(''); // Clear error message when an image is deleted
   };
 
+  useEffect(() => {
+    console.log('Updated newProduct:', newProduct);
+  }, [newProduct]);
+
   const handleAddProduct = async () => {
+    setAddLoading(true);
     try {
       const response = await productService.addProduct(addProduct);
       // Add the new product to the list
@@ -204,6 +239,7 @@ const ProductManagement = () => {
       console.error("Error adding product:", err);
       setError(err.message || "Failed to add product.");
     }
+    setAddLoading(false);
   };
 
   const handleToggleAddProduct = () => {
@@ -277,6 +313,7 @@ const ProductManagement = () => {
           multiple
           accept="image/jpeg,image/jpg,image/png"
           onChange={handleFileChangeAdd}
+          ref={fileInputRef}
         />
         <div className="image-preview">
           {Array.isArray(addProduct.productImage) && addProduct.productImage.map((image, index) => (
@@ -285,11 +322,12 @@ const ProductManagement = () => {
               <button onClick={() => handleDeleteImage(index, true)}>Delete</button>
             </div>
           ))}
+        {setAddFileError && <p>{addFileError}</p>}
         </div>
 
         {uploadError && <div className="error-message">{uploadError}</div>} {/* Error message for invalid uploads */}
         
-        <button onClick={handleAddProduct}>Add Product</button>
+        <button onClick={handleAddProduct}>{addLoading?"Adding...":"Add Product"}</button>
       </div>)}
 
       {/* Existing Products Table */}
@@ -375,19 +413,22 @@ const ProductManagement = () => {
             multiple
             accept="image/jpeg,image/jpg,image/png"
             onChange={handleFileChange}
+            ref={fileInputRef}
           />
           <div className="image-preview">
             {Array.isArray(newProduct.productImage) && newProduct.productImage.map((image, index) => (
               <div key={index}>
-                <span>{image.name}</span>
+                <p>{index}</p>
+                <img src = {image} alt={image.name}/>
                 <button onClick={() => handleDeleteImage(index, false)}>Delete</button>
               </div>
             ))}
+            {setFileError && <p>{fileError}</p>}
           </div>
 
           {uploadError && <div className="error-message">{uploadError}</div>} {/* Error message for invalid uploads */}
           
-          <button onClick={() => handleUpdate(editingProductId)}>Confirm Update</button>
+          <button onClick={() => handleUpdate(editingProductId)}>{updateLoading ? "Updating...":"Confirm Update"}</button>
         </div>
       )}
     </div>

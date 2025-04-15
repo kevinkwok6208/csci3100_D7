@@ -15,8 +15,12 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
   const [error, setError] = useState(null); // Error messages
   const [statusMessage, setStatusMessage] = useState(""); // Temporary success messages
   const [successMessage, setSuccessMessage] = useState(""); // Persistent success message for login form
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle the state
+  };
 
   // Handle Login
   const handleLogin = async (e) => {
@@ -142,13 +146,21 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               required
             />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               className="input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <label className="show-password-label">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={togglePasswordVisibility}
+              />
+              Show Password
+            </label>
             <button className="auth-button" type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>

@@ -14,6 +14,42 @@ body {
   padding: 20px;
 }
 
+/* Section Titles (Featured Books, Top Ratings, Shop by Category) */
+.section-title {
+  font-size: 32px; /* Consistent large font size */
+  font-weight: bold; /* Make titles bold */
+  text-align: center; /* Center-align all titles */
+  margin-bottom: 2px; /* Space between title and description */
+  color: #222; /* Dark text for visibility */
+  margin-left: 4px;
+}
+
+/* Section Descriptions */
+.section-description {
+  font-size: 16px; /* Smaller font for descriptions */
+  color: #555; /* Muted text color */
+  text-align: center; /* Center-align descriptions */
+  margin-bottom: 5px; /* Space between description and content */
+  line-height: 1.6; /* Improve readability */
+}
+
+.section-title-d {
+  font-size: 32px; /* Consistent large font size */
+  font-weight: bold; /* Make titles bold */
+  text-align: center; /* Center-align all titles */
+  margin-bottom: 2px; /* Space between title and description */
+  color: white; /* Dark text for visibility */
+  margin-left: 4px;
+}
+
+.section-description-d {
+  font-size: 16px; /* Smaller font for descriptions */
+  color: #bcbcbc; /* Muted text color */
+  text-align: center; /* Center-align descriptions */
+  margin-bottom: 5px; /* Space between description and content */
+  line-height: 1.6; /* Improve readability */
+}
+
 /* Hero Section */
 .hero {
   display: flex;
@@ -22,7 +58,6 @@ body {
   background-color: #fffdf6;
   border-radius: 12px;
   padding: 40px;
-  margin-bottom: 40px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -39,33 +74,44 @@ body {
   color: #555;
 }
 
-.hero-content .search-bar {
-  display: flex;
-  gap: 10px;
+.hero-content .search-bars,
+.categories .search-bars {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically align items */
+  gap: 10px; /* Space between input and button */
 }
 
-.hero-content .search-bar input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  flex: 1;
+.hero-content .search-bars input,
+.categories .search-bars input,
+.hero-content .search-bars button,
+.categories .search-bars button {
+  box-sizing: border-box; /* Include padding and border in the height/width */
+  height: 50px; /* Ensure both elements have the same height */
+  padding: 0 10px; /* Add consistent padding */
+  border: 1px solid #ccc; /* Add a border for both */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Ensure font size matches */
 }
 
-.hero-content .search-bar button {
-  padding: 10px 20px;
-  background-color: #ffcc00;
-  color: #000;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.hero-content .search-bars input,
+.categories .search-bars input {
+  flex: 1; /* Input takes up remaining space */
 }
 
-.hero-content .search-bar button:hover {
-  background-color: #f5b800;
+.hero-content .search-bars button,
+.categories .search-bars button {
+  background-color: #ffcc00; /* Button color */
+  font-size: 14px;
+  color: #000; /* Text color */
+  border: none; /* Remove default border */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.hero-content .search-bars button:hover,
+.categories .search-bars button:hover {
+  background-color: #f5b800; /* Slightly darker yellow on hover */
 }
 
 .hero-shape {
@@ -83,36 +129,19 @@ body {
 }
 
 /* Full-Width Background Sections */
-.featured-books,
-.best-sellers {
+.featured-books{
   width: 100%; /* Full screen width */
   padding: 40px 5vw; /* Add horizontal padding */
   box-sizing: border-box;
 }
 
-.featured-books {
-  /*background-color: #fffdf6; /* Light yellow background */
-}
-
 .best-sellers {
+  width: 100vw; /* Full browser width */
+  margin-left: calc(-50vw + 50%); /* Center align the section */
   background-color: #333; /* Dark grey background */
-  color: white; /* White text */
-}
-
-.featured-books h2 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333; /* Dark color for Featured Books title */
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.best-sellers h2 {
-  font-size: 28px;
-  font-weight: bold;
-  color: white; /* White title for Best Sellers */
-  margin-bottom: 20px;
-  text-align: center;
+  color: white;
+  padding: 40px 5vw; /* Add horizontal padding */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 /* Product Grid */
@@ -212,24 +241,32 @@ body {
   margin-right: 5px;
 }
 
-.book-info .comment {
+.book-info .comments {
   font-size: 16px;
-  color: #ccc; /* Light grey for comments */
+  color: #ccc; /* Light grey for commentss */
   line-height: 1.5;
+  margin: 0; /* Reset margin */
+  padding: 0; /* Reset padding */
 }
 
-.book-info .comment::before {
+.book-info .comments::before {
   content: '“'; /* Open quotation mark */
   font-size: 24px;
   vertical-align: top;
   margin-right: 5px;
 }
 
-.book-info .comment::after {
+.book-info .comments::after {
   content: '”'; /* Close quotation mark */
   font-size: 24px;
   vertical-align: bottom;
   margin-left: 5px;
+}
+
+.book-info .comments::before,
+.book-info .comments::after {
+  display: inline; /* Prevent line breaks */
+  margin: 0; /* Remove unnecessary space */
 }
 
 /* Pagination */
@@ -250,6 +287,7 @@ body {
   font-size: 14px;
   font-weight: bold;
   transition: background-color 0.3s;
+  margin-bottom: 40px;
 }
 
 .pagination button:disabled {
@@ -263,10 +301,13 @@ body {
 
 /* Footer */
 .footer {
-  background-color: #333;
+  width: 100vw; /* Full browser width */
+  margin-left: calc(-50vw + 50%); /* Center align */
+  background-color: #333; /* Dark grey background */
   color: white;
-  padding: 40px;
-  position: relative; /* For positioning the circle */
+  padding: 40px 5vw; /* Add padding to the content */
+  box-sizing: border-box; /* Include padding in width */
+  position: relative; /* Maintain relative positioning for child elements */
 }
 
 .footer .max-w-6xl {
@@ -344,6 +385,7 @@ body {
   justify-content: center; /* Center the buttons */
   gap: 10px; /* Space between buttons */
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .category-buttons button {
@@ -402,44 +444,47 @@ body {
   color: #666;
 }
 
-/* Best Sellers - Comment Styling */
+/* Best Sellers - comments Styling */
 .book-info .rating {
   margin-bottom: 10px; /* Add space below the stars */
 }
 
-.book-info .comment {
+.book-info .comments {
   font-size: 16px;
   color: #ccc; /* Light grey text */
   line-height: 1.5;
-  text-align: left; /* Align comments to the left */
-  margin: 15px 0; /* Add even spacing above and below the comment */
+  text-align: left; /* Align commentss to the left */
+  margin: 15px 0; /* Add even spacing above and below the comments */
   position: relative; /* For the quotation marks */
 }
 
-.book-info .comment::before {
+.book-info .comments::before {
   content: "“"; /* Open quotation mark */
   font-size: 48px; /* Large size */
   font-weight: bold;
   color: #ffcc00; /* Yellow color for quotes */
-  line-height: 1; /* Align with the comment */
+  line-height: 1; /* Align with the comments */
   display: block; /* Ensure it appears on a new line */
-  margin-bottom: 5px; /* Space below the open quotation mark */
+  margin-bottom: 0px; /* Space below the open quotation mark */
 }
 
-.book-info .comment::after {
+.book-info .comments::after {
   content: "”"; /* Close quotation mark */
   font-size: 48px; /* Large size */
   font-weight: bold;
   color: #ffcc00; /* Yellow color for quotes */
-  line-height: 1; /* Align with the comment */
+  line-height: 1; /* Align with the comments */
   display: block; /* Ensure it appears on a new line */
-  margin-top: 5px; /* Space above the close quotation mark */
+  margin-top: 20px; /* Space above the close quotation mark */
 }
 
 .sign-in-prompt {
+  width: 100vw; /* Full browser width */
+  margin-left: calc(-50vw + 50%); /* Center align */
+  background-color: #ffefc5; /* Light yellow background */
   text-align: center;
-  margin-top: 40px;
-  background-color: #ffefc5;
+  padding: 40px 5vw; /* Add padding to the content */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 .sign-in-prompt h2 {
@@ -486,3 +531,180 @@ body {
   color: #555;
 }
 
+/* Sliding Animations */
+.slide-in {
+  transform: translateX(100vw); /* Start off-screen to the right */
+  opacity: 0; /* Fully transparent */
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out; /* Smooth slide-in */
+}
+
+.slide-in.visible {
+  transform: translateX(0); /* Slide into view */
+  opacity: 1; /* Fully visible */
+}
+
+.slide-out {
+  transform: translateX(0); /* Start in its current position */
+  opacity: 1; /* Fully visible */
+  transition: transform 0.8s ease-in, opacity 0.8s ease-in; /* Smooth slide-out */
+}
+
+.slide-out.hidden {
+  transform: translateX(-100vw); /* Slide out to the left */
+  opacity: 0; /* Fully transparent */
+}
+
+/* Title Wrapper for Flexbox Layout */
+.title-wrappers {
+  display: flex;
+  align-items: center; /* Align title and dots vertically */
+  justify-content: center; /* Center the entire content */
+  gap: 10px; /* Space between dots and title */
+  position: relative; /* Allow positioning of pseudo-elements */
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 32px; /* Consistent large font size */
+  font-weight: bold; /* Make titles bold */
+  color: #222; /* Dark text color */
+  text-align: center;
+}
+
+/* Yellow Dots */
+/* Yellow Dots */
+.title-wrappers::before,
+.title-wrappers::after {
+  content: ""; /* No text, just a visual dot */
+  width: 8px; /* Size of the dot */
+  height: 8px; /* Size of the dot */
+  background-color: #ffcc00; /* Yellow color */
+  border-radius: 50%; /* Make it circular */
+  animation: bouncing 1.5s infinite ease-in-out; /* Add bounce animation */
+  transform: translateY(0); /* Start at the middle line */
+}
+
+/* Left Dot */
+.title-wrappers::before {
+  margin-right: 10px; /* Space between the dot and the title */
+  animation-delay: 0s; /* Start bouncing immediately */
+}
+
+/* Right Dot */
+.title-wrappers::after {
+  margin-left: 10px; /* Space between the dot and the title */
+  animation-delay: 0s; /* Delay the bounce for a staggered effect */
+}
+/* Keyframe Animation for Bouncing and Squeezing */
+@keyframes bouncing {
+  0%, 100% {
+    transform: translateY(100%) scaleX(1.2); /* Ball at the bottom */
+  }
+  50% {
+    transform: translateY(-100%) scaleX(0.8); /* Ball moves upward and squeezes */
+  }
+}
+
+/* Responsive Design */
+
+/* Tablets (width <= 1024px) */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column; /* Stack hero content vertically */
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 36px; /* Adjust font size */
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .hero-content .search-bars {
+    flex-direction: column; /* Stack input and button */
+    gap: 10px; /* Space between input and button */
+  }
+
+  .hero-shape {
+    margin-top: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust grid layout */
+  }
+
+  .best-sellers-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust for smaller screens */
+  }
+
+  .pagination {
+    flex-direction: column; /* Stack pagination buttons */
+    gap: 10px; /* Add space between buttons */
+  }
+
+  .footer .max-w-6xl {
+    flex-wrap: wrap; /* Allow wrapping for footer links */
+    gap: 20px; /* Add space between sections */
+  }
+}
+
+/* Mobile Phones (width <= 768px) */
+@media (max-width: 768px) {
+  .hero {
+    padding: 20px; /* Reduce padding */
+  }
+
+  .hero-content h1 {
+    font-size: 30px; /* Reduce font size */
+  }
+
+  .hero-content p {
+    font-size: 14px;
+  }
+
+  .pagination {
+    flex-direction: column; /* Stack pagination buttons */
+    gap: 5px;
+  }
+
+  .footer {
+    text-align: center; /* Center footer content */
+  }
+
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust grid layout */
+  }
+}
+
+/* Small Mobile Phones (width <= 480px) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 10px; /* Further reduce padding */
+  }
+
+  .hero-content h1 {
+    font-size: 24px; /* Further reduce font size */
+  }
+
+  .hero-content p {
+    font-size: 12px;
+  }
+
+  .hero-content .search-bars {
+    flex-direction: column; /* Stack input and button */
+    gap: 10px;
+  }
+
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: 1fr; /* Single column for small screens */
+  }
+
+  .footer .max-w-6xl {
+    flex-direction: column; /* Stack footer links vertically */
+    gap: 10px;
+  }
+}

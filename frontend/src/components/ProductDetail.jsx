@@ -5,7 +5,7 @@ import cartService from "../services/cartService";
 import reviewService from "../services/reviewService";
 import "./ProductDetail.css";
 
-function ProductDetail({ username }) {
+function ProductDetail({ username, token }) {
   const { id: productID } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -16,6 +16,10 @@ function ProductDetail({ username }) {
   const [avgRating, setAvgRating] = useState(null);
   const [reviewError, setReviewError] = useState(null);
   const [cartMessage, setCartMessage] = useState("");
+  const [newReview, setNewReview] = useState({ content: "", rating: 5 });
+  const [submitError, setSubmitError] = useState("");
+  const [loadingAddToCart, setLoadingAddToCart] = useState(false);
+  const [loadingSubmitReview, setLoadingSubmitReview] = useState(false);
 
   // Fetch product details
   useEffect(() => {
@@ -59,10 +63,11 @@ function ProductDetail({ username }) {
       navigate("/login");
       return;
     }
-  
+    setLoadingAddToCart(true);
     try {
       if (quantity > (product.productStorage - product.productReservation)) {
         setCartMessage("Out of stock, please lower the quantity");
+        setLoadingAddToCart(false);
         return;
       }
       await cartService.addToCart(username, product.productID, quantity);
@@ -73,6 +78,7 @@ function ProductDetail({ username }) {
       setTimeout(() => {
         setCartMessage("");
       }, 2000);
+      setLoadingAddToCart(false);
     } catch (err) {
       console.error("Error adding to cart:", err);
       setCartMessage(err.message || "Failed to add product to cart");
@@ -81,9 +87,43 @@ function ProductDetail({ username }) {
       setTimeout(() => {
         setCartMessage("");
       }, 2000);
+      setLoadingAddToCart(true);
     }
   };
+
+  const handleReviewChange = (e) => {
+    const { name, value } = e.target;
+    setNewReview((prev) => ({ ...prev, [name]: value }));
+  };
   
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!username) {
+      navigate("/login");
+      return;
+    }
+    setLoadingSubmitReview(true);
+    try {
+      const reviewData = {
+        username: username,
+        content: newReview.content,
+        rating: newReview.rating,
+      };
+      console.log(reviewData);
+      await reviewService.addProductReview(productID, reviewData, username);
+      setNewReview({ content: "", rating: 5 }); // Reset the review form
+      setSubmitError(""); // Clear previous errors
+      // Re-fetch reviews
+      const reviewsResponse = await reviewService.getProductReviews(productID);
+      setReviews(reviewsResponse.reviews);
+      setAvgRating(reviewsResponse.avgRating || null);
+      setLoadingSubmitReview(false);
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      setSubmitError(err.message || "Failed to submit review");
+      setLoadingSubmitReview(false);
+    }
+  };
 
   if (loading) return <p>Loading product details...</p>;
   if (error) return <p className="error-message">{error}</p>;
@@ -96,7 +136,7 @@ function ProductDetail({ username }) {
       </button>
       <div className="product-detail">
         <img
-          src={product.productImage || "https://via.placeholder.com/300"}
+          src={product.productImages[0] || "https://via.placeholder.com/300"}
           alt={product.productName || "Product Image"}
           className="product-image"
         />
@@ -129,7 +169,7 @@ function ProductDetail({ username }) {
             onChange={(e) => setQuantity(e.target.value)}
           />
           <button className="add-to-cart-button" onClick={handleAddToCart}>
-            Add to Cart
+            {loadingAddToCart ? "Adding to Cart...":"Add to Cart"}
           </button>
           
           {/* Display the cart message */}
@@ -140,6 +180,33 @@ function ProductDetail({ username }) {
       {/* Reviews Section */}
       <div className="reviews-section">
         <h2>Customer Reviews</h2>
+          {/* Add Review Form */}
+          <form onSubmit={handleSubmitReview} className="review-form">
+            <h3>Add a Review</h3>
+            {submitError && <p className="error-message">{submitError}</p>}
+            <textarea
+              name="content"
+              value={newReview.content}
+              onChange={handleReviewChange}
+              placeholder="Write your review here..."
+              required
+            />
+            <select
+              name="rating"
+              value={newReview.rating}
+              onChange={handleReviewChange}
+              required
+            >
+              <option value="1">1 Star</option>
+              <option value="2">2 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="5">5 Stars</option>
+            </select>
+            <button type="submit">
+              {loadingSubmitReview ? "Submitting Review...":"Submit Review"}
+            </button>
+          </form>
         {reviewError && <p className="error-message">{reviewError}</p>}
         {reviews.length === 0 ? (
           <p>No reviews available for this product.</p>

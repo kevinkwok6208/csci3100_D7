@@ -82,3 +82,7 @@ th {
   margin-top: 10px;
   font-weight: bold;
 }
+
+img {
+  max-width: 200px;
+}

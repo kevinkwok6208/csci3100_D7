@@ -14,6 +14,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Fetch email from localStorage on component mount
   useEffect(() => {
@@ -53,11 +54,18 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
       return;
     }
 
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
     try {
       await authService.resetPassword(email, otp, newPassword);
       setStatusMessage("Password reset successfully! You can now log in with your new password.");
       setOtp("");
       setNewPassword("");
+      setConfirmPassword("");
       setShowResetFields(false); // Hide OTP and password fields
     } catch (err) {
       setError(err.message || "Failed to reset password.");
@@ -135,6 +143,17 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
                     required
                   />
                 </div>
+                <div className="form-group">
+                  <label>Confirm New Password</label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                    />
+                </div>
+                {error && <div className="error-message">{error}</div>}
                 <button
                   type="submit"
                   className="reset-password-button"

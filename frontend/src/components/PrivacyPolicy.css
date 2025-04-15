@@ -57,6 +57,8 @@ body {
   .contact-section {
     text-align: center;
     margin: 40px 0;
+    background-color: rgb(0, 0, 0);
+    background-color: white;
   }
   
   .policy-intro-section h2,

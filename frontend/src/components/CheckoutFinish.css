@@ -1,0 +1,266 @@
+/* Main container for the checkout finish page */
+.checkout-finish-container {
+    background-color: #f8f9fc; /* Light background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Success header */
+  .success-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .success-header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333; /* Dark text */
+    margin-bottom: 10px;
+  }
+  
+  .success-header p {
+    font-size: 18px;
+    color: #555; /* Subtle text */
+  }
+  
+  /* Loading spinner */
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #ccc; /* Light grey */
+    border-top: 4px solid #ffcc00; /* Yellow spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 20px;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Order summary section */
+  .order-summary {
+    background-color: #fff; /* White background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 30px;
+  }
+  
+  .order-summary h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0; /* Light divider */
+    padding-bottom: 10px;
+  }
+  
+  .order-summary h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .order-summary p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .order-summary .order-items {
+    margin-top: 30px;
+  }
+  
+  .order-summary .order-items ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .order-summary .order-items li {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .order-summary .order-items li strong {
+    color: #333; /* Highlight important details */
+  }
+  
+  /* Shipping info */
+  .shipping-info, .payment-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Light grey background */
+    border-radius: 8px;
+  }
+  
+  .shipping-info h3, .payment-info h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .shipping-info p, .payment-info p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Error message */
+  .error-message {
+    background-color: #ffe5e5; /* Light red background */
+    color: #cc0000; /* Dark red text */
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Action buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .action-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .action-buttons button:first-child {
+    background-color: #ffcc00; /* Yellow button */
+    color: #333; /* Dark text */
+  }
+  
+  .action-buttons button:first-child:hover {
+    background-color: #f5b800; /* Slightly darker yellow */
+  }
+  
+  .action-buttons button:last-child {
+    background-color: #ccc; /* Light grey button */
+    color: #333; /* Dark text */
+  }
+  
+  .action-buttons button:last-child:hover {
+    background-color: #bbb; /* Slightly darker grey */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .order-summary {
+      padding: 15px;
+    }
+  
+    .order-summary h2 {
+      font-size: 20px;
+    }
+  
+    .order-summary p,
+    .order-summary li {
+      font-size: 14px;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .action-buttons button {
+      width: 100%;
+    }
+  }
+
+  /* Items Purchased Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .items-table th,
+  .items-table td {
+    text-align: left;
+    padding: 10px 15px;
+    border: 1px solid #ddd; /* Light grey border for structure */
+  }
+  
+  .items-table th {
+    background-color: #ffcc00; /* Yellow header */
+    color: #333; /* Dark text */
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .items-table tbody tr:hover {
+    background-color: #f9f9f9; /* Light hover effect */
+  }
+  
+  .items-table td {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Info Sections (Shipping and Payment) Side-by-Side */
+  .info-sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .shipping-info,
+  .payment-info {
+    flex: 1; /* Equal width for both sections */
+    background-color: #f9f9f9; /* Light grey background */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    height: 100%; /* Ensure equal height */
+  }
+  
+  .shipping-info h3,
+  .payment-info h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .shipping-info p,
+  .payment-info p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .info-sections {
+      flex-direction: column; /* Stack sections vertically on smaller screens */
+      gap: 15px;
+    }
+  }

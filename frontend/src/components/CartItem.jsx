@@ -12,7 +12,7 @@ const CartItem = ({ item, onQuantityChange, onRemove }) => {
             onChange={(e) => onQuantityChange(item.productId.productID, parseInt(e.target.value))}
           />
         </td>
-        <td>{item.availableStock || 0}</td>
+        
         <td>${item.productPrice || 0}</td>
         <td>
           <button onClick={() => onRemove(item.productId.productID)}>Remove</button>

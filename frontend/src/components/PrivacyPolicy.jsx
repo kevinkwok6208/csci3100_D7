@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "./PrivacyPolicy.css";
 
 function PrivacyPolicy() {
+  const navigate = useNavigate();
+
   return (
     <div className="privacy-policy-container">
       {/* Hero Section */}
@@ -111,7 +114,7 @@ function PrivacyPolicy() {
         </p>
         <button
           className="contact-button"
-          onClick={() => alert("Redirecting to Contact Page!")}
+          onClick={() => navigate("/contact-us")}
         >
           Contact Us
         </button>
@@ -123,25 +126,25 @@ function PrivacyPolicy() {
           <div>
             <h4>Company</h4>
             <ul>
-              <li><a href="/about-us">About Us</a></li>
-              <li><a href="/privacy-policy">Privacy Policy</a></li>
-              <li><a href="/return-policy">Return Policy</a></li>
+              <li><Link to="/about-us">About Us</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/return-policy">Return Policy</Link></li>
             </ul>
           </div>
 
           <div>
             <h4>Guides</h4>
             <ul>
-              <li><a href="/how-to-search">How to Search</a></li>
-              <li><a href="/making-payment">Making Payment</a></li>
+              <li><Link to="/how-to-search">How to Search</Link></li>
+              <li><Link to="/making-payment">Making Payment</Link></li>
             </ul>
           </div>
 
           <div>
             <h4>Support</h4>
             <ul>
-              <li><a href="/faq">FAQ</a></li>
-              <li><a href="/contact-us">Contact Us</a></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li><Link to="/contact-us">Contact Us</Link></li>
             </ul>
           </div>
         </div>
