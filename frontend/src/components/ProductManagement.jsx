@@ -144,11 +144,10 @@ const ProductManagement = () => {
     const newFiles = Array.from(e.target.files);
     const validFiles = [];
     let errorMessage = '';
-    const tmpFiles = [...newProduct.productImage, ...newFiles]
-    setFileError(null);
+        setFileError(null);
 
-    if (tmpFiles.length > 3) {
-      errorMessage = 'You cannot upload more than 3 images.';
+    if (newFiles.length > 1) {
+      errorMessage = 'You can only upload ONE image.';
       setFileError(errorMessage);
       fileInputRef.current.value = '';
       return;
@@ -165,9 +164,7 @@ const ProductManagement = () => {
         errorMessage = 'Invalid file format or size. Please upload JPEG, JPG, or PNG files under 2MB.';
       }
     });
-    console.log("productId",editingProductId);
-    const updatesFiles = [...newProduct.productImage, ...validFiles];
-    setNewProduct({ ...newProduct, productImage: updatesFiles });
+    setNewProduct({ ...newProduct, productImage: validFiles });
     // handleUpdate(productId);
     setUploadError(errorMessage); // Set the error message if there are invalid files
 
@@ -179,8 +176,8 @@ const ProductManagement = () => {
     let errorMessage = '';
     setAddFileError(null);
 
-    if (files.length > 3) {
-      errorMessage = 'You cannot upload more than 3 images.';
+    if (files.length > 1) {
+      errorMessage = 'You can only upload ONE image.';
       setAddFileError(errorMessage);
       fileInputRef.current.value = '';
       return;

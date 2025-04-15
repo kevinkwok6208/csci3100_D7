@@ -54,6 +54,20 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
       return;
     }
 
+    if (newPassword.length<8){
+      setError("Minimum length of password: 8 characters");
+      setLoading(false);
+      return;
+    }
+
+    const letterRegex = /[a-zA-Z]/;
+    const numberRegex = /\d/;
+    if (!letterRegex.test(newPassword) || !numberRegex.test(newPassword)) {
+        setError("Password must include at least one letter and one number.");
+        setLoading(false);
+        return;
+    }
+
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match!");
       setLoading(false);

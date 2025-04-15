@@ -70,10 +70,26 @@ const UserManagement = () => {
   };
 
   const handleChangePassword = async () => {
+
+    if (newPassword.length<8){
+      setError("Minimum length of password: 8 characters");
+      setLoading(false);
+      return;
+    }
+
+    const letterRegex = /[a-zA-Z]/;
+    const numberRegex = /\d/;
+    if (!letterRegex.test(newPassword) || !numberRegex.test(newPassword)) {
+        setError("Password must include at least one letter and one number.");
+        setLoading(false);
+        return;
+    }
+
     try {
       await adminService.updateUserPassword(currentUser, newPassword);
       setSuccessMessage('Password updated successfully!');
       clearChangeForms();
+      setError("");
       await fetchUsers();
     } catch (err) {
       setError(err.message);
@@ -81,15 +97,25 @@ const UserManagement = () => {
   };
 
   const handleChangeEmail = async () => {
-    try {
-      await adminService.updateUserEmail(currentUser, newEmail);
-      setSuccessMessage('Email updated successfully!');
-      clearChangeForms();
-      await fetchUsers();
-    } catch (err) {
-      setError(err.message);
+    // Validate the new email format
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Adjust regex as needed for your requirements
+
+    if (!emailRegex.test(newEmail)) {
+        setError("Please enter a valid email address.");
+        return;
     }
-  };
+
+    try {
+        await adminService.updateUserEmail(currentUser, newEmail);
+        setSuccessMessage('Email updated successfully!');
+        clearChangeForms();
+        setError("");
+        await fetchUsers();
+    } catch (err) {
+        setError(err.message);
+    }
+};
+
 
   const clearForm = () => {
     setUsername('');

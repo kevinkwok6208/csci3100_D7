@@ -63,6 +63,20 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
       return;
     }
 
+    if (password.length < 8) {
+      setError("Minimum length of password: 8 characters");
+      setLoading(false);
+      return;
+    }
+
+    const letterRegex = /[a-zA-Z]/;
+    const numberRegex = /\d/;
+    if (!letterRegex.test(password) || !numberRegex.test(password)) {
+        setError("Password must include at least one letter and one number.");
+        setLoading(false);
+        return;
+    }
+
     try {
       await authService.register(username, email, password);
       setStatusMessage("Registration successful! Please verify your email.");
