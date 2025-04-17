@@ -9,10 +9,18 @@ const { v4: uuidv4 } = require("uuid");
 const Order = require("../models/Order");
 
 class CheckoutService {
+  /**
+   * Initiates the checkout process by reserving cart items for a user.
+   * @param {string} username - The username of the user initiating checkout.
+   * @returns {Object} - Result object with success status, message, reservations, and expiry time.
+   */
   async initiateCheckout(username) {
     try {
+      // Step 1: Clean up expired reservations and remove existing pending reservations
       await this.cleanupExpiredReservations();
       await this.removeReservation(username);
+
+      // Step 2: Retrieve the user's cart
       const user = await cartService.getUserProduct(username, 0);
       const cart = await Cart.findOne({ userId: user._id });
 
@@ -20,60 +28,60 @@ class CheckoutService {
         throw new Error("Cart is empty");
       }
 
-      const reservations = [];
-      const reservationExpiryTime = 15; // expiry time in minutes
+      // Step 3: Set reservation timing
+      const reservationExpiryTime = 15; // minutes
+      const currentTime = authService.adjustDateForTimezone(new Date());
+      const expiryDate = new Date(
+        currentTime.getTime() + reservationExpiryTime * 60000
+      );
 
-      // Verify each item's quantity against current stock
-      for (const item of cart.items) {
+      // Step 4: Process each item in the cart
+      const reservationPromises = cart.items.map(async (item) => {
+        // Retrieve the product
         const product = await Product.findById(item.productId);
-
         if (!product) {
           throw new Error(`Product with ID ${item.productId} not found`);
         }
 
-        if (
-          item.quantity >
-          product.productStorage - product.productReservation
-        ) {
+        // Check available stock (excluding current reservations)
+        const availableStock =
+          product.productStorage - product.productReservation;
+        if (item.quantity > availableStock) {
           throw new Error(
-            `Not enough stock available for ${
-              product.productName
-            }. Available: ${
-              product.productStorage - product.productReservation
-            }`
+            `Not enough stock for ${product.productName}. Available: ${availableStock}`
           );
         }
 
-        // Create a reservation for this item
-        let currentime = new Date();
-        const reservationDate = authService.adjustDateForTimezone(currentime);
-        const expiryDate = new Date(
-          reservationDate.getTime() + reservationExpiryTime * 60000
-        );
-
-        // Find and update in one operation, or create if not found
-        const updatedReservation = await Reservation.findOneAndUpdate(
+        // Create or update the reservation
+        const reservation = await Reservation.findOneAndUpdate(
           { userId: user._id, productId: product._id, status: "pending" },
           {
             quantity: item.quantity,
-            reservationDate: reservationDate,
-            expiryDate: expiryDate,
+            reservationDate: currentTime,
+            expiryDate,
           },
-          { new: true, upsert: true } // Return updated doc and create if not found
+          { new: true, upsert: true }
         );
 
-        await updatedReservation.save();
-        reservations.push(updatedReservation);
-      }
+        // Explicitly update productReservation in the Products model
+        await Product.findByIdAndUpdate(
+          product._id,
+          { $inc: { productReservation: item.quantity } },
+          { new: true }
+        );
 
-      // The productReservation count in Products is automatically updated by the
-      // post-save hook in the Reservation model
+        return reservation;
+      });
 
+      // Step 5: Execute all reservation operations concurrently
+      const reservations = await Promise.all(reservationPromises);
+
+      // Step 6: Return success response
       return {
         success: true,
         message: "Checkout initiated successfully",
-        reservations: reservations,
-        expiresIn: reservationExpiryTime * 60 * 1000, // in milliseconds
+        reservations,
+        expiresIn: reservationExpiryTime * 60 * 1000, // milliseconds
       };
     } catch (error) {
       console.error("Error initiating checkout:", error);
@@ -81,6 +89,11 @@ class CheckoutService {
     }
   }
 
+  /**
+   * Removes all pending reservations for a user and updates product stock.
+   * @param {string} username - The username of the user.
+   * @returns {Object|string} - Result object or message if no reservations exist.
+   */
   async removeReservation(username) {
     try {
       const user = await cartService.getUserProduct(username, 0);
@@ -93,22 +106,23 @@ class CheckoutService {
         return "No reservations found";
       }
 
-      // Update product reservation counts for each reservation
-      for (const reservation of reservations) {
-        await Product.findByIdAndUpdate(
-          reservation.productId,
-          { $inc: { productReservation: -reservation.quantity } },
-          { new: true }
-        );
-      }
+      // Update product reservation counts concurrently
+      await Promise.all(
+        reservations.map((reservation) =>
+          Product.findByIdAndUpdate(
+            reservation.productId,
+            { $inc: { productReservation: -reservation.quantity } },
+            { new: true }
+          )
+        )
+      );
 
-      // Delete all pending reservations for this user at once
       await Reservation.deleteMany({ userId: user._id, status: "pending" });
 
       return {
         success: true,
         message: "Reservations removed successfully",
-        reservations: reservations,
+        reservations,
       };
     } catch (error) {
       console.error("Error removing reservations:", error);
@@ -116,13 +130,13 @@ class CheckoutService {
     }
   }
 
-  // Clear the expired reservations every miniute
+  /**
+   * Cleans up expired reservations and adjusts product reservation counts.
+   * @returns {Object} - Result object with success status, message, and number of processed reservations.
+   */
   async cleanupExpiredReservations() {
     try {
-      let now = new Date();
-      now = authService.adjustDateForTimezone(now);
-
-      // Find all pending reservations that have expired
+      const now = authService.adjustDateForTimezone(new Date());
       const expiredReservations = await Reservation.find({
         status: "pending",
         expiryDate: { $lt: now },
@@ -136,18 +150,21 @@ class CheckoutService {
         };
       }
 
-      // Process each expired reservation
-      for (const reservation of expiredReservations) {
-        // Update product reservation count (decrease by reservation quantity)
-        await Product.findByIdAndUpdate(
-          reservation.productId,
-          { $inc: { productReservation: -reservation.quantity } },
-          { new: true }
-        );
+      // Update product reservation counts concurrently
+      await Promise.all(
+        expiredReservations.map((reservation) =>
+          Product.findByIdAndUpdate(
+            reservation.productId,
+            { $inc: { productReservation: -reservation.quantity } },
+            { new: true }
+          )
+        )
+      );
 
-        // Delete the reservation entirely
-        await Reservation.findByIdAndDelete(reservation._id);
-      }
+      await Reservation.deleteMany({
+        status: "pending",
+        expiryDate: { $lt: now },
+      });
 
       return {
         success: true,
@@ -160,15 +177,18 @@ class CheckoutService {
     }
   }
 
-  // Add new methods for payment processing
+  /**
+   * Creates a PayPal order for the user's cart with shipping information.
+   * @param {string} username - The username of the user.
+   * @param {Object} shippingInfo - Shipping details (name and address).
+   * @returns {Object} - Result object with PayPal order ID and approval URL.
+   */
   async createPayPalOrder(username, shippingInfo) {
     try {
-      // Validate shipping info
-      if (!shippingInfo || !shippingInfo.name || !shippingInfo.address) {
+      if (!shippingInfo?.name || !shippingInfo?.address) {
         throw new Error("Name and shipping address are required");
       }
 
-      // Get user and cart
       const user = await cartService.getUserProduct(username, 0);
       const cartData = await cartService.getCart(username);
       const cart = cartData[0].cart;
@@ -178,7 +198,6 @@ class CheckoutService {
         throw new Error("Cart is empty");
       }
 
-      // Format cart items for PayPal
       const cartItems = await Promise.all(
         cart.items.map(async (item) => {
           const product = await Product.findById(item.productId);
@@ -191,7 +210,6 @@ class CheckoutService {
         })
       );
 
-      // Store shipping info in session or temporary storage
       await Reservation.updateMany(
         { userId: user._id, status: "pending" },
         {
@@ -202,7 +220,6 @@ class CheckoutService {
         }
       );
 
-      // Create PayPal order with return URL to our checkout-status page
       const paypalOrder = await paypalService.createOrder(
         cartItems,
         subtotal,
@@ -221,73 +238,67 @@ class CheckoutService {
     }
   }
 
+  /**
+   * Processes a PayPal payment and creates an order upon success.
+   * @param {string} username - The username of the user.
+   * @param {string} paypalOrderId - The PayPal order ID to capture.
+   * @returns {Object} - Result object with order ID and payment details.
+   */
   async processPayment(username, paypalOrderId) {
     try {
-      // Get user info
       const user = await cartService.getUserProduct(username, 0);
-
-      // Capture payment
       const captureResult = await paypalService.capturePayment(paypalOrderId);
 
-      if (captureResult.status === "COMPLETED") {
-        // Payment successful, create order history
-        const reservations = await Reservation.find({
-          userId: user._id,
-          status: "pending",
-        });
+      if (captureResult.status !== "COMPLETED") {
+        throw new Error("Payment was not completed");
+      }
 
-        if (reservations.length === 0) {
-          throw new Error("No pending reservations found");
-        }
+      const reservations = await Reservation.find({
+        userId: user._id,
+        status: "pending",
+      });
+      if (reservations.length === 0) {
+        throw new Error("No pending reservations found");
+      }
 
-        // Get the shipping information from the reservations
-        const shippingName = reservations[0].shippingName;
-        const shippingAddress = reservations[0].shippingAddress;
+      const { shippingName, shippingAddress } = reservations[0];
+      if (!shippingName || !shippingAddress) {
+        throw new Error("Shipping information not found");
+      }
 
-        if (!shippingName || !shippingAddress) {
-          throw new Error("Shipping information not found");
-        }
+      const orderProducts = await Promise.all(
+        reservations.map(async (reservation) => {
+          const product = await Product.findById(reservation.productId);
+          return {
+            productId: reservation.productId,
+            productName: product.productName,
+            quantity: reservation.quantity,
+            price: product.productPrice,
+          };
+        })
+      );
 
-        // Prepare product information for the order
-        const orderProducts = await Promise.all(
-          reservations.map(async (reservation) => {
-            // Get the product for this reservation
-            const product = await Product.findById(reservation.productId);
+      const createdAt = authService.adjustDateForTimezone(new Date());
+      const newOrder = new Order({
+        orderId: uuidv4(),
+        userId: user._id,
+        Name: shippingName,
+        ShippingAddress: shippingAddress,
+        createdAt,
+        products: orderProducts.map((product) => ({
+          productId: product.productId,
+          quantity: product.quantity,
+          price: product.price,
+          status: false,
+        })),
+      });
 
-            // Convert reservation to order product
-            return {
-              productId: reservation.productId,
-              productName: product.productName,
-              quantity: reservation.quantity,
-              price: product.productPrice,
-            };
-          })
-        );
+      await newOrder.save();
 
-        // Create new order
-        let createTime = new Date();
-        createTime = authService.adjustDateForTimezone(createTime);
-
-        const newOrder = new Order({
-          orderId: uuidv4(), // Generate a unique order ID
-          userId: user._id,
-          Name: shippingName,
-          ShippingAddress: shippingAddress,
-          createdAt: createTime,
-          products: orderProducts.map((product) => ({
-            productId: product.productId,
-            quantity: product.quantity,
-            price: product.price,
-            status: false, // Initially not received
-          })),
-        });
-
-        // Save the order
-        await newOrder.save();
-
-        // Update product storage counts (decrease by reservation quantity)
-        for (const reservation of reservations) {
-          await Product.findByIdAndUpdate(
+      // Update product storage and reservation counts concurrently
+      await Promise.all(
+        reservations.map((reservation) =>
+          Product.findByIdAndUpdate(
             reservation.productId,
             {
               $inc: {
@@ -296,42 +307,31 @@ class CheckoutService {
               },
             },
             { new: true }
-          );
-        }
+          )
+        )
+      );
 
-        // Update reservation status or delete reservations
-        await Reservation.deleteMany({ userId: user._id, status: "pending" });
+      await Reservation.deleteMany({ userId: user._id, status: "pending" });
+      await Cart.findOneAndDelete({ userId: user._id });
+      await emailService.sendOrderConfirmation(
+        user.email,
+        newOrder,
+        orderProducts
+      );
 
-        // Clear the cart
-        await Cart.findOneAndDelete({ userId: user._id });
-
-        // Send order confirmation email
-        await emailService.sendOrderConfirmation(
-          user.email,
-          newOrder,
-          orderProducts
-        );
-
-        return {
-          success: true,
-          message: "Payment processed successfully",
-          orderId: newOrder.orderId,
-          paypalDetails: captureResult,
-        };
-      } else {
-        // Payment failed or incomplete
-        throw new Error("Payment was not completed");
-      }
+      return {
+        success: true,
+        message: "Payment processed successfully",
+        orderId: newOrder.orderId,
+        paypalDetails: captureResult,
+      };
     } catch (error) {
       console.error("Error processing payment:", error);
-
-      // If there's an error, remove reservations and return stock
       try {
         await this.removeReservation(username);
       } catch (cleanupError) {
         console.error("Error cleaning up after payment failure:", cleanupError);
       }
-
       throw error;
     }
   }
