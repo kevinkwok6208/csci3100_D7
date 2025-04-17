@@ -251,8 +251,7 @@ const Reservations = ({ username: propUsername }) => {
             }
             
             // Open PayPal in a new window instead of redirecting
-            const paypalWindow = window.open(paypalUrl, 'paypal_window', 
-              'width=1000,height=800,status=yes,scrollbars=yes,resizable=yes');
+            const paypalWindow = window.open(paypalUrl, '_blank');
             
             // If popup is blocked, provide a fallback
             if (!paypalWindow || paypalWindow.closed || typeof paypalWindow.closed === 'undefined') {
@@ -270,16 +269,15 @@ const Reservations = ({ username: propUsername }) => {
                 errorDiv.appendChild(linkElement);
               }
             } else {
-              // Set up polling to check when the PayPal window is closed  **TASK: can I have a automatically close the paypal window after the payment in paypal is done?
+              // Set up polling to check when the PayPal window is closed
               const pollTimer = setInterval(() => {
                 if (paypalWindow.closed) {
                   clearInterval(pollTimer);
                   
                   // When PayPal window is closed, check if payment was completed
-                  // We'll do this by attempting to process the payment
                   processPayment(checkoutUsername, orderId);
                 }
-              }, 1000);
+              }, 200);
               
               // Also set a timeout to stop polling after 15 minutes (same as reservation timeout)
               setTimeout(() => {
@@ -290,8 +288,7 @@ const Reservations = ({ username: propUsername }) => {
                 setCheckoutError('Payment session timed out. Please try again.');
                 setIsProcessing(false);
               }, 15 * 60 * 1000); // 15 minutes
-            }
-          } else {
+            }          } else {
             throw new Error('No PayPal order ID returned from server');
           }
         } else {
@@ -360,7 +357,7 @@ const Reservations = ({ username: propUsername }) => {
             },
             search: `?token=${processResponse.data.orderId}` // Add the token as a query parameter
           });
-        }, 2000); // Short delay to show success message
+        }, 100); // Short delay to show success message
       } else {
         throw new Error(processResponse.data.message || 'Failed to process payment');
       }

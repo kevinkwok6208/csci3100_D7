@@ -1,0 +1,77 @@
+.checkout-status-container {
+  background-color: #f8f9fc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.status-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  color: #4BB543; /* Green color for success */
+}
+
+.status-card h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.status-card p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.countdown {
+  font-weight: bold;
+  font-size: 18px;
+  color: #ffcc00; /* Yellow color to match theme */
+}
+
+.status-card button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffcc00; /* Yellow button */
+  color: #333;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.status-card button:hover {
+  background-color: #f5b800; /* Slightly darker yellow */
+}
+
+@media (max-width: 768px) {
+  .status-card {
+    padding: 20px;
+  }
+  
+  .status-card h1 {
+    font-size: 24px;
+  }
+  
+  .status-card p {
+    font-size: 14px;
+  }
+}

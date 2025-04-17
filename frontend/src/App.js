@@ -23,8 +23,8 @@ import HowToSearch from "./components/HowToSearch";
 import MakingPayment from "./components/MakingPayment";
 import FAQ from "./components/FAQ"
 import ContactUs from "./components/ContactUs";
+import CheckoutStatus from './components/CheckoutStatus';
 import "./App.css";
-
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -175,6 +175,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetail username={username} />} />
           <Route path="/reservations" element={<Reservations username={username}/>} />
           <Route path="/CheckoutFinish" element={<CheckoutFinish username={username} />} />
+          <Route path="/checkout-status" element={<CheckoutStatus />} />
           
           {/* Auth routes - supporting both unified and separate components */}
           <Route
