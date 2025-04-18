@@ -18,7 +18,6 @@ const CheckoutFinish = ({ username }) => {
                   new URLSearchParams(location.search).get('orderId') || 
                   new URLSearchParams(location.search).get('token');
                   
-  const apiBaseUrl = 'http://localhost:5001'; // Hardcoded for simplicity
 
   // Fetch all products for name lookup
   useEffect(() => {
@@ -69,13 +68,13 @@ const CheckoutFinish = ({ username }) => {
         // First try the orderhistories endpoint
         let response;
         try {
-          console.log(`Trying: ${apiBaseUrl}/api/orderhistories/order/${orderId}`);
-          response = await axios.get(`${apiBaseUrl}/api/orderhistories/order/${orderId}`);
+          console.log(`Trying: /api/orderhistories/order/${orderId}`);
+          response = await axios.get(`/api/orderhistories/order/${orderId}`);
         } catch (err) {
           console.log('First endpoint failed, trying alternative...');
           // If that fails, try the orders endpoint
-          console.log(`Trying: ${apiBaseUrl}/api/orders/${orderId}`);
-          response = await axios.get(`${apiBaseUrl}/api/orders/${orderId}`);
+          console.log(`Trying: /api/orders/${orderId}`);
+          response = await axios.get(`/api/orders/${orderId}`);
         }
         
         console.log('API response:', response.data);
