@@ -1,0 +1,323 @@
+[{
+  "_id": {
+    "$oid": "6801151f5eff3f05076a1109"
+  },
+  "productID": "P001",
+  "productName": "A Light in the Attic",
+  "productPrice": 51,
+  "productDescription": "It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901407/products/gehihjttscvvh9ty5z8a.jpg"
+  ],
+  "productStorage": 149,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6801159e5eff3f05076a110f"
+  },
+  "productID": "P002",
+  "productName": "Soumission",
+  "productPrice": 50,
+  "productDescription": "Dans une France assez proche de la nôtre, un homme s’engage dans la carrière universitaire. Peu motivé par l’enseignement, il s’attend à une vie ennuyeuse mais calme, protégée des grands drames historiques.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901533/products/c1yvxpkmnhzgi9r8zwbx.jpg"
+  ],
+  "productStorage": 149,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680115c65eff3f05076a1113"
+  },
+  "productID": "P003",
+  "productName": "We Love You, Charlie Freeman",
+  "productPrice": 55,
+  "productDescription": "The Freeman family--Charles, Laurel, and their daughters, teenage Charlotte and nine-year-old Callie--have been invited to the Toneybee Institute in rural Massachusetts to participate in a research experiment.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901573/products/rgp0l5cuqe2pdzntures.jpg"
+  ],
+  "productStorage": 149,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680115f85eff3f05076a1118"
+  },
+  "productID": "P004",
+  "productName": "Tuesday Nights in 1980",
+  "productPrice": 21,
+  "productDescription": "“In one sentence, Ms. Prentiss captures a sense of intoxication and possibility that six seasons of voice-overs from Sarah Jessica Parker never could…Ms. Prentiss concludes her novel on a note that’s both ethereal and brutally realistic.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901623/products/dkacfujvuybkej7lpjy1.jpg"
+  ],
+  "productStorage": 100,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6801161e5eff3f05076a111d"
+  },
+  "productID": "P005",
+  "productName": "Private Paris",
+  "productPrice": 47,
+  "productDescription": "Paris is burning--and only Private's Jack Morgan can put out the fire.When Jack Morgan stops by Private's Paris office, he envisions a quick hello during an otherwise relaxing trip filled with fine food and sightseeing.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901662/products/rg39xgtk5hm0ocqn3qct.jpg"
+  ],
+  "productStorage": 100,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680116615eff3f05076a1122"
+  },
+  "productID": "P006",
+  "productName": "Sapiens: A Brief History of Humankind",
+  "productPrice": 54,
+  "productDescription": "From a renowned historian comes a groundbreaking narrative of humanity’s creation and evolution—a #1 international bestseller—that explores the ways in which biology and history have defined us and enhanced our understanding of what it means to be “human.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901728/products/wuwk30nr3dpoms5ebk3f.jpg"
+  ],
+  "productStorage": 100,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc8a7b83ee27156f8744"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6801168d5eff3f05076a1127"
+  },
+  "productID": "P007",
+  "productName": "Unbound: How Eight Technologies Made Us Human, Transformed Society, and Brought Our World to the Brink",
+  "productPrice": 25,
+  "productDescription": "Although we usually think of technology as something unique to modern times, our ancestors began to create the first technologies millions of years ago in the form of prehistoric tools and weapons.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901773/products/gtosrqwxgengmg2bg3au.jpg"
+  ],
+  "productStorage": 120,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc8a7b83ee27156f8744"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680116b55eff3f05076a112b"
+  },
+  "productID": "P008",
+  "productName": "The Age of Genius: The Seventeenth Century and the Birth of the Modern Mind",
+  "productPrice": 19,
+  "productDescription": "The Age of Genius explores the eventful intertwining of outward event and inner intellectual life to tell, in all its richness and depth, the story of the 17th century in Europe.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901812/products/npotstszgil9wyiiq6yh.jpg"
+  ],
+  "productStorage": 128,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc8a7b83ee27156f8744"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680116e85eff3f05076a1130"
+  },
+  "productID": "P009",
+  "productName": "Political Suicide: Missteps, Peccadilloes, Bad Calls, Backroom Hijinx, Sordid Pasts, Rotten Breaks, and Just Plain Dumb Mistakes in the Annals of American Politics",
+  "productPrice": 36,
+  "productDescription": "Just in time for the presidential election of 2016 comes Political Suicide, a history of the best and most interesting missteps, peccadilloes, bad calls, back room hijinks, sordid pasts, rotten breaks, and just plain dumb mistakes in the annals of American politics.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901863/products/hq2rphw5rvmu3f6oumc3.jpg"
+  ],
+  "productStorage": 100,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc8a7b83ee27156f8744"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680117395eff3f05076a1136"
+  },
+  "productID": "P010",
+  "productName": "The Golden Condom: And Other Essays on Love Lost and Found",
+  "productPrice": 39,
+  "productDescription": "Dr. Jeanne Safer has dedicated much of her decades' long career in psychotherapy to exploring taboo subjects that we all think about in private but seldom discuss in public.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901944/products/btdezci0aw6sjib8ibie.jpg"
+  ],
+  "productStorage": 120,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f873e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680117595eff3f05076a113a"
+  },
+  "productID": "P011",
+  "productName": "Thinking, Fast and Slow",
+  "productPrice": 21,
+  "productDescription": "In the highly anticipated Thinking, Fast and Slow, Kahneman takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think. System 1 is fast, intuitive, and emotional; System 2 is slower, more deliberative, and more logical.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744901975/products/l0p9bhqs0xh5qqlr3qgt.jpg"
+  ],
+  "productStorage": 110,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f873e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6801177e5eff3f05076a113f"
+  },
+  "productID": "P012",
+  "productName": "The Lucifer Effect: Understanding How Good People Turn Evil",
+  "productPrice": 10,
+  "productDescription": "Renowned social psychologist and creator of the \"Stanford Prison Experiment,\" Philip Zimbardo explores the mechanisms that make good people do bad things, how moral people can be seduced into acting immorally, and what this says about the line separating good from evil.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902013/products/wyljtf7jwnbrq5fk4kzf.jpg"
+  ],
+  "productStorage": 49,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f873e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680117d25eff3f05076a1144"
+  },
+  "productID": "P013",
+  "productName": "It Didn't Start with You: How Inherited Family Trauma Shapes Who We Are and How to End the Cycle",
+  "productPrice": 56,
+  "productDescription": "A groundbreaking approach to transforming traumatic legacies passed down in families over generations, by an acclaimed expert in the field Depression. Anxiety. Chronic Pain. Phobias. Obsessive thoughts.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902097/products/w07saf2hgqmo9butfl1e.jpg"
+  ],
+  "productStorage": 200,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f873e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680118045eff3f05076a1149"
+  },
+  "productID": "P014",
+  "productName": "Immunity: How Elie Metchnikoff Changed the Course of Modern Medicine",
+  "productPrice": 57,
+  "productDescription": "Around Christmas of 1882, while peering through a microscope at starfish larvae in which he had inserted tiny thorns, Russian zoologist Elie Metchnikoff had a brilliant insight: what if the mobile cells he saw gathering around the thorns were nothing but a healing force in action?",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902147/products/bkjrcmqatubh4uerx8jm.jpg"
+  ],
+  "productStorage": 120,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f8741"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680118275eff3f05076a114d"
+  },
+  "productID": "P015",
+  "productName": "Tipping Point for Planet Earth: How Close Are We to the Edge?",
+  "productPrice": 38,
+  "productDescription": "Tipping Point for Planet Earth explains why Earth is headed for a tipping point, a change so fast, dramatic, and unexpected that humanity will reel at the consequences.Midway through this century, there will be more than nine billion people on the planet.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902182/products/wxar04edoazjo5fv8aoh.jpg"
+  ],
+  "productStorage": 110,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f8741"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6801184e5eff3f05076a1152"
+  },
+  "productID": "P016",
+  "productName": "Sorting the Beef from the Bull: The Science of Food Fraud Forensics",
+  "productPrice": 44,
+  "productDescription": "Horse meat in our burgers, melamine in our infant formula, artificial colors in our fish and fruit--as our urban lifestyle takes us farther away from our food sources, there are increasing opportunities for dishonesty, duplicity, and profit-making shortcuts.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902221/products/tdteqj0kqiwakvu0zwec.jpg"
+  ],
+  "productStorage": 140,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f8741"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680118ac5eff3f05076a1158"
+  },
+  "productID": "P017",
+  "productName": "The Fabric of the Cosmos: Space, Time, and the Texture of Reality",
+  "productPrice": 55,
+  "productDescription": "From Brian Greene, one of the world’s leading physicists and author the Pulitzer Prize finalist The Elegant Universe, comes a grand tour of the universe that makes us look at reality in a completely different way.",
+  "productImages": [
+    "https://res.cloudinary.com/doigqstxw/image/upload/v1744902315/products/bqlbp4l3chxrk5kobytr.jpg"
+  ],
+  "productStorage": 90,
+  "productReservation": 0,
+  "featured": false,
+  "category": {
+    "$oid": "67e7cc897b83ee27156f8741"
+  },
+  "__v": 0
+}]

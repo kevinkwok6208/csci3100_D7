@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "67e7cc887b83ee27156f873b"
+  },
+  "name": "Fiction",
+  "description": "Electronic devices and gadgets",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e7cc897b83ee27156f873e"
+  },
+  "name": "Non Fiction",
+  "description": "Apparel and fashion items",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e7cc897b83ee27156f8741"
+  },
+  "name": "Science",
+  "description": "Items for home and kitchen use",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e7cc8a7b83ee27156f8744"
+  },
+  "name": "History",
+  "description": "Books, e-books, and publications",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e7cc8a7b83ee27156f8747"
+  },
+  "name": "Null",
+  "description": "Deleted/ Outdated books",
+  "__v": 0
+}]

@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "6807f427538b4b2bddb812ec"
+  },
+  "username": "admin",
+  "hashedPassword": "$2b$10$r71CFmzxfZEMuXs3ixhLpeZZ5/aNjrGFq.HYJjerT5ArNhbNL7XrK",
+  "email": "admin@example.com",
+  "isEmailVerified": true,
+  "isadmin": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6807f427538b4b2bddb812ef"
+  },
+  "username": "testuser",
+  "hashedPassword": "$2b$10$yySFf1YN42hm.f/HCj/IJed55azWLd.fATMqS4wJJKHxi7Lcq8fZm",
+  "email": "user@example.com",
+  "isEmailVerified": true,
+  "isadmin": 0,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6807f427538b4b2bddb812f2"
+  },
+  "username": "testuser2",
+  "hashedPassword": "$2b$10$xg9dUrEEyzzDxRECQgY74.XveCCKrZbInCUVd7RRuWTgnr7KiAZcy",
+  "email": "user2@example.com",
+  "isEmailVerified": false,
+  "isadmin": 0,
+  "__v": 0
+}]
