@@ -26,36 +26,43 @@ const Reservations = ({ username: propUsername }) => {
   });
 
   // Calculate total with correct calculation using quantity
+// Calculate total with correct calculation using quantity and unitPrice
   const totalPrice = cartItems
-    .reduce((total, item) => total + item.productPrice, 0)
+    .reduce((total, item) => {
+      const quantity = Number(item.quantity) || 1;
+      const unitPrice = item.productId?.productPrice || 0;
+      const subtotal = unitPrice * quantity;
+      return total + subtotal;
+    }, 0)
     .toFixed(2);
+
 
   // Set up username and cart items on component mount
   useEffect(() => {
     // First priority: Use username from props if available
     if (propUsername) {
-      console.log("Username from props:", propUsername);
+      //console.log("Username from props:", propUsername);
       setUsername(propUsername);
     }
     // Second priority: Try from location state
     else if (location.state?.username) {
-      console.log("Username from location state:", location.state.username);
+      //console.log("Username from location state:", location.state.username);
       setUsername(location.state.username);
     }
     // Third priority: Try from localStorage directly
     else if (localStorage.getItem("username")) {
       const storedUsername = localStorage.getItem("username");
-      console.log("Username from localStorage:", storedUsername);
+      //console.log("Username from localStorage:", storedUsername);
       setUsername(storedUsername);
     }
     // If all else fails, use a fallback for development
     else {
-      console.warn("No username found in props or storage");
+      //console.warn("No username found in props or storage");
 
       // FALLBACK: If we're in development mode, use a dummy username for testing
       if (process.env.NODE_ENV === "development") {
         const dummyUsername = "testuser";
-        console.log("Using dummy username for development:", dummyUsername);
+        //console.log("Using dummy username for development:", dummyUsername);
         setUsername(dummyUsername);
       }
     }
@@ -65,11 +72,11 @@ const Reservations = ({ username: propUsername }) => {
       try {
         const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
         if (storedCart.length > 0) {
-          console.log("Using cart from localStorage:", storedCart);
+          //console.log("Using cart from localStorage:", storedCart);
           setCartItems(storedCart);
         }
       } catch (error) {
-        console.error("Error parsing cart from localStorage:", error);
+        //console.error("Error parsing cart from localStorage:", error);
       }
     }
   }, [propUsername, location.state]);
@@ -89,7 +96,7 @@ const Reservations = ({ username: propUsername }) => {
         alert("Checkout time expired. Your reservation has been released.");
         navigate("/cart");
       }
-    }, 200);
+    }, 1000);
 
     setTimerId(timer);
     return timer;
@@ -122,7 +129,7 @@ const Reservations = ({ username: propUsername }) => {
     }
 
     try {
-      console.log(`Removing reservation for user: ${username}`);
+      //console.log(`Removing reservation for user: ${username}`);
       await axios.post(`/api/checkout/remove-reservation/${username}`);
     } catch (error) {
       console.error("Failed to remove reservation:", error);
@@ -202,8 +209,8 @@ const Reservations = ({ username: propUsername }) => {
 
     try {
       // Log what we're sending to help debug
-      console.log("Using username for checkout:", checkoutUsername);
-      console.log("Cart items before preparation:", cartItems);
+      //console.log("Using username for checkout:", checkoutUsername);
+      //console.log("Cart items before preparation:", cartItems);
 
       // Prepare simplified cart items for API
       const simplifiedCartItems = prepareCartItemsForAPI(cartItems);
@@ -216,7 +223,7 @@ const Reservations = ({ username: propUsername }) => {
         }
       );
 
-      console.log("Initiate checkout response:", initiateResponse.data);
+      //console.log("Initiate checkout response:", initiateResponse.data);
 
       if (initiateResponse.data.success) {
         // Start the 15-minute countdown
@@ -241,7 +248,7 @@ const Reservations = ({ username: propUsername }) => {
           }
         );
 
-        console.log("Create PayPal order response:", createOrderResponse.data);
+        //  console.log("Create PayPal order response:", createOrderResponse.data);
 
         if (createOrderResponse.data.success) {
           // Get the PayPal order ID from the response
@@ -369,7 +376,7 @@ const Reservations = ({ username: propUsername }) => {
         }
       );
 
-      console.log("Process payment response:", processResponse.data);
+      //console.log("Process payment response:", processResponse.data);
 
       if (processResponse.data.success) {
         // Payment successfully processed
@@ -478,6 +485,11 @@ const Reservations = ({ username: propUsername }) => {
         </div>
       )}
       */}
+      {timeLeft && (
+        <div className="checkout-timer">
+          Time remaining: <span className="timer">{formatTime(timeLeft)}</span>
+        </div>
+      )}
         {checkoutError && <div className="error-message">{checkoutError}</div>}
         <div className="cart-summary">
           <h2>Cart Summary</h2>
@@ -501,16 +513,17 @@ const Reservations = ({ username: propUsername }) => {
                       item.productId?.productName ||
                       "Unknown Product";
                     const quantity = Number(item.quantity) || 1;
-                    const productPrice =
-                      Number(item.productPrice / item.quantity) || 0;
-                    const subtotal = productPrice.toFixed(2);
+                    // fetch unit price of products
+                    const unitPrice =item.productId?.productPrice || 0;
+                    // Calculate subtotal of each product
+                    const productSubtotal = Number(unitPrice * quantity).toFixed(2);
 
                     return (
                       <tr key={index}>
                         <td>{productName}</td>
-                        <td>${productPrice.toFixed(2)}</td>
+                        <td>${unitPrice.toFixed(2)}</td>
                         <td>{quantity}</td>
-                        <td>${subtotal}</td>
+                        <td>${productSubtotal}</td>
                       </tr>
                     );
                   })}
