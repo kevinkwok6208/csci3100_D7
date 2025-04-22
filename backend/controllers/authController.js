@@ -3,7 +3,6 @@
  * Handles user authentication, registration, and session management
  */
 const authService = require('../services/authService.js');
-const Cookie = require('../models/Cookie');
 
 
 class AuthController {
@@ -47,46 +46,6 @@ class AuthController {
         }
     }
 
-    /*Authentication function to be export as route*/
-    async authByCookie(req, res) {
-        try {
-            const { token } = req.body;
-
-            // Use the service method
-            const result = await authService.handleAuthByCookie(token);
-            res.json(result);
-
-        } catch (error) {
-            if (error.message === 'NO_TOKEN_PROVIDED') {
-                return res.status(401).json({ message: 'No token provided' });
-            } else if (error.message === 'INVALID_TOKEN') {
-                return res.status(401).json({ message: 'Invalid or expired token' });
-            } else if (error.message === 'EXPIRED_TOKEN') {
-                return res.status(401).json({ message: 'Token has expired' });
-            } else if (error.message === 'USER_NOT_FOUND') {
-                return res.status(401).json({ message: 'User not found' });
-            } else {
-                console.error('Auth by cookie error:', error);
-                res.status(500).json({ message: 'Server error' });
-            }
-        }
-    }
-    
-    /*Logout function to be export as route*/
-    async logout(req, res) {
-        try {
-            const { token } = req.body;
-            
-            if (token) {
-                await Cookie.deleteOne({ token });
-            }
-            
-            res.json({ message: 'Logged out successfully' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Server error' });
-        }
-    }
 
     /*Verify Email function to be export as route*/
     async verifyEmail(req, res) {

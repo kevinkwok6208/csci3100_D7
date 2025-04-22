@@ -57,23 +57,4 @@ router.post('/password-update-otp', authController.PasswordUpdateOTP);
 */
 router.post('/reset-password', authController.resetPassword);
 
-// Cookie-based authentication routes
-/*  "http://localhost:5001/api/auth/auth-by-cookie"
-    "https://localhost:5443/api/auth/auth-by-cookie"
-    Parameters: {token}
-    Function: If user have login before and within 30 minutes, user can login
-              login by cookie token.
-    Method: Post
-*/
-router.post('/auth-by-cookie', authController.authByCookie);
-
-/*  "http://localhost:5001/api/auth/logout"
-    "https://localhost:5443/api/auth/logout"
-    Parameters: {token}
-    Function: if user logout, the cookies in database will be deleted.
-    Method: Post
-*/
-router.post('/logout', authController.logout);
-
-
 module.exports = router;

@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const emailService = require('./emailService');
 const bcrypt = require('bcryptjs');
 const authConfig = require('../config/auth_info');
-const Cookie = require('../models/Cookie');
 
 class AuthService {
     // Helper to find user by username or email
@@ -90,7 +89,7 @@ class AuthService {
 
     async handleLogin(usernameOrEmail, password) {
         // Find user by username or email
-        const { user, isEmail } = await this.findUserByIdentifier(usernameOrEmail);
+        const {user} = await this.findUserByIdentifier(usernameOrEmail);
         
         if (!user) {
             throw new Error('INVALID_CREDENTIALS');
@@ -106,42 +105,9 @@ class AuthService {
         if (!user.isEmailVerified) {
             throw new Error('EMAIL_NOT_VERIFIED');
         }
-    
-        // Generate JWT token with user information
-        const token = jwt.sign(
-            { userId: user._id, username: user.username, isadmin: user.isadmin },
-            authConfig.jwtSecret,
-            { expiresIn: authConfig.jwtExpiresIn }
-        );
-    
-        // Calculate token expiry date
-        const expiryTimeInSeconds = typeof authConfig.jwtExpiresIn === 'string'
-            ? (authConfig.jwtExpiresIn.endsWith('h')
-                ? parseInt(authConfig.jwtExpiresIn) * 3600
-                : authConfig.jwtExpiresIn.endsWith('m')
-                    ? parseInt(authConfig.jwtExpiresIn) * 60
-                    : parseInt(authConfig.jwtExpiresIn))
-            : authConfig.jwtExpiresIn;
-    
-        const expiryDate = new Date(Date.now() + expiryTimeInSeconds * 1000);
-        // Adjust for Hong Kong timezone
-        const adjustedExpiry = this.adjustDateForTimezone(expiryDate);
-    
-        // Save token to Cookie collection
-        await Cookie.findOneAndUpdate(
-            { userId: user._id },
-            { 
-                userId: user._id,
-                username: user.username,
-                token: token,
-                expires: adjustedExpiry
-            },
-            { upsert: true, new: true }
-        );
-    
+     
         // Return login result
         return {
-            token,
             isadmin: user.isadmin,
             username: user.username
         };
@@ -180,41 +146,6 @@ class AuthService {
         
         // Return registration result
         return { username, email };
-    }
-
-    async handleAuthByCookie(token) {
-        // Check if no token is provided
-        if (!token) {
-            throw new Error('NO_TOKEN_PROVIDED');
-        }
-
-        // Find the cookie entry in the database
-        const cookieEntry = await Cookie.findOne({ token });
-        if (!cookieEntry) {
-            throw new Error('INVALID_TOKEN');
-        }
-
-        // Get current time with timezone adjustment
-        const adjustedCurrentTime = this.getCurrentAdjustedTime();
-
-        // Check if token has expired
-        if (cookieEntry.expires < adjustedCurrentTime) {
-            await Cookie.deleteOne({ _id: cookieEntry._id });
-            throw new Error('EXPIRED_TOKEN');
-        }
-
-        // Get user data
-        const user = await User.findOne({ _id: cookieEntry.userId });
-        if (!user) {
-            throw new Error('USER_NOT_FOUND');
-        }
-
-        // Return the specific fields needed for the response
-        return {
-            token,
-            isadmin: user.isadmin,
-            username: user.username
-        };
     }
 
     async handleVerifyEmail(usernameOrEmail, otpCode) {
@@ -319,20 +250,6 @@ class AuthService {
         await emailService.sendOTP(user.email, otp);
         
         return { success: true, message: 'OTP sent successfully' };
-    }
-
-    async validateToken(token) {
-        const cookieEntry = await Cookie.findOne({ token });
-        
-        if (!cookieEntry || cookieEntry.expires < new Date()) {
-            return null;
-        }
-        
-        return cookieEntry;
-    }
-    
-    async invalidateAllUserTokens(userId) {
-        await Cookie.deleteMany({ userId });
     }
 }
 
