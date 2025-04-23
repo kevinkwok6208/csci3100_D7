@@ -77,16 +77,24 @@ const ProductManagement = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await productService.deleteProduct(productId);
-      setProducts(products.filter(product => product.productID !== productId)); // Changed from product.id to product.productID
+      // Call the delete API
+      const response = await productService.deleteProduct(productId);
+      
+      // Instead of filtering out the product, fetch the updated product list
+      const data = await productService.getAllProducts();
+      setProducts(Array.isArray(data) ? data : data.products || []);
+      
+      // Reset editing state if needed
       if (editingProductId === productId) {
-        setEditingProductId(null); // Reset editing state if the deleted product was being edited
+        setEditingProductId(null);
       }
     } catch (err) {
       console.error("Error deleting product:", err);
       setError(err.message || "Failed to delete product.");
     }
   };
+  
+  
 
   const handleUpdate = async (productId) => {
     setUpdateLoading(true);

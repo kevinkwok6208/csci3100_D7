@@ -1,5 +1,6 @@
 const Product = require('../models/Products');
 const Category = require('../models/Category');
+const Cart = require('../models/Cart');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 require('dotenv').config({ path: './config/cloudinary.env' });
@@ -189,15 +190,6 @@ async updateSpecificImage(productID, index, file, updateData) {
     }
   }
 
-  // Delete product
-  async deleteProduct(productID) {
-    const deleteProduct = await Product.findOneAndDelete({ productID:productID });
-    if (!deleteProduct) {
-      throw new Error('Product not found');
-    }
-    return deleteProduct;
-  }
-
   // Update product storage
   async updateProductStorage(productID, productStorage){
     //Find the target product
@@ -257,5 +249,33 @@ async updateSpecificImage(productID, index, file, updateData) {
       throw error;
     }
   }
+
+  // offline product
+  async deleteProduct(productID) {
+    try {
+      // First, check if the product exists
+      const product = await Product.findOne({ productID });
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      
+      // Update the product category to 'Null' to mark it as offline
+      const offline_product = await this.updateProductCategory(productID, 'Null');
+      
+      // Remove the product from all user carts
+      await Cart.updateMany(
+        { 'items.productId': product._id },
+        { $pull: { items: { productId: product._id } } }
+      );
+      
+      console.log(`[DEBUG] Product ${productID} marked as offline and removed from all carts`);
+      
+      return offline_product;
+    } catch (error) {
+      console.error('[ERROR] Failed to delete product:', error);
+      throw error;
+    }
+  }
+
 }
 module.exports = new ProductService();
