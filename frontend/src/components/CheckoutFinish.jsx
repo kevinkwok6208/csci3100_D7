@@ -183,7 +183,7 @@ const CheckoutFinish = ({ username }) => {
         <div className="order-summary">
           <h2>Order Summary</h2>
           <p><strong>Order ID:</strong> {orderDetails.orderId || orderDetails._id}</p>
-          <p><strong>Date:</strong> {new Date(orderDetails.createdAt).toLocaleString()}</p>
+          <p><strong>Date:</strong> {new Date(orderDetails.createdAt).toISOString()}</p>
 
           {/* Items Purchased Table */}
           <div className="order-items">

@@ -38,11 +38,15 @@ class CheckoutService {
       // Step 4: Process each item in the cart
       const reservationPromises = cart.items.map(async (item) => {
         // Retrieve the product
-        const product = await Product.findById(item.productId);
+        const product = await Product.findById(item.productId).populate("category");
+        console.log(product);
         if (!product) {
           throw new Error(`Product with ID ${item.productId} not found`);
         }
-
+        // Check if the product is already offline
+        if (product.category.name === 'Null'){
+          throw new Error(`Product with ID ${product.productName} is already offlined`);
+        }
         // Check available stock (excluding current reservations)
         const availableStock =
           product.productStorage - product.productReservation;

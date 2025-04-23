@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Reservations.css";
 import StepIndicator from "./StepIndicator";
+import cartService from "../services/cartService"; // Import the cart service
 
 const Reservations = ({ username: propUsername }) => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const Reservations = ({ username: propUsername }) => {
   const [checkoutError, setCheckoutError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
   const [timerId, setTimerId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Add shipping information state
   const [shippingInfo, setShippingInfo] = useState({
@@ -25,8 +27,7 @@ const Reservations = ({ username: propUsername }) => {
     country: "HK",
   });
 
-  // Calculate total with correct calculation using quantity
-// Calculate total with correct calculation using quantity and unitPrice
+  // Calculate total with correct calculation using quantity and unitPrice
   const totalPrice = cartItems
     .reduce((total, item) => {
       const quantity = Number(item.quantity) || 1;
@@ -36,51 +37,70 @@ const Reservations = ({ username: propUsername }) => {
     }, 0)
     .toFixed(2);
 
+  // Fetch cart items from API
+  const fetchCartItems = async (user) => {
+    if (!user) return;
+    
+    try {
+      setIsLoading(true);
+      const response = await cartService.getCart(user);
+      
+      if (response && response.cart && response.cart.items) {
+        setCartItems(response.cart.items);
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setCheckoutError("Some product in cart is offlined. We will direct to shopping cart");
+      
+      // Add a short delay before redirecting to cart page
+      setTimeout(() => {
+        navigate("/cart");
+      }, 2000); // 2 second delay to allow user to see the error message
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   // Set up username and cart items on component mount
   useEffect(() => {
     // First priority: Use username from props if available
+    let currentUsername = "";
+    
     if (propUsername) {
-      //console.log("Username from props:", propUsername);
+      currentUsername = propUsername;
       setUsername(propUsername);
     }
     // Second priority: Try from location state
     else if (location.state?.username) {
-      //console.log("Username from location state:", location.state.username);
+      currentUsername = location.state.username;
       setUsername(location.state.username);
     }
     // Third priority: Try from localStorage directly
     else if (localStorage.getItem("username")) {
-      const storedUsername = localStorage.getItem("username");
-      //console.log("Username from localStorage:", storedUsername);
-      setUsername(storedUsername);
+      currentUsername = localStorage.getItem("username");
+      setUsername(currentUsername);
     }
     // If all else fails, use a fallback for development
     else {
-      //console.warn("No username found in props or storage");
-
-      // FALLBACK: If we're in development mode, use a dummy username for testing
       if (process.env.NODE_ENV === "development") {
-        const dummyUsername = "testuser";
-        //console.log("Using dummy username for development:", dummyUsername);
-        setUsername(dummyUsername);
+        currentUsername = "testuser";
+        setUsername(currentUsername);
       }
     }
 
-    // If cartItems is empty and we have items in localStorage, use those
-    if (cartItems.length === 0) {
-      try {
-        const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-        if (storedCart.length > 0) {
-          //console.log("Using cart from localStorage:", storedCart);
-          setCartItems(storedCart);
-        }
-      } catch (error) {
-        //console.error("Error parsing cart from localStorage:", error);
-      }
+    // If we have a username, fetch cart items from API
+    if (currentUsername) {
+      fetchCartItems(currentUsername);
+    }
+    // If we still have location state cart items, use those while API loads
+    else if (location.state?.cartItems && location.state.cartItems.length > 0) {
+      setCartItems(location.state.cartItems);
     }
   }, [propUsername, location.state]);
 
+  // Rest of the component remains the same...
+  
   // Function to start the countdown timer (15 minutes = 900 seconds)
   const startCheckoutTimer = () => {
     let secondsLeft = 15 * 60;
@@ -129,7 +149,6 @@ const Reservations = ({ username: propUsername }) => {
     }
 
     try {
-      //console.log(`Removing reservation for user: ${username}`);
       await axios.post(`/api/checkout/remove-reservation/${username}`);
     } catch (error) {
       console.error("Failed to remove reservation:", error);
@@ -208,10 +227,6 @@ const Reservations = ({ username: propUsername }) => {
     setCheckoutError(null);
 
     try {
-      // Log what we're sending to help debug
-      //console.log("Using username for checkout:", checkoutUsername);
-      //console.log("Cart items before preparation:", cartItems);
-
       // Prepare simplified cart items for API
       const simplifiedCartItems = prepareCartItemsForAPI(cartItems);
 
@@ -222,8 +237,6 @@ const Reservations = ({ username: propUsername }) => {
           totalAmount: parseFloat(totalPrice),
         }
       );
-
-      //console.log("Initiate checkout response:", initiateResponse.data);
 
       if (initiateResponse.data.success) {
         // Start the 15-minute countdown
@@ -247,8 +260,6 @@ const Reservations = ({ username: propUsername }) => {
             shippingInfo: formattedShippingInfo,
           }
         );
-
-        //  console.log("Create PayPal order response:", createOrderResponse.data);
 
         if (createOrderResponse.data.success) {
           // Get the PayPal order ID from the response
@@ -288,7 +299,7 @@ const Reservations = ({ username: propUsername }) => {
                 errorDiv.appendChild(linkElement);
               }
             } else {
-              // Set up polling to check when the PayPal window is closed  **TASK: can I have a automatically close the paypal window after the payment in paypal is done?
+              // Set up polling to check when the PayPal window is closed
               const pollTimer = setInterval(() => {
                 if (paypalWindow.closed) {
                   clearInterval(pollTimer);
@@ -320,7 +331,7 @@ const Reservations = ({ username: propUsername }) => {
           );
         }
       } else {
-        throw new Error("Sorry,items was sold out");
+        throw new Error("Sorry, items were sold out");
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -375,8 +386,6 @@ const Reservations = ({ username: propUsername }) => {
           paypalOrderId: orderId,
         }
       );
-
-      //console.log("Process payment response:", processResponse.data);
 
       if (processResponse.data.success) {
         // Payment successfully processed
@@ -456,44 +465,17 @@ const Reservations = ({ username: propUsername }) => {
       <div className="reservations-container">
         <h1>Your Reservations</h1>
 
-        {/* Debug information section - only show in development */}
-        {/* 
-      {process.env.NODE_ENV === 'development' && (
-        <div className="debug-info" style={{background: '#f0f0f0', padding: '10px', marginBottom: '20px', fontSize: '12px'}}>
-          <h4>Order Info:</h4>
-          <p>Username: {username || 'Not set'}</p>
-          <p>Product Items: {cartItems.length}</p>
-          
-        </div>
-      )}
-      
-      {!username && (
-        <div className="error-message">
-          Warning: No username found. Please log in to complete checkout.
-        </div>
-      )}
-      
-      {timeLeft && (
-        <div className="checkout-timer">
-          Time remaining: <span className="timer">{formatTime(timeLeft)}</span>
-        </div>
-      )}
-      
-      {checkoutError && (
-        <div className="error-message">
-          {checkoutError}
-        </div>
-      )}
-      */}
-      {timeLeft && (
-        <div className="checkout-timer">
-          Time remaining: <span className="timer">{formatTime(timeLeft)}</span>
-        </div>
-      )}
+        {timeLeft && (
+          <div className="checkout-timer">
+            Time remaining: <span className="timer">{formatTime(timeLeft)}</span>
+          </div>
+        )}
         {checkoutError && <div className="error-message">{checkoutError}</div>}
         <div className="cart-summary">
           <h2>Cart Summary</h2>
-          {cartItems.length === 0 ? (
+          {isLoading ? (
+            <p>Loading cart items...</p>
+          ) : cartItems.length === 0 ? (
             <p>Your cart is empty</p>
           ) : (
             <>
@@ -514,7 +496,7 @@ const Reservations = ({ username: propUsername }) => {
                       "Unknown Product";
                     const quantity = Number(item.quantity) || 1;
                     // fetch unit price of products
-                    const unitPrice =item.productId?.productPrice || 0;
+                    const unitPrice = item.productId?.productPrice || 0;
                     // Calculate subtotal of each product
                     const productSubtotal = Number(unitPrice * quantity).toFixed(2);
 
