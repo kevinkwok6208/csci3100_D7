@@ -49,7 +49,7 @@ Thank you for your order! We're pleased to confirm that your order has been rece
 
 Order Details:
 Order Number: ${order.orderId}
-Date: ${order.createdAt}
+Date: ${order.createdAt.toISOString()}
 Shipping Address: ${order.ShippingAddress}
 
 Products:
