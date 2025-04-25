@@ -4,6 +4,9 @@ const OTP = require('./models/OTP');
 const bcrypt = require('bcryptjs');
 const Product = require('./models/Products');
 const Comment = require('./models/Comments');
+const Category = require('./models/Category');
+const fs = require('fs');
+const path = require('path');
 const connectDatabase = require('./config/connectDB');
 
 async function initializeDatabase() {
@@ -11,95 +14,79 @@ async function initializeDatabase() {
         // Connect to MongoDB
         await connectDatabase();
         
-        // Check if admin already exists
-        const adminExists = await User.findOne({ username: 'admin' });
-        if (!adminExists) {
-            // Create admin account
-            let adminPassword = await bcrypt.hash('admin123', 10);
-            await User.create({
-                username: 'admin',
-                hashedPassword: adminPassword,
-                email: 'admin@example.com',
-                isEmailVerified: true,
-                isadmin: 1
-            });
-            console.log('Admin account created');
+        // Import categories from JSON file
+        console.log('Importing categories...');
+        const categoriesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/categories.json'), 'utf8'));
+        
+        // Check if categories already exist
+        const categoryCount = await Category.countDocuments();
+        if (categoryCount === 0) {
+            // Insert categories
+            for (const categoryItem of categoriesData) {
+                await Category.create({
+                    _id: categoryItem._id.$oid,
+                    name: categoryItem.name,
+                    description: categoryItem.description
+                });
+            }
+            console.log(`${categoriesData.length} categories imported successfully`);
         } else {
-            console.log('Admin account already exists, skipping creation');
+            console.log('Categories already exist, skipping import');
         }
-
-        // Check if test user already exists
-        const userExists = await User.findOne({ username: 'testuser' });
-        if (!userExists) {
-            // Create test user account
-            let userPassword = await bcrypt.hash('user123', 10);
-            await User.create({
-                username: 'testuser',
-                hashedPassword: userPassword,
-                email: 'user@example.com',
-                isEmailVerified: true,
-                isadmin: 0
-            });
-            console.log('Test user account created');
+        
+        // Import products from JSON file
+        console.log('Importing products...');
+        const productsData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/products.json'), 'utf8'));
+        
+        // Check if products already exist
+        const productCount = await Product.countDocuments();
+        if (productCount === 0) {
+            // Insert products
+            for (const productItem of productsData) {
+                await Product.create({
+                    _id: productItem._id.$oid,
+                    productID: productItem.productID,
+                    productName: productItem.productName,
+                    productPrice: productItem.productPrice,
+                    productDescription: productItem.productDescription,
+                    productImages: productItem.productImages,
+                    productStorage: productItem.productStorage,
+                    productReservation: productItem.productReservation,
+                    featured: productItem.featured,
+                    category: productItem.category.$oid
+                });
+            }
+            console.log(`${productsData.length} products imported successfully`);
         } else {
-            console.log('Test user account already exists, skipping creation');
+            console.log('Products already exist, skipping import');
         }
-
-        // Check if test user2 already exists
-        const user2Exists = await User.findOne({ username: 'testuser2' });
-        if (!user2Exists) {
-            let userPassword = await bcrypt.hash('user123', 10);
-            await User.create({
-                username: 'testuser2',
-                hashedPassword: userPassword,
-                email: 'user2@example.com',
-                isEmailVerified: false,
-                isadmin: 0
-            });
-            console.log('Test user2 account created');
+        
+        // Import users from JSON file
+        console.log('Importing users...');
+        const usersData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/user.json'), 'utf8'));
+        
+        // Check if users already exist
+        const userCount = await User.countDocuments();
+        if (userCount === 0) {
+            // Insert users
+            for (const userItem of usersData) {
+                await User.create({
+                    _id: userItem._id.$oid,
+                    username: userItem.username,
+                    hashedPassword: userItem.hashedPassword,
+                    email: userItem.email,
+                    isEmailVerified: userItem.isEmailVerified,
+                    isadmin: userItem.isadmin
+                });
+            }
+            console.log(`${usersData.length} users imported successfully`);
         } else {
-            console.log('Test user2 account already exists, skipping creation');
+            console.log('Users already exist, skipping import');
         }
 
         // Clear any existing OTPs
         await OTP.deleteMany({});
         console.log('Cleared existing OTPs');
-
-        // Check if products exist
-        const product1Exists = await Product.findOne({ productID: "P001" });
-        const product2Exists = await Product.findOne({ productID: "P002" });
-        
-        if (!product1Exists) {
-            await Product.create({
-                productID: "P001",
-                productName: "Careless People 7",
-                productPrice: 799.99,
-                productDescription: "Latest smartphone with 6.5-inch OLED display, 128GB storage, and triple camera system.",
-                productImages: 
-                [
-                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
-                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
-                ],
-                productStorage: 50
-            });
-            console.log('Product P001 created');
-        }
-        
-        if (!product2Exists) {
-            await Product.create({
-                productID: "P002",
-                productName: "The Buffalo Hunter",
-                productPrice: 1299.99,
-                productDescription: "High-performance laptop with 16GB RAM",
-                productImages: 
-                [
-                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg",
-                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"    
-                ],
-                productStorage: 25 
-            });
-            console.log('Product P002 created');
-        }
 
         // Initialize comments
         // First clear existing comments
@@ -117,28 +104,28 @@ async function initializeDatabase() {
                     user: user._id,
                     productID: product._id,
                     content: "This product exceeded my expectations! The quality is outstanding.",
-                    Rating:4,
+                    Rating: 4,
                     timestamp: new Date("2023-03-15T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "Delivery was fast and the product works perfectly. Would recommend!",
-                    Rating:5,
+                    Rating: 5,
                     timestamp: new Date("2023-03-13T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "Good value for money, but the packaging could be improved.",
-                    Rating:3,
+                    Rating: 3,
                     timestamp: new Date("2023-03-10T10:30:00Z")
                 },
                 {
                     user: user._id,
                     productID: product._id,
                     content: "I've been using this for a week now and it's holding up well.",
-                    Rating:2,
+                    Rating: 2,
                     timestamp: new Date("2023-03-08T10:30:00Z")
                 }
             ];
