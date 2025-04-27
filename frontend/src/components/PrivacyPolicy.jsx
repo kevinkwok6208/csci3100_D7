@@ -7,6 +7,8 @@ function PrivacyPolicy() {
 
   return (
     <div className="privacy-policy-container">
+      <section className="spacing"></section>
+
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

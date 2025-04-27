@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 auto; /* Center the step indicator */
-    padding: 20px 0; /* Add spacing above and below */
+    padding-top: 50px ; /* Add spacing above and below */
     width: 100%; /* Ensure it spans the full width */
     max-width: 800px; /* Optional: Limit indicator width */
     position: relative; /* Ensure proper positioning */
@@ -95,3 +95,130 @@
       display: none; /* Hide connecting lines on small screens */
     }
   }
+
+
+  .step-indicator {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    width: 100%; /* Full width */
+}
+
+.step-spacing {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-around; /* Space items evenly */
+    align-items: center; /* Center items vertically */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin: 0; /* Remove any default margin */
+}
+
+.indicator-spacing {
+    height: 75pt; /* Responsive height in points */
+    min-height: 60pt; /* Minimum height */
+    max-height: 100pt; /* Maximum height */
+    width: 100%; /* Full width */
+    margin-bottom: 10pt; /* Space between spacing and steps */
+}
+
+.step-container {
+    display: flex; /* Use flexbox for horizontal arrangement */
+    justify-content: space-around; /* Space items evenly */
+    align-items: center; /* Center items vertically */
+    width: 100%; /* Full width */
+}
+
+.step {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack circle and text vertically */
+    align-items: center; /* Center items horizontally */
+    height: 60pt; /* Responsive height in points */
+    min-height: 60pt; /* Minimum height */
+    max-height: 100pt; /* Maximum height */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+    flex: 1; /* Allow steps to grow equally */
+}
+
+
+
+.circle {
+    width: 40pt; /* Fixed width in points */
+    height: 40pt; /* Fixed height in points */
+    border-radius: 50%; /* Make it circular */
+    background-color: #ccc; /* Default circle color */
+    display: flex; /* Center the number */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin-bottom: 5pt; /* Space between circle and text */
+    font-size: 12pt; /* Fixed font size in points */
+}
+
+/* Additional elements styling */
+.other-elements {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    width: 100%; /* Full width */
+    background-color: #f9f9f9; /* Background color for the other elements */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .indicator-spacing {
+        height: 100pt; /* Adjust height for smaller screens */
+    }
+
+    .step {
+        height: 50pt; /* Adjust height for smaller screens */
+    }
+
+    .circle {
+        width: 35pt; /* Adjust circle size for medium screens */
+        height: 35pt; /* Adjust circle size for medium screens */
+    }
+
+    .circle {
+        font-size: 10pt; /* Adjust font size for medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .indicator-spacing {
+        height: 100pt; /* Further adjust for very small screens */
+    }
+
+    .step {
+        height: 40pt; /* Further adjust for very small screens */
+    }
+
+    .circle {
+        width: 30pt; /* Adjust circle size for small screens */
+        height: 30pt; /* Adjust circle size for small screens */
+    }
+
+    .circle {
+        font-size: 8pt; /* Decrease font size for small screens */
+    }
+}
+
+/* Landscape Orientation Adjustments */
+@media (orientation: landscape) {
+    .indicator-spacing {
+        height: 85pt; /* Adjust height for landscape orientation */
+    }
+
+    .step {
+        height: 70pt; /* Adjust height for landscape orientation */
+    }
+
+    .circle {
+        width: 45pt; /* Adjust circle size for landscape */
+        height: 45pt; /* Adjust circle size for landscape */
+    }
+
+    .circle {
+        font-size: 14pt; /* Increase font size for landscape */
+    }
+}
+
+
+

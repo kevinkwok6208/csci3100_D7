@@ -169,7 +169,7 @@ const Cart = ({ username }) => {
       <div className="cart-page">
       <div className="cart-container">
         <div className="cart-items">
-          <header className="cart-header">
+        <header className="cart-items-header">
             <h1>Your Shopping Cart</h1>
             <h4>{cartItems.length} Items</h4>
           </header>

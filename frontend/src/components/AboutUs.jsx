@@ -7,6 +7,8 @@ function AboutUs({username}) {
 
   return (
     <div className="about-us-container">
+            <section className="spacing"></section>
+
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

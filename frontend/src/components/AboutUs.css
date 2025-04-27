@@ -213,3 +213,530 @@ body {
   margin-left: 60px;
   margin-right: 60px;
 }
+
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #f8f9fc;
+  overflow-x: hidden;
+  line-height: 1.6;
+  /* Add padding for sticky header - adjust based on header height */
+  padding-top: 80px; /* Default header height - adjust as needed */
+}
+
+/* Scroll behavior fix for anchor links */
+html {
+  scroll-padding-top: 80px; /* Same as body padding-top */
+}
+
+/* About Us Container */
+.about-us-container {
+  max-width: 1200px;
+  margin: 40px auto; /* Increased top margin to account for header */
+  padding: 20px;
+}
+
+/* Hero Section */
+.heros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  margin: 40px 0 40px 0; /* Increased top margin */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.heros-content h1 {
+  font-size: 42px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.heros-content p {
+  font-size: 18px;
+  color: #e0e0e0;
+}
+
+.heros-shape .circle-shape {
+  width: 100px;
+  height: 100px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mission Section */
+.mission-section {
+  text-align: center;
+  margin: 80px 0 60px; /* Increased top margin for header clearance */
+  padding: 0 15px;
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.mission-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.mission-section p {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Why Choose Us Section */
+.why-choose-us-section {
+  margin: 80px 0 60px; /* Increased top margin for header clearance */
+  text-align: center;
+  padding: 0 15px;
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.why-choose-us-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.feature-card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.feature-card p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Contact Section */
+.contact-section {
+  text-align: center;
+  margin: 80px 0 60px; /* Increased top margin for header clearance */
+  background-color: #ffffff;
+  padding: 30px 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.contact-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.contact-section p {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 25px auto;
+}
+
+.contact-button {
+  background-color: #ffcc00;
+  color: black;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.contact-button:hover {
+  background-color: #f5b800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 40px 20px;
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.footer h4 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.footer ul li a:hover {
+  color: #ffcc00;
+}
+
+.mt-8 {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+}
+
+/* Yellow Dot Section */
+.yellow-dot-section {
+  text-align: center;
+  margin: 80px auto 60px; /* Increased top margin for header clearance */
+  padding: 30px 20px;
+  background-color: #fffdf6; /* Light yellow background */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  scroll-margin-top: 90px; /* For anchor links */
+}
+
+.yellow-dot-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+}
+
+.yellow-dot-section p {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+}
+
+/* Apply to all sections with IDs that might be linked to */
+[id] {
+  scroll-margin-top: 90px;
+}
+
+/* Responsive Design - Large Screens */
+@media screen and (max-width: 992px) {
+  body {
+    padding-top: 70px; /* Adjust for header height on this breakpoint */
+  }
+  
+  html {
+    scroll-padding-top: 70px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 80px;
+  }
+  
+  .heros {
+    flex-direction: column;
+    padding: 30px;
+  }
+  
+  .heros-content h1 {
+    font-size: 36px;
+    text-align: center;
+  }
+  
+  .heros-shape {
+    margin-top: 20px;
+  }
+  
+  .yellow-dot-section h2,
+  .yellow-dot-section p {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+
+/* Responsive Design - Medium Screens */
+@media screen and (max-width: 768px) {
+  body {
+    padding-top: 65px; /* Adjust for header height on this breakpoint */
+  }
+  
+  html {
+    scroll-padding-top: 65px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 75px;
+  }
+  
+  .about-us-container {
+    padding: 15px;
+    margin-top: 30px;
+  }
+  
+  .heros {
+    margin-top: 30px;
+  }
+  
+  .heros-content h1 {
+    font-size: 32px;
+  }
+  
+  .heros-content p {
+    font-size: 16px;
+  }
+  
+  .mission-section,
+  .why-choose-us-section,
+  .contact-section,
+  .yellow-dot-section {
+    margin-top: 60px;
+  }
+  
+  .mission-section h2,
+  .why-choose-us-section h2,
+  .contact-section h2,
+  .yellow-dot-section h2 {
+    font-size: 24px;
+  }
+  
+  .mission-section p,
+  .contact-section p,
+  .yellow-dot-section p {
+    font-size: 16px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .yellow-dot-section {
+    padding: 25px 15px;
+  }
+  
+  .yellow-dot-section h2,
+  .yellow-dot-section p {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+/* Responsive Design - Small Screens */
+@media screen and (max-width: 600px) {
+  body {
+    padding-top: 120px; /* Increased for stacked header elements */
+  }
+  
+  html {
+    scroll-padding-top: 120px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 130px;
+  }
+  
+  .about-us-container {
+    margin-top: 20px;
+  }
+  
+  .heros {
+    padding: 25px 15px;
+    margin-top: 20px;
+  }
+}
+
+/* Responsive Design - Extra Small Screens */
+@media screen and (max-width: 480px) {
+  body {
+    padding-top: 130px; /* Further increased for mobile header */
+  }
+  
+  html {
+    scroll-padding-top: 130px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 140px;
+  }
+  
+  .heros-content h1 {
+    font-size: 28px;
+  }
+  
+  .feature-card {
+    padding: 20px 15px;
+  }
+  
+  .contact-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .yellow-dot-section h2,
+  .yellow-dot-section p {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .mission-section,
+  .why-choose-us-section,
+  .contact-section,
+  .yellow-dot-section {
+    margin-top: 50px;
+  }
+}
+
+/* Extremely Small Screens */
+@media screen and (max-width: 350px) {
+  body {
+    padding-top: 140px; /* Adjusted for extremely small screens */
+  }
+  
+  html {
+    scroll-padding-top: 140px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 150px;
+  }
+  
+  .heros-content h1 {
+    font-size: 24px;
+  }
+  
+  .heros-content p,
+  .mission-section p,
+  .contact-section p,
+  .yellow-dot-section p {
+    font-size: 14px;
+  }
+  
+  .mission-section h2,
+  .why-choose-us-section h2,
+  .contact-section h2,
+  .yellow-dot-section h2 {
+    font-size: 22px;
+  }
+  
+  .feature-card h3 {
+    font-size: 18px;
+  }
+  
+  .feature-card p {
+    font-size: 14px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  body {
+    padding-top: 60px; /* Smaller header in landscape */
+  }
+  
+  html {
+    scroll-padding-top: 60px;
+  }
+  
+  [id], 
+  .heros, 
+  .mission-section, 
+  .why-choose-us-section, 
+  .contact-section, 
+  .yellow-dot-section, 
+  .footer {
+    scroll-margin-top: 70px;
+  }
+  
+  .heros {
+    padding: 20px;
+  }
+  
+  .mission-section,
+  .why-choose-us-section,
+  .contact-section,
+  .yellow-dot-section {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
