@@ -131,3 +131,619 @@ input:focus {
 .show-password-label input{
   flex:0.5;
 }
+
+/* Buttons - make selectors more specific */
+.auth-wrapper .auth-button,
+.forms-container .auth-button,
+.form .auth-button {
+  background-color: #ffcc00;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-wrapper .auth-button:hover,
+.forms-container .auth-button:hover,
+.form .auth-button:hover {
+  background-color: #f5b800;
+}
+
+/* Input group container */
+.input-group {
+  position: relative !important;
+  width: 100% !important;
+  margin-bottom: 15px !important;
+  display: flex !important;
+}
+
+/* Base input styling for both password and text modes */
+.input-group .input-field,
+.input-group input[type="password"],
+.input-group input[type="text"] {
+  width: 100% !important;
+  padding: 8px 40px 8px 12px !important; /* Right padding for the eye icon */
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  letter-spacing: 0.05em !important; /* Slight letter spacing for better readability */
+  box-sizing: border-box !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px !important;
+  transition: none !important; /* Prevent any animations that might cause shifts */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="file"] {
+  width: 100% !important;
+  padding: 8px !important;
+  margin-bottom: 10px !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px !important;
+  box-sizing: border-box !important;
+  transition: none !important;
+}
+
+
+/* Password toggle button - highly specific selectors */
+.auth-wrapper .password-toggle-btn,
+.forms-container .password-toggle-btn,
+.form .password-toggle-btn,
+.input-group .password-toggle-btn {
+  position: absolute !important;
+  right: 5px !important; /* Position from right edge */
+  top: 50% !important;
+  transform: translateY(-50%) !important; /* Center vertically */
+  height: 30px !important;
+  width: 30px !important;
+  background-color: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #000 !important;
+  transition: color 0.2s ease !important;
+}
+
+/* Hover state for the button */
+.auth-wrapper .password-toggle-btn:hover,
+.forms-container .password-toggle-btn:hover,
+.form .password-toggle-btn:hover,
+.input-group .password-toggle-btn:hover {
+  color: #666 !important;
+  background-color: transparent !important;
+}
+
+/* Focus and active states for the button */
+.auth-wrapper .password-toggle-btn:focus,
+.forms-container .password-toggle-btn:focus,
+.form .password-toggle-btn:focus,
+.input-group .password-toggle-btn:focus,
+.auth-wrapper .password-toggle-btn:active,
+.forms-container .password-toggle-btn:active,
+.form .password-toggle-btn:active,
+.input-group .password-toggle-btn:active {
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Icon styling */
+.auth-wrapper .password-toggle-btn i,
+.forms-container .password-toggle-btn i,
+.form .password-toggle-btn i,
+.input-group .password-toggle-btn i {
+  font-size: 18px !important;
+  color: #000 !important;
+  line-height: 1 !important;
+}
+
+/* Icon hover styling */
+.auth-wrapper .password-toggle-btn:hover i,
+.forms-container .password-toggle-btn:hover i,
+.form .password-toggle-btn:hover i,
+.input-group .password-toggle-btn:hover i {
+  color: #666 !important;
+}
+
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Below 200px - Extra Small Devices */
+@media screen and (max-width: 200px) {
+  .auth-wrapper {
+    padding: 5px !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    margin-top: 130px !important; /* Adjust margin for smaller screens */
+    align-items: center !important; /* Center content horizontally */
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container {
+    height: auto !important;
+    min-height: 300px !important;
+    width: 100% !important; /* Match width with overlay */
+    max-width: 100% !important;
+    flex-direction: column !important;
+    order: 2 !important; /* Move forms after overlay */
+  }
+  
+  .auth-wrapper .form {
+    padding: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 250px !important;
+  }
+  
+  .auth-wrapper .auth-button,
+  .auth-wrapper .forms-container .auth-button,
+  .auth-wrapper .form .auth-button {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .input-group .input-field,
+  .auth-wrapper .input-group input[type="password"],
+  .auth-wrapper .input-group input[type="text"],
+  .auth-wrapper input[type="text"],
+  .auth-wrapper input[type="email"],
+  .auth-wrapper input[type="number"],
+  .auth-wrapper input[type="file"] {
+    font-size: 12px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 5px 30px 5px 8px !important;
+  }
+  
+  .auth-wrapper .auth-overlay {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 150px !important;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    margin-bottom: 15px !important;
+    border-radius: 10px !important;
+    order: 1 !important; /* Move overlay before forms */
+  }
+  
+  .auth-wrapper .login-form, 
+  .auth-wrapper .signup-form {
+    left: 0 !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .login-form {
+    display: flex !important;
+  }
+  
+  .auth-wrapper .signup-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .login-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .signup-form {
+    display: flex !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .show-password-label {
+    width: 100% !important;
+    font-size: 12px !important;
+  }
+  
+  .auth-wrapper .toggle-link {
+    font-size: 12px !important;
+  }
+  
+  /* Reorder elements for vertical layout */
+  .auth-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* 200px - 400px - Small Devices */
+@media screen and (min-width: 201px) and (max-width: 400px) {
+  .auth-wrapper {
+    padding: 10px !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    margin-top: 40px !important; /* Adjust margin for smaller screens */
+    align-items: center !important; /* Center content horizontally */
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container {
+    height: auto !important;
+    min-height: 350px !important;
+    width: 100% !important; /* Match width with overlay */
+    max-width: 100% !important;
+    flex-direction: column !important;
+    order: 2 !important; /* Move forms after overlay */
+  }
+  
+  .auth-wrapper .form {
+    padding: 15px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px !important;
+  }
+  
+  .auth-wrapper .auth-button,
+  .auth-wrapper .forms-container .auth-button,
+  .auth-wrapper .form .auth-button {
+    padding: 8px 15px !important;
+    font-size: 14px !important;
+  }
+  
+  .auth-wrapper .input-group .input-field,
+  .auth-wrapper .input-group input[type="password"],
+  .auth-wrapper .input-group input[type="text"],
+  .auth-wrapper input[type="text"],
+  .auth-wrapper input[type="email"],
+  .auth-wrapper input[type="number"],
+  .auth-wrapper input[type="file"] {
+    font-size: 14px !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+  }
+  
+  .auth-wrapper .auth-overlay {
+    margin-top: 130px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 180px !important;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    margin-bottom: 20px !important;
+    border-radius: 10px !important;
+    order: 1 !important; /* Move overlay before forms */
+  }
+  
+  .auth-wrapper .login-form, 
+  .auth-wrapper .signup-form {
+    left: 0 !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .login-form {
+    display: flex !important;
+    
+  }
+  
+  .auth-wrapper .signup-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .login-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .signup-form {
+    display: flex !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .show-password-label {
+    width: 90% !important;
+    font-size: 14px !important;
+  }
+  
+  /* Reorder elements for vertical layout */
+  .auth-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* 400px - 700px - Medium Devices */
+@media screen and (min-width: 401px) and (max-width: 1000px) {
+  .auth-wrapper {
+    padding: 15px !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    margin-top: 160px !important; /* Adjust margin for smaller screens */
+    align-items: center !important; /* Center content horizontally */
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container {
+    height: auto !important;
+    min-height: 400px !important;
+    width: 100% !important; /* Match width with overlay */
+    max-width: 100% !important;
+    flex-direction: column !important;
+    order: 2 !important; /* Move forms after overlay */
+  }
+  
+  .auth-wrapper .form {
+    padding: 20px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 350px !important;
+  }
+  
+  .auth-wrapper .auth-button,
+  .auth-wrapper .forms-container .auth-button,
+  .auth-wrapper .form .auth-button {
+    padding: 8px 18px !important;
+    font-size: 15px !important;
+  }
+  
+  .auth-wrapper .auth-overlay {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px !important;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    margin-bottom: 20px !important;
+    border-radius: 10px !important;
+    order: 1 !important; /* Move overlay before forms */
+  }
+  
+  .auth-wrapper .login-form, 
+  .auth-wrapper .signup-form {
+    left: 0 !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .login-form {
+    display: flex !important;
+    
+  }
+  
+  .auth-wrapper .signup-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .login-form {
+    display: none !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .signup-form {
+    display: flex !important;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+    transform: translateX(0) !important;
+  }
+  
+  .auth-wrapper .overlay-content {
+    padding: 10px !important;
+  }
+  
+  .auth-wrapper .show-password-label {
+    width: 80% !important;
+  }
+  
+  /* Reorder elements for vertical layout */
+  .auth-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* Landscape Mode */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .auth-wrapper {
+    height: auto !important;
+    min-height: 100vh !important;
+    padding: 20px !important;
+    display: flex !important;
+    flex-direction: row !important; /* Keep side-by-side in landscape */
+  }
+  
+  .auth-wrapper .forms-container {
+    height: auto !important;
+    min-height: 300px !important;
+    flex-direction: row !important;
+    order: 1 !important; /* Forms first in landscape */
+    width: 60% !important; /* Adjust width for side-by-side */
+  }
+  
+  .auth-wrapper .form {
+    padding: 15px !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 250px !important;
+  }
+  
+  .auth-wrapper .auth-overlay {
+    height: auto !important;
+    min-height: 300px !important;
+    order: 2 !important; /* Overlay second in landscape */
+    width: 40% !important; /* Adjust width for side-by-side */
+  }
+  
+  .auth-wrapper .input-group .input-field,
+  .auth-wrapper .input-group input[type="password"],
+  .auth-wrapper .input-group input[type="text"],
+  .auth-wrapper input[type="text"],
+  .auth-wrapper input[type="email"],
+  .auth-wrapper input[type="number"],
+  .auth-wrapper input[type="file"] {
+    margin-bottom: 5px !important;
+  }
+  
+  /* For very small landscape heights */
+  @media screen and (max-height: 350px) {
+    .auth-wrapper {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    
+    .auth-wrapper .auth-overlay {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 150px !important;
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      margin-bottom: 15px !important;
+      border-radius: 10px !important;
+      order: 1 !important; /* Overlay first */
+      margin-top: 80px !important; /* Adjust margin for smaller screens */
+    }
+    
+    .auth-wrapper .forms-container {
+      width: 100% !important; /* Match width with overlay */
+      order: 2 !important; /* Forms second */
+    }
+    
+    .auth-wrapper .form {
+      width: 100% !important;
+    }
+    
+    .auth-wrapper .login-form, 
+    .auth-wrapper .signup-form {
+      left: 0 !important;
+      position: relative !important;
+      width: 100% !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active {
+      transform: translateX(0) !important;
+    }
+    
+    .auth-wrapper .login-form {
+      display: flex !important;
+    }
+    
+    .auth-wrapper .signup-form {
+      display: none !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active .login-form {
+      display: none !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active .signup-form {
+      display: flex !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+      transform: translateX(0) !important;
+    }
+  }
+
+
+  /* For very small landscape heights */
+  @media screen and (max-width: 600px) {
+    .auth-wrapper {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    
+    .auth-wrapper .auth-overlay {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 150px !important;
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      margin-bottom: 15px !important;
+      border-radius: 10px !important;
+      order: 1 !important; /* Overlay first */
+      margin-top: 100px !important; /* Adjust margin for smaller screens */
+    }
+    
+    .auth-wrapper .forms-container {
+      width: 100% !important; /* Match width with overlay */
+      order: 2 !important; /* Forms second */
+    }
+    
+    .auth-wrapper .form {
+      width: 100% !important;
+    }
+    
+    .auth-wrapper .login-form, 
+    .auth-wrapper .signup-form {
+      left: 0 !important;
+      position: relative !important;
+      width: 100% !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active {
+      transform: translateX(0) !important;
+    }
+    
+    .auth-wrapper .login-form {
+      display: flex !important;
+    }
+    
+    .auth-wrapper .signup-form {
+      display: none !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active .login-form {
+      display: none !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active .signup-form {
+      display: flex !important;
+    }
+    
+    .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+      transform: translateX(0) !important;
+    }
+  }
+}
+
+

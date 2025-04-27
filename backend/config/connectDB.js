@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
  */
 function connectDatabase() {
   /*mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net/*/ 
-  return mongoose.connect('mongodb://localhost:27017/CSCI3100_D7', {
+  return mongoose.connect('mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => {

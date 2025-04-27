@@ -25,6 +25,7 @@ import FAQ from "./components/FAQ"
 import ContactUs from "./components/ContactUs";
 import CheckoutStatus from './components/CheckoutStatus';
 import "./App.css";
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 import "./Auth.css";
@@ -16,10 +16,18 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
   const [statusMessage, setStatusMessage] = useState(""); // Temporary success messages
   const [successMessage, setSuccessMessage] = useState(""); // Persistent success message for login form
   const [showPassword, setShowPassword] = useState(false);
+  
   const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // Toggle the state
+  // Handle password visibility with mouse events
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setShowPassword(true);
+  };
+  
+  const handleMouseUp = (e) => {
+    e.preventDefault();
+    setShowPassword(false);
   };
 
   // Handle Login
@@ -153,28 +161,33 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
           <form onSubmit={handleLogin}>
             <input
               type="text"
-              placeholder="Email Or Username"
-              className="input-field"
+              placeholder="Email or Username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <label className="show-password-label">
+            <div className="input-group">
               <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={togglePasswordVisibility}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                className="input-field"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              Show Password
-            </label>
+              <button
+                type="button"
+                className="password-toggle-btn"
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                tabIndex="-1"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i>
+              </button>
+            </div>
+            
             <button className="auth-button" type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -190,7 +203,6 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               <input
                 type="text"
                 placeholder="Username"
-                className="input-field"
                 value={username}
                 onChange={(e) => setLocalUsername(e.target.value)}
                 required
@@ -198,27 +210,52 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               <input
                 type="email"
                 placeholder="Email"
-                className="input-field"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="input-field"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="input-field"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <div className="input-group">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  className="input-field"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onMouseDown={handleMouseDown}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}
+                  tabIndex="-1"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i>
+                </button>
+              </div>
+              <div className="input-group">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Confirm Password"
+                  className="input-field"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onMouseDown={handleMouseDown}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}
+                  tabIndex="-1"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i>
+                </button>
+              </div>
               <button className="auth-button" type="submit" disabled={loading}>
                 {loading ? "Registering..." : "Sign Up"}
               </button>
@@ -228,14 +265,12 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               <input
                 type="email"
                 placeholder="Email"
-                className="input-field"
                 value={email}
                 disabled // Email is pre-filled
               />
               <input
                 type="text"
                 placeholder="Enter OTP"
-                className="input-field"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 required
