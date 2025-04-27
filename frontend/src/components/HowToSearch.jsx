@@ -6,6 +6,8 @@ function HowToSearch() {
   const navigate = useNavigate();
   return (
     <div className="how-to-search-container">
+      <section className="spacing"></section>
+
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

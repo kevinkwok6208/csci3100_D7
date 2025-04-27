@@ -9,6 +9,38 @@
   border-radius: 10px;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
+  padding-top: 60px;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 900px) {
+  .profile-page-container {
+    padding-top: 60px; /* Default */
+  }
+}
+
+@media (max-width: 800px) {
+  .profile-page-container {
+    padding-top: 85px; /* Adjust for screens 800px and below */
+  }
+}
+
+@media (max-width: 700px) {
+  .profile-page-container {
+    padding-top: 100px; /* Adjust for screens 700px and below */
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-page-container {
+    padding-top: 100px; /* Adjust for screens 500px and below */
+  }
+}
+
+@media (max-width: 300px) {
+  .profile-page-container {
+    padding-top: 100px; /* Adjust for screens 300px and below */
+  }
 }
 
 /* Left Section */
@@ -49,7 +81,8 @@
   margin-bottom: 15px;
 }
 
-.logout-button {
+/* Specific button styling for profile component */
+.profile-page-container .logout-button {
   background-color: #f5b800;
   color: white;
   border: none;
@@ -60,7 +93,7 @@
   transition: background-color 0.3s;
 }
 
-.logout-button:hover {
+.profile-page-container .logout-button:hover {
   background-color: #f5b800;
 }
 
@@ -108,8 +141,9 @@ input:disabled {
   cursor: not-allowed;
 }
 
-.request-otp-button,
-.reset-password-button {
+/* More specific selectors for profile buttons */
+.profile-page-container .request-otp-button,
+.profile-page-container .reset-password-button {
   margin-top: 10px;
   background-color: #f5b800;
   color: white;
@@ -119,8 +153,8 @@ input:disabled {
   cursor: pointer;
 }
 
-.request-otp-button:hover,
-.reset-password-button:hover {
+.profile-page-container .request-otp-button:hover,
+.profile-page-container .reset-password-button:hover {
   background-color: #000000;
 }
 

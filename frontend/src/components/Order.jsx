@@ -152,6 +152,7 @@ const Order = ({ username }) => {
 
   return (
     <div className="order-container">
+      <section className="spacing"></section>
       <h1 className="order-title">Order History</h1>
 
       {/* Filters and Sorting Section */}
@@ -216,7 +217,7 @@ const Order = ({ username }) => {
                   Total Price {sortField === "Price" && (sortOrder === "Ascending" ? "↑" : "↓")}
                 </th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Received?</th>
               </tr>
             </thead>
             <tbody>
@@ -255,7 +256,7 @@ const Order = ({ username }) => {
                         onClick={() => handleUpdateStatus(order.orderId)}
                         className="update-status-button"
                       >
-                        Update Status
+                        Received
                       </button>
                     )}
                   </td>

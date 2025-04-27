@@ -158,10 +158,14 @@ function Home({ isLoggedIn }) {
   };
 
   return (
+    
     <div className="home-container">
+      <section className="spacing"></section>
+      
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
+        
           <h1>The Store That Feeds Your Mind. Visit Us Today</h1>
           <p>Where you can browse, buy, and read books in minutes.</p>
           <div className="search-bars">

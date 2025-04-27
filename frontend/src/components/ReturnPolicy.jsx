@@ -6,6 +6,7 @@ function ReturnPolicy() {
   const navigate = useNavigate();
   return (
     <div className="return-policy-container">
+      <section className="spacing"></section>
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

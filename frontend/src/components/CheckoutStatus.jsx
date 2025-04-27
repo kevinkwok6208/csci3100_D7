@@ -23,6 +23,7 @@ const CheckoutStatus = () => {
 
   return (
     <div className="checkout-status-container">
+      <section className="spacing"></section>
       <div className="status-card">
         <div className="success-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

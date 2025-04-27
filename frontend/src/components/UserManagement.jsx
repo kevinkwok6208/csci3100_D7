@@ -133,7 +133,9 @@ const UserManagement = () => {
   };
 
   return (
+    
     <div className="user-list-container">
+      <section className="spacing"></section>
       <h1>User Management</h1>
       {loading && <p className="loading-message">Loading...</p>}
       {error && <p className="error-message">{error}</p>}
@@ -197,18 +199,19 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
-              <tr key={user._id}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.isadmin ? 'Yes' : 'No'}</td>
-                <td>
-                  <button onClick={() => { setCurrentUser(user.username); setChangingEmail(true); setChangingPassword(false);setNewEmail(user.email); }}>Change Email</button>
-                  <button onClick={() => { setCurrentUser(user.username); setChangingEmail(false);setChangingPassword(true); }}>Change Password</button>
-                  <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
-                </td>
-              </tr>
-            ))}
+          {users.map(user => (
+            <tr key={user._id}>
+              <td data-label="Username">{user.username}</td>
+              <td data-label="Email">{user.email}</td>
+              <td data-label="Admin">{user.isadmin ? 'Yes' : 'No'}</td>
+              <td data-label="Actions">
+                <button onClick={() => { setCurrentUser(user.username); setChangingEmail(true); setChangingPassword(false); setNewEmail(user.email); }}>Change Email</button>
+                <button onClick={() => { setCurrentUser(user.username); setChangingEmail(false); setChangingPassword(true); }}>Change Password</button>
+                <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+
           </tbody>
         </table>
       )}
