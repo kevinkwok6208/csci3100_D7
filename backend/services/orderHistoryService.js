@@ -1,6 +1,31 @@
 const OrderHistory = require('../models/Order');
 
 class OrderHistoryService {
+    // Add to orderHistoryService.js
+    async getOrdersByDateRange(startDate, endDate) {
+        try {
+            const orders = await OrderHistory.find({
+                createdAt: { $gte: startDate, $lte: endDate }
+            })
+            .populate('products.productId')
+            .populate('userId', 'username email');
+            return orders;
+        } catch (error) {
+            throw new Error('Error fetching orders by date range: ' + error.message);
+        }
+    }
+
+    async getAllOrders() {
+        try {
+            const orders = await OrderHistory.find({})
+                .populate('products.productId')
+                .populate('userId', 'username email'); // Populate user details
+            return orders;
+        } catch (error) {
+            throw new Error('Error fetching all orders: ' + error.message);
+        }
+    }
+
     async getOrderHistoriesByUserId(userId) { //changed from userId to username
         try {
             const orders = await OrderHistory.find({ userId }).populate('products.productId'); // Populate product details

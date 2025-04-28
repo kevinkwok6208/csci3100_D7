@@ -1,0 +1,760 @@
+/* SalesAnalytics.css - Fixed chart display issues */
+
+.sales-analytics-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.sales-analytics-container h1 {
+    color: #333;
+    border-bottom: 2px solid #ffcc00;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.analytics-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    border-radius: 8px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    background-color: white;
+    border: 1px solid #fffdf6;
+    transition: transform 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+}
+
+.summary-card:nth-child(1) {
+    border-top: 4px solid #ffcc00;
+}
+
+.summary-card:nth-child(2) {
+    border-top: 4px solid rgba(76, 175, 80, 0.5);
+}
+
+.summary-card:nth-child(3) {
+    border-top: 4px solid #f5b800;
+}
+
+.summary-card h3 {
+    margin-top: 0;
+    color: #555;
+    font-size: 16px;
+}
+
+.summary-card p {
+    margin-bottom: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.date-filter-container {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    background-color: #fffdf6;
+    border-left: 4px solid #ffcc00;
+}
+
+.date-filter-container h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.date-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.date-input-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.date-input-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.date-input-group input {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.date-input-group input:focus {
+    outline: none;
+    border-color: #ffcc00;
+    box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.15);
+}
+
+.download-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #fffdf6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.download-btn {
+    background-color: #f7c707;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.download-btn:hover {
+    background-color: #f5b800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.download-btn:disabled {
+    background: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.clear-filter-btn {
+    background-color: rgba(76, 175, 80, 0.5);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    align-self: flex-end;
+}
+
+.clear-filter-btn:hover {
+    background-color: rgba(76, 175, 80, 0.7);
+}
+
+/* Chart styles */
+.analytics-charts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-height: 350px;
+    position: relative;
+    border: 1px solid #fffdf6;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.chart-container h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #fffdf6;
+    padding-bottom: 10px;
+}
+
+.chart-container canvas,
+.chart-container .recharts-wrapper {
+    width: 100% !important;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-inner {
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style each chart container differently */
+.chart-container:nth-child(1) {
+    border-top: 3px solid rgba(76, 175, 80, 0.5);
+}
+
+.chart-container:nth-child(2) {
+    border-top: 3px solid rgba(76, 175, 80, 0.5);
+}
+
+.chart-container:nth-child(3) {
+    border-top: 3px solid #f5b800;
+}
+
+.chart-container:nth-child(4) {
+    border-top: 3px solid #ffcc00;
+}
+
+/* Average Order Value chart specific styles */
+.aov-chart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 250px;
+}
+
+.aov-display {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.aov-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.aov-value {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.aov-label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.orders-table {
+    overflow-x: auto;
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+.orders-table h2 {
+    color: #333;
+    border-bottom: 2px solid #ffcc00;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eeeeee;
+}
+
+th {
+    background-color: #ffcc00;
+    color: white;
+    font-weight: 500;
+}
+
+tr:nth-child(even) {
+    background-color: #fffdf6;
+}
+
+tr:hover {
+    background-color: rgba(255, 204, 0, 0.1);
+}
+
+/* Fix for chart responsiveness */
+.recharts-responsive-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 250px;
+}
+
+.recharts-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 250px;
+}
+
+.recharts-surface {
+    width: 100%;
+    height: 100%;
+}
+
+/* Chart colors */
+.recharts-bar-rectangle path {
+    fill: rgba(76, 175, 80, 0.5) !important;
+}
+
+.recharts-line-curve {
+    stroke: #ffcc00 !important;
+}
+
+.recharts-pie-sector {
+    fill: #f5b800 !important;
+}
+
+.recharts-sector {
+    stroke: #fff;
+}
+
+.recharts-tooltip-wrapper {
+    background-color: white !important;
+    border: 1px solid #ffcc00 !important;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .analytics-charts {
+        grid-template-columns: 1fr;
+    }
+    
+    .analytics-summary {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .summary-card {
+        width: 100%;
+    }
+    
+    .chart-container {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .download-options {
+        flex-direction: column;
+    }
+    
+    .date-inputs {
+        flex-direction: column;
+    }
+    
+    .date-input-group {
+        width: 100%;
+    }
+}
+
+/* Chart title adjustments */
+.chart-title-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.chart-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Fix for doughnut chart */
+.doughnut-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Custom colors for specific chart elements */
+.bar-chart rect {
+    fill: rgba(76, 175, 80, 0.5);
+}
+
+.line-chart path {
+    stroke: #ffcc00;
+    stroke-width: 2;
+}
+
+.doughnut-chart path {
+    stroke: white;
+    stroke-width: 2;
+}
+
+/* Fix for chart legends */
+.recharts-legend-wrapper {
+    bottom: 0 !important;
+}
+
+.recharts-default-legend {
+    text-align: center !important;
+}
+
+/* Animation for chart loading */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.chart-container {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+/* Add to your CSS file */
+.recharts-xAxis .recharts-cartesian-axis-tick-value {
+    font-size: 12px;
+    font-weight: normal;
+  }
+  
+  .recharts-xAxis .recharts-cartesian-axis-tick {
+    transition: transform 0.3s ease;
+  }
+  
+  .recharts-xAxis .recharts-cartesian-axis-tick:hover {
+    transform: translateY(-2px);
+  }
+  
+  
+  /* Mobile and iPad specific responsive adjustments */
+@media screen and (max-width: 1024px) {
+    /* Container adjustments */
+    .sales-analytics-container {
+      padding: 15px;
+    }
+    
+    /* Header adjustments */
+    .sales-analytics-container h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    
+    /* Analytics charts layout for tablets and mobile */
+    .analytics-charts {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    /* Chart container adjustments */
+    .chart-container {
+      min-height: 320px;
+      padding: 15px;
+    }
+    
+    .chart-container h2 {
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    
+    /* Chart canvas and wrapper adjustments */
+    .chart-container canvas,
+    .chart-container .recharts-wrapper,
+    .recharts-responsive-container {
+      width: 100% !important;
+      height: auto !important;
+    }
+    
+    /* Summary cards adjustments */
+    .analytics-summary {
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .summary-card {
+      width: 100%;
+      padding: 15px;
+    }
+    
+    .summary-card h3 {
+      font-size: 14px;
+    }
+    
+    .summary-card p {
+      font-size: 20px;
+    }
+    
+    /* Date filter container adjustments */
+    .date-filter-container {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .date-filter-container h2 {
+      font-size: 18px;
+    }
+    
+    .date-inputs {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .date-input-group {
+      width: 100%;
+    }
+    
+    /* Download options adjustments */
+    .download-options {
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+    }
+    
+    .download-btn {
+      width: 100%;
+      font-size: 14px;
+      padding: 8px 15px;
+    }
+    
+    .clear-filter-btn {
+      align-self: center;
+      width: 100%;
+      margin-top: 5px;
+    }
+    
+    /* Orders table adjustments */
+    .orders-table {
+      padding: 15px;
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+    
+    .orders-table h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    
+    .orders-table table {
+      min-width: 500px; /* Ensure table has minimum width for scrolling */
+    }
+    
+    /* Chart specific adjustments */
+    /* AOV Chart */
+    .aov-chart .aov-display {
+      width: 180px;
+      height: 180px;
+    }
+    
+    .aov-value {
+      font-size: 24px;
+    }
+    
+    .aov-label {
+      font-size: 12px;
+    }
+  }
+  
+  /* Specific styles for phones */
+  @media screen and (max-width: 576px) {
+    .sales-analytics-container {
+      padding: 10px;
+    }
+    
+    .sales-analytics-container h1 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+    }
+    
+    .chart-container {
+      min-height: 280px;
+      padding: 12px;
+    }
+    
+    .chart-container h2 {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    /* Make chart text smaller on phones */
+    .recharts-text,
+    .recharts-cartesian-axis-tick-value {
+      font-size: 10px !important;
+    }
+    
+    /* Adjust table for very small screens */
+    .orders-table {
+      padding: 10px;
+    }
+    
+    .orders-table h2 {
+      font-size: 16px;
+    }
+    
+    th, td {
+      padding: 8px;
+      font-size: 12px;
+    }
+    
+    /* Smaller summary cards */
+    .summary-card {
+      padding: 12px;
+    }
+    
+    .summary-card h3 {
+      font-size: 13px;
+    }
+    
+    .summary-card p {
+      font-size: 18px;
+    }
+    
+    /* AOV Chart smaller */
+    .aov-chart .aov-display {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .aov-value {
+      font-size: 20px;
+    }
+    
+    .aov-label {
+      font-size: 11px;
+    }
+    
+    /* Date inputs smaller */
+    .date-input-group label {
+      font-size: 13px;
+    }
+    
+    .date-input-group input {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+  }
+  
+  /* iPad specific adjustments */
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    /* Container adjustments */
+    .sales-analytics-container {
+      padding: 18px;
+    }
+    
+    /* Analytics charts layout for iPad - 2 columns */
+    .analytics-charts {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    
+    /* Summary cards in a row for iPad */
+    .analytics-summary {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 2%;
+    }
+    
+    .summary-card {
+      width: 32%;
+    }
+    
+    /* Date inputs side by side on iPad */
+    .date-inputs {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .date-input-group {
+      width: 45%;
+    }
+    
+    /* Download options in a row for iPad */
+    .download-options {
+      flex-direction: row;
+      gap: 15px;
+    }
+    
+    .download-btn {
+      width: auto;
+    }
+  }
+  
+  /* Chart axis label adjustments for mobile */
+  @media screen and (max-width: 1024px) {
+    /* Fix for x-axis labels on mobile */
+    .recharts-xAxis .recharts-cartesian-axis-tick text,
+    .recharts-yAxis .recharts-cartesian-axis-tick text {
+      font-size: 10px !important;
+    }
+    
+    /* Rotate x-axis labels to prevent overlap */
+    .recharts-xAxis .recharts-cartesian-axis-tick text {
+      transform: rotate(-45deg);
+      text-anchor: end;
+    }
+    
+    /* Adjust legend text size */
+    .recharts-legend-item-text,
+    .recharts-default-legend .recharts-legend-item {
+      font-size: 10px !important;
+    }
+    
+    /* Ensure chart tooltips are readable */
+    .recharts-tooltip-wrapper {
+      font-size: 12px !important;
+    }
+    
+    /* Improve chart.js tooltips */
+    .chartjs-tooltip {
+      font-size: 12px !important;
+      padding: 6px !important;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    /* Hide only the table element */
+    .sales-analytics-container .orders-table{
+      display: none;
+    }
+}
+
+
+  

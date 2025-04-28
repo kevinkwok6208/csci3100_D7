@@ -1771,22 +1771,21 @@ img {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* shared styles for all screen sizes */
 .home-container .product-card img,
 .home-container .product-card > img {
   max-width: 150px;
   margin-bottom: 10px;
   border-radius: 8px;
-  margin-left:30%;
+  margin-left: 0%;
 }
 
-/* More specific best seller card styling */
-.home-container .best-seller-card,
-.home-container div.best-seller-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px 0;
-  transition: transform 0.3s;
+/* mobile only: add left margin */
+@media (max-width: 900px) {
+  .home-container .product-card img,
+  .home-container .product-card > img {
+    margin-left: 30%;
+  }
 }
 
 .home-container .tilted-book-image,

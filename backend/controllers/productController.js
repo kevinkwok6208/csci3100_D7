@@ -5,6 +5,67 @@ const ProductDisplayService = require('../services/ProductDisplayService');
 const multer = require('multer');
 
 class ProductController {
+    // Add this method to your existing controller
+  async getAllOrders(req, res) {
+    try {
+        const orders = await this.orderHistoryService.getAllOrders();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Add this method for Excel export
+  async exportOrdersToExcel(req, res) {
+    try {
+        const orders = await this.orderHistoryService.getAllOrders();
+        
+        // You'll need to install the exceljs package: npm install exceljs
+        const ExcelJS = require('exceljs');
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('All Orders');
+        
+        // Define columns
+        worksheet.columns = [
+            { header: 'Order ID', key: 'orderId', width: 20 },
+            { header: 'User', key: 'username', width: 20 },
+            { header: 'Customer Name', key: 'Name', width: 20 },
+            { header: 'Shipping Address', key: 'ShippingAddress', width: 30 },
+            { header: 'Total Price', key: 'totalPrice', width: 15 },
+            { header: 'Order Date', key: 'createdAt', width: 20 },
+            { header: 'Products', key: 'products', width: 50 }
+        ];
+        
+        // Add rows
+        orders.forEach(order => {
+            const productsList = order.products.map(p => 
+                `${p.productId.productName} (${p.quantity} x $${p.price})`
+            ).join(', ');
+            
+            worksheet.addRow({
+                orderId: order.orderId,
+                username: order.username || (order.userId && order.userId.username) || 'Unknown',
+                Name: order.Name,
+                ShippingAddress: order.ShippingAddress,
+                totalPrice: `$${order.totalPrice.toFixed(2)}`,
+                createdAt: new Date(order.createdAt).toLocaleDateString(),
+                products: productsList
+            });
+        });
+        
+        // Set response headers
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=all-orders.xlsx');
+        
+        // Write to response
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+  }
+
+
   // Add new product with image upload
   async addProduct(req, res) {
     // Use multer middleware from the service
