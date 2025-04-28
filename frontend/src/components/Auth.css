@@ -161,6 +161,36 @@ input:focus {
   margin-bottom: 15px !important;
   display: flex !important;
 }
+/* Specific styling for signup form inputs only */
+.auth-wrapper .signup-form form input[type="text"],
+.auth-wrapper .signup-form form input[type="email"],
+.auth-wrapper .signup-form form input.input-field,
+.auth-wrapper .signup-form form .input-group {
+  width: 90% !important;
+}
+
+/* Apply margin-left to input-group only on non-mobile devices */
+@media screen and (min-width: 768px) {
+  .auth-wrapper .input-group {
+    margin-left: 5% !important;
+    margin-bottom:0px !important;
+  }
+}
+
+.auth-wrapper .input-group {
+  margin-bottom:0px !important;
+}
+
+@media (max-width: 768px) {
+  .auth-wrapper .forms-container.sign-up-active .form.signup-form button.auth-button {
+    width: 90% !important;
+    margin: 0  !important; /* This centers the button horizontally */
+    display: block !important;
+    margin-top:5px!important;
+  }
+}
+
+
 
 /* Base input styling for both password and text modes */
 .input-group .input-field,
@@ -747,3 +777,220 @@ input[type="file"] {
 }
 
 
+/* Mobile-specific fixes for Auth component only */
+@media screen and (max-width: 767px) {
+  /* Target only the Auth component wrapper */
+  .auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Target only the Auth overlay */
+  .auth-wrapper .auth-overlay {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px !important;
+    margin-bottom: 20px !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    order: 1;
+  }
+  
+  /* Target only the Auth overlay content */
+  .auth-wrapper .overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+  }
+  
+  /* Target only the Auth forms container */
+  .auth-wrapper .forms-container {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+    margin: 0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    order: 2;
+    overflow: hidden;
+  }
+  
+  /* Target only the Auth form elements */
+  .auth-wrapper .form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: #fff;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-wrapper .login-form {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .auth-wrapper .signup-form {
+    opacity: 0;
+    z-index: 0;
+  }
+  
+  /* Handle form switching */
+  .auth-wrapper .forms-container.sign-up-active .login-form {
+    opacity: 0;
+    z-index: 0;
+  }
+  
+  .auth-wrapper .forms-container.sign-up-active .signup-form {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  /* Remove all transforms that might be causing issues */
+  .auth-wrapper .forms-container.sign-up-active,
+  .auth-wrapper .forms-container.sign-up-active + .auth-overlay {
+    transform: none !important;
+  }
+  
+  /* Target only Auth component input fields */
+  .auth-wrapper input[type="text"],
+  .auth-wrapper input[type="email"],
+  .auth-wrapper input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Target only Auth component password fields */
+  .auth-wrapper .input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .auth-wrapper .input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .auth-wrapper .password-toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  /* Target only Auth component buttons */
+  .auth-wrapper .auth-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffc107;
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  /* Specific fixes for signup form */
+  .auth-wrapper .signup-form form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .auth-wrapper .signup-form .input-group {
+    width: 100%;
+  }
+  
+  /* Make sure the eye icon is visible and properly positioned */
+  .auth-wrapper .signup-form .password-toggle-btn {
+    right: 10px;
+    color: #666;
+  }
+  
+  /* Fix form heights to accommodate all content */
+  .auth-wrapper .signup-form {
+    min-height: 450px;
+    overflow-y: auto;
+  }
+  
+  /* Add padding to bottom of form to ensure all content is visible */
+  .auth-wrapper .signup-form form {
+    padding-bottom: 20px;
+  }
+}
+
+/* Extra small screens - with specific targeting */
+@media screen and (max-width: 375px) {
+  .auth-wrapper {
+    padding: 10px;
+  }
+  
+  .auth-wrapper .auth-overlay {
+    min-height: 180px !important;
+  }
+  
+  .auth-wrapper .overlay-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .auth-wrapper .overlay-content p {
+    font-size: 0.9rem;
+  }
+  
+  .auth-wrapper .form h2 {
+    font-size: 1.5rem;
+  }
+  
+  .auth-wrapper .form p {
+    font-size: 0.9rem;
+  }
+  
+  /* Smaller padding for very small screens */
+  .auth-wrapper input[type="text"],
+  .auth-wrapper input[type="email"],
+  .auth-wrapper input[type="password"],
+  .auth-wrapper .input-field {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .auth-wrapper .auth-button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

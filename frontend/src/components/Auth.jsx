@@ -19,15 +19,10 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
   
   const navigate = useNavigate();
 
-  // Handle password visibility with mouse events
-  const handleMouseDown = (e) => {
+  // Toggle password visibility
+  const togglePasswordVisibility = (e) => {
     e.preventDefault();
-    setShowPassword(true);
-  };
-  
-  const handleMouseUp = (e) => {
-    e.preventDefault();
-    setShowPassword(false);
+    setShowPassword(!showPassword);
   };
 
   // Handle Login
@@ -178,9 +173,11 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
               <button
                 type="button"
                 className="password-toggle-btn"
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
+                onClick={togglePasswordVisibility}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  togglePasswordVisibility(e);
+                }}
                 tabIndex="-1"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
@@ -226,9 +223,11 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
                 <button
                   type="button"
                   className="password-toggle-btn"
-                  onMouseDown={handleMouseDown}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
+                  onClick={togglePasswordVisibility}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    togglePasswordVisibility(e);
+                  }}
                   tabIndex="-1"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -247,9 +246,11 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
                 <button
                   type="button"
                   className="password-toggle-btn"
-                  onMouseDown={handleMouseDown}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
+                  onClick={togglePasswordVisibility}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    togglePasswordVisibility(e);
+                  }}
                   tabIndex="-1"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -312,3 +313,4 @@ function Auth({ setIsLoggedIn, setUsername, setIsAdmin }) {
 }
 
 export default Auth;
+

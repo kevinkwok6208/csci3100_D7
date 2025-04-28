@@ -6,6 +6,10 @@
     font-family: "Arial", sans-serif;
     background-color: #f8f9fc;
   }
+
+  .making-payment-container .contact-button{
+    background-color: #ffcc00;
+  }
   
   /* Hero Section */
   .heros-section {

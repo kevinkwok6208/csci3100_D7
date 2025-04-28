@@ -4,6 +4,10 @@
     margin: 0 auto;
     padding: 20px;
   }
+
+  .how-to-search-container .contact-button{
+    background-color: #ffcc00;
+  }
   
 /* Hero Section */
 .heros {

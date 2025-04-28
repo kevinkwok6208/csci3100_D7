@@ -411,3 +411,280 @@
   font-weight: bold;
   color: #333;
 }
+
+
+/* Responsive styles for Order component */
+@media screen and (max-width: 1024px) {
+  .order-container {
+    padding: 15px;
+    max-width: 95%;
+  }
+  
+  .order-container .order-title {
+    font-size: 28px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+  }
+  
+  .order-container .filter-input-wrapper {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .order-container {
+    padding: 12px;
+  }
+  
+  .order-container .order-title {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+  
+  .order-container .filter-sort-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .order-container .filter-section {
+    width: 100%;
+  }
+  
+  .order-container .filter-input-wrapper {
+    width: 100%;
+  }
+  
+  .order-container .status-filter-section {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .order-container .status-filter-button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  
+  /* Table responsive styling */
+  .order-container .order-table {
+    border: 0;
+  }
+  
+  .order-container .order-table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  .order-container .order-table tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .order-container .order-table td {
+    display: block;
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+    text-align: right;
+    position: relative;
+    min-height: 30px;
+  }
+  
+  .order-container .order-table td:last-child {
+    border-bottom: 0;
+  }
+  
+  .order-container .order-table td::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+  }
+  
+  /* Add labels to each cell */
+  .order-container .order-table td:nth-of-type(1)::before {
+    content: "Date:";
+  }
+  
+  .order-container .order-table td:nth-of-type(2)::before {
+    content: "Product:";
+    top: 15px;
+    transform: none;
+  }
+  
+  .order-container .order-table td:nth-of-type(3)::before {
+    content: "Total Price:";
+  }
+  
+  .order-container .order-table td:nth-of-type(4)::before {
+    content: "Status:";
+  }
+  
+  .order-container .order-table td:nth-of-type(5)::before {
+    content: "Received:";
+  }
+  
+  /* Adjust product list in mobile view */
+  .order-container .product-list {
+    text-align: left;
+    padding-left: 20px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+  
+  .order-container .product-list-item {
+    margin-bottom: 5px;
+  }
+  
+  .order-container .product-name {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .order-container .order-id {
+    text-align: left;
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9em;
+  }
+  
+  .order-container .update-status-button {
+    width: 100%;
+    margin-top: 5px;
+  }
+  
+  /* Status styling */
+  .order-container .status-received {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  
+  .order-container .status-shipped {
+    color: #f57c00;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .order-container {
+    padding: 10px;
+    max-width: 100%;
+  }
+  
+  .order-container .order-title {
+    font-size: 22px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .order-container .filter-input {
+    padding: 8px;
+  }
+  
+  .order-container .filter-input-wrapper button,
+  .order-container .filter-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .order-container .status-filter-button {
+    font-size: 12px;
+    padding: 5px 8px;
+    margin-bottom: 5px;
+  }
+  
+  .order-container .order-table td {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .order-container .order-table td::before {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .order-container .product-name {
+    font-size: 16px;
+  }
+  
+  .order-container .product-quantity {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .order-container .order-id {
+    font-size: 0.8em;
+  }
+  
+  .order-container .empty-history-message {
+    font-size: 1rem;
+    padding: 15px;
+  }
+  
+  .order-container .update-status-button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  /* Adjust product list for smaller screens */
+  .order-container .product-list {
+    padding-left: 15px;
+  }
+  
+  .order-container .product-list-item {
+    margin-bottom: 8px;
+  }
+}
+
+/* For very small screens */
+@media screen and (max-width: 320px) {
+  .order-container .order-title {
+    font-size: 20px;
+  }
+  
+  .order-container .filter-input-wrapper button,
+  .order-container .filter-button,
+  .order-container .status-filter-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .order-container .order-table td {
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+  
+  .order-container .product-name {
+    font-size: 15px;
+  }
+  
+  .order-container .product-quantity {
+    font-size: 13px;
+  }
+}
+
+/* Status message styling */
+.order-container .status-message {
+  background-color: #e6f7ff;
+  color: #0066cc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
