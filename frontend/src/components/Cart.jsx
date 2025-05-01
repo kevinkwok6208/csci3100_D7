@@ -193,7 +193,7 @@ const Cart = ({ username }) => {
                 />
                 <img
                   src={
-                    item.productId.productImages?.[0] || "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
+                    item.productId.productImages?.[0]
                   }
                   alt={item.productId.productName}
                 />
@@ -212,7 +212,7 @@ const Cart = ({ username }) => {
                     }
                     disabled={item.quantity <= 1}
                   >
-                    -
+                    &minus;
                   </button>
                   <span>{item.quantity}</span>
                   <button
@@ -226,7 +226,7 @@ const Cart = ({ username }) => {
                       item.quantity >= productStocks[item.productId.productID]
                     }
                   >
-                    +
+                    &#43;
                   </button>
                 </div>
                 <div className="item-total">

@@ -278,7 +278,6 @@ function ProductDetail({ username, token }) {
 
   return (
     <div className="product-detail-container">
-      <section className="spacing"></section>
       <button className="back-button" onClick={() => navigate("/")}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +296,6 @@ function ProductDetail({ username, token }) {
         Back
       </button>
       <div className="product-detail">
-        
         <img
           src={product.productImages[0] || "https://via.placeholder.com/300"}
           alt={product.productName || "Product Image"}
@@ -320,22 +318,11 @@ function ProductDetail({ username, token }) {
           </p>
           <p className="product-id">Product ID: {product.productID || "N/A"}</p>
           <p className="product-avg-rating">
-              Average Rating: {avgRating > 0 ? avgRating.toFixed(1) : "No Rating"}
-              {avgRating > 0 && (
-                <span className="star-rating">
-                  {[...Array(5)].map((_, index) => (
-                    <span 
-                      key={index} 
-                      className={`star ${index < Math.floor(avgRating) ? "filled" : ""} 
-                                  ${index === Math.floor(avgRating) && avgRating % 1 >= 0.5 ? "half-filled" : ""}`}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </span>
-              )}
-            </p>
-
+          Average Rating:
+          <span className="stars">
+            {avgRating > 0 ? generateStars(avgRating) : " No Rating"}
+          </span>
+        </p>
           
           {/* Input for quantity */}
           {/* <input
@@ -349,7 +336,7 @@ function ProductDetail({ username, token }) {
             <div className="quantity-controls">
               {/* Decrement Button */}
               <button
-                className="quantity-arrow"
+                className="product-quantity-arrow"
                 onClick={handleDecrement}
                 disabled={quantity === 1} // Disable if quantity is 1
               >
@@ -360,7 +347,7 @@ function ProductDetail({ username, token }) {
               <span className="quantity-display">{quantity}</span>
 
               {/* Increment Button */}
-              <button className="quantity-arrow" onClick={handleIncrement}>
+              <button className="product-quantity-arrow" onClick={handleIncrement}>
               &#43;
               </button>
             </div>
@@ -458,29 +445,7 @@ function ProductDetail({ username, token }) {
             </div>
           </div>
         ) : (
-          <ul className="reviews-list">
-            {reviews.map((review) => (
-              <li key={review.id} className="review-item">
-                <div className="review-rating">
-                  <strong>Rating: {review.Rating > 0 ? review.Rating : "No Rating"}</strong>
-                  {review.Rating > 0 && (
-                    <span className="star-rating">
-                      {[...Array(5)].map((_, index) => (
-                        <span 
-                          key={index} 
-                          className={`star ${index < review.Rating ? "filled" : ""}`}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </span>
-                  )}
-                </div>
-                <p className="review-content">{review.content}</p>
-              </li>
-            ))}
-          </ul>
-
+          <p>No reviews available for this product.</p>
         )}
         </div>
     </div>

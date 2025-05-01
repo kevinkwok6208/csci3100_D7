@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService'; // Adjust the import path
 import './UserManagement.css'; // Import the CSS file for styling
+import LoadingSpinner from './LoadingSpinner';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -18,6 +19,32 @@ const UserManagement = () => {
   const [newEmail, setNewEmail] = useState('');
   const [changingPassword, setChangingPassword] = useState(false);
   const [changingEmail, setChangingEmail] = useState(false);
+  const [sortField, setSortField] = useState("username"); // Default sort field
+  const [sortOrder, setSortOrder] = useState("Ascending"); // Default sort order
+
+  const sortUsers = (users, field, order) => {
+    return [...users].sort((a, b) => {
+      let comparison = 0;
+      if (field === "username") {
+        comparison = a.username.localeCompare(b.username);
+      } else if (field === "email") {
+        comparison = a.email.localeCompare(b.email);
+      } else if (field === "isadmin") {
+        comparison = a.isadmin === b.isadmin ? 0 : a.isadmin ? 1 : -1;
+      }
+      return order === "Ascending" ? comparison : -comparison;
+    });
+  };
+  
+  const handleSort = (field) => {
+    const newSortOrder =
+      sortField === field && sortOrder === "Ascending" ? "Descending" : "Ascending";
+    setSortField(field);
+    setSortOrder(newSortOrder);
+  
+    const sortedUsers = sortUsers(users, field, newSortOrder);
+    setUsers(sortedUsers);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -131,13 +158,13 @@ const UserManagement = () => {
     setChangingPassword(false);
     setChangingEmail(false);
   };
+  if (loading) return <LoadingSpinner message="Loading..." />;
 
   return (
     
     <div className="user-list-container">
       <section className="spacing"></section>
       <h1>User Management</h1>
-      {loading && <p className="loading-message">Loading...</p>}
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleCreateUser}>
@@ -189,32 +216,59 @@ const UserManagement = () => {
       )}
 
       {!loading && users.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Admin</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          {users.map(user => (
-            <tr key={user._id}>
-              <td data-label="Username">{user.username}</td>
-              <td data-label="Email">{user.email}</td>
-              <td data-label="Admin">{user.isadmin ? 'Yes' : 'No'}</td>
-              <td data-label="Actions">
-                <button onClick={() => { setCurrentUser(user.username); setChangingEmail(true); setChangingPassword(false); setNewEmail(user.email); }}>Change Email</button>
-                <button onClick={() => { setCurrentUser(user.username); setChangingEmail(false); setChangingPassword(true); }}>Change Password</button>
-                <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-
-          </tbody>
-        </table>
-      )}
+<table>
+  <thead>
+    <tr>
+      <th onClick={() => handleSort("username")}>
+        Username {sortField === "username" && (
+          <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+        )}
+      </th>
+      <th onClick={() => handleSort("email")}>
+        Email {sortField === "email" && (
+          <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+        )}
+      </th>
+      <th onClick={() => handleSort("isadmin")}>
+        Admin {sortField === "isadmin" && (
+          <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+        )}
+      </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {users.map((user) => (
+      <tr key={user._id}>
+        <td data-label="Username">{user.username}</td>
+        <td data-label="Email">{user.email}</td>
+        <td data-label="Admin">{user.isadmin ? "Yes" : "No"}</td>
+        <td data-label="Actions">
+          <button
+            onClick={() => {
+              setCurrentUser(user.username);
+              setChangingEmail(true);
+              setChangingPassword(false);
+              setNewEmail(user.email);
+            }}
+          >
+            Change Email
+          </button>
+          <button
+            onClick={() => {
+              setCurrentUser(user.username);
+              setChangingEmail(false);
+              setChangingPassword(true);
+            }}
+          >
+            Change Password
+          </button>
+          <button onClick={() => handleDeleteUser(user.username)}>Delete</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>      )}
       {!loading && users.length === 0 && <p className="no-users-message">No users found.</p>}
 
     </div>

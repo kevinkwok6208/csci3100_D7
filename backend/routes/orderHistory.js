@@ -1,6 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const orderHistoryController = require('../controllers/orderHistoryController');
+// Add to routes/orderHistory.js
+/* 
+    "http://localhost:5001/api/orderhistories/export-by-date"
+    "https://localhost:5443/api/orderhistories/export-by-date"
+    Query parameters: startDate, endDate
+    Function: Export orders within date range as Excel file.
+    Method: GET
+*/
+router.get('/export-by-date', orderHistoryController.exportOrdersByDateRange.bind(orderHistoryController));
+
+/* 
+    "http://localhost:5001/api/orderhistories/all"
+    "https://localhost:5443/api/orderhistories/all"
+    Function: Retrieve all orders for analytics.
+    Method: GET
+*/
+router.get('/all', orderHistoryController.getAllOrders.bind(orderHistoryController));
+
+/* 
+    "http://localhost:5001/api/orderhistories/export"
+    "https://localhost:5443/api/orderhistories/export"
+    Function: Export all orders as Excel file.
+    Method: GET
+*/
+router.get('/export', orderHistoryController.exportOrdersToExcel.bind(orderHistoryController));
+
 
 // Order History Routes
 /* 

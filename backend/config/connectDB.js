@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
  */
 function connectDatabase() {
   /*mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net/*/ 
-  return mongoose.connect('mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net', {
+  /*mongodb+srv://csci3100_d7:csci3100_d7@csci3100d7.3chef.mongodb.net*/
+  return mongoose.connect('mongodb+srv://kevinkwok6208:%40Bb157842@csci3100d7.zs2il4s.mongodb.net/CSCI3100_D7', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => {

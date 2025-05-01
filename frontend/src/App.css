@@ -179,7 +179,7 @@
   fill: currentColor; /* Use the current text color */
 }
 
-.sales-analytics-button svg {
+.sales-analytics-button svg{
   width: 32px; /* Adjust the icon width */
   height: 32px; /* Adjust the icon height */
   fill: currentColor; /* Use the current text color */
@@ -228,16 +228,16 @@
   }
 
   .user-actions {
-    gap: 5px; /* Reduce spacing between items */
+    gap: 10px; /* Reduce spacing between items */
   }
 
   .order-history,
   .shopping-cart,
   .login-button,
   .username {
-    min-width: 20px; /* Adjust button width for smaller screens */
+    min-width: 100px; /* Adjust button width for smaller screens */
     font-size: 12px; /* Reduce font size */
-    padding: 8px 8px; /* Reduce padding */
+    padding: 8px 15px; /* Reduce padding */
   }
 }
 
@@ -497,34 +497,7 @@ header a:nth-child(3) {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  
 }
-
-.user-profile-button,
-.username-button,
-header a:has(svg[data-icon="user"]),
-header button:has(svg[data-icon="user"]),
-header a:nth-child(3) {
-  padding: 6px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  
-  /* Add these constraints */
-  max-width: 100px; /* Maximum width - adjust as needed */
-  overflow: hidden; /* Hide overflow content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for text overflow */
-  white-space: nowrap; /* Prevent text from wrapping */
-}
-
-/* For the text inside the button/link, if it's in a separate element */
-.user-profile-button span,
-.username-button span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 
 
 
@@ -545,7 +518,6 @@ header,
   max-width: 100% !important; /* Changed from 100vw */
   overflow-x: hidden !important; /* Prevent horizontal overflow */
   box-sizing: border-box !important;
-  min-height: 120px !important; /* Minimum height for header */
 }
 
 /* Non-sticky header */

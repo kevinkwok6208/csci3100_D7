@@ -9,8 +9,11 @@
   font-family: "Arial", sans-serif;
 }
 
-h1 {
+.product-management-container h1 {
   margin-top:5%;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -563,3 +566,75 @@ button[onClick*="handleToggleAddProduct"]:hover {
   box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.4);
 }
 
+.product-table th span.sort-arrow {
+  display: inline-block; /* Keep the arrow inline with the text */
+  margin-left: 5px; /* Add space between the text and the arrow */
+  font-size: 14px; /* Adjust the font size of the arrow */
+}
+
+.product-table th:hover {
+  background-color: #444;
+}
+
+.product-table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.product-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.product-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.product-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.product-table td button {
+  display: block; /* Make buttons stack vertically */
+  background-color: #ffcc00;
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 5px; /* Add vertical spacing between buttons */
+}
+
+.product-table td button:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-management-container {
+    padding: 10px;
+  }
+
+  table th,
+  table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .add-product-form input,
+  .update-product-form input,
+  .add-product-form select,
+  .update-product-form select {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .add-product-form button,
+  .update-product-form button,
+  table button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
