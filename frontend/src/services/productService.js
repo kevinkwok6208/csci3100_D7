@@ -88,6 +88,7 @@ const productService = {
     if (productData.productPrice) formData.append('productPrice', productData.productPrice);
     if (productData.productStorage) formData.append('productStorage', productData.productStorage);
     if (productData.categoryName) formData.append('categoryName', productData.categoryName);
+    if (productData.featured) formData.append('featured', productData.featured);
 
     // Add image files
     if (productData.productImage && productData.productImage.length > 0) {

@@ -32,7 +32,7 @@ function FeaturedBooksSlider({ featuredBooks = [] }) {
       <div className="slider-container">
         {/* Left Arrow */}
         <button
-          className="slider-button prev"
+          className="feature-slider-button-prev"
           onClick={handlePrev}
           disabled={currentIndex === 0}
         >
@@ -80,7 +80,7 @@ function FeaturedBooksSlider({ featuredBooks = [] }) {
 
         {/* Right Arrow */}
         <button
-          className="slider-button next"
+          className="feature-slider-button-next"
           onClick={handleNext}
           disabled={currentIndex === featuredBooks.length - 1}
         >

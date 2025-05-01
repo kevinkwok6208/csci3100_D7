@@ -215,6 +215,7 @@
   transition: background-color 0.3s;
   min-width: 80px; /* Add a consistent minimum width */
   text-align: center; /* Center text inside button */
+  max-width: 20px;
 }
 
 .login-button:hover {
@@ -918,6 +919,6 @@ div.hero-content {
   
   /* Adjust spacing for content */
   .spacing {
-    height: 50px !important;
+    height: 80px !important;
   }
 }

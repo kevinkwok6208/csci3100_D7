@@ -375,6 +375,16 @@
   box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
 }
 
+.create-user-input{
+  width: 97.7% !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  transition: border-color 0.2s !important;
+}
+
+
 /* Checkbox styling */
 .user-list-container form div:nth-child(4) {
   display: flex;
@@ -441,12 +451,15 @@
   }
   
   .user-list-container form input[type="text"],
-  .user-list-container form input[type="password"],
   .user-list-container form input[type="email"] {
     padding: 8px 10px;
     font-size: 14px;
   }
   
+  .create-user-input{
+    width: 93.5% !important;
+  }
+
   .user-list-container form button[type="submit"] {
     padding: 8px 14px;
     font-size: 14px;

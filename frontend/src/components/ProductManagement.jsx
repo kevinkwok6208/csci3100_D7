@@ -453,7 +453,15 @@ const ProductManagement = () => {
             value={newProduct.productStorage}
             onChange={(e) => setNewProduct({ ...newProduct, productStorage: e.target.value })}
           />
-          
+          <label>Update featured:</label>
+          <select
+            value={newProduct.featured}
+            onChange={(e) => setNewProduct({ ...newProduct, featured: e.target.value })}
+          >
+            <option value="">Select featured status</option>
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
           <label>Update Category:</label>
           <select
             value={newProduct.categoryName}

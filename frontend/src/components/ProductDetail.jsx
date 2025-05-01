@@ -278,6 +278,7 @@ function ProductDetail({ username, token }) {
 
   return (
     <div className="product-detail-container">
+      <section className="spacing"></section>
       <button className="back-button" onClick={() => navigate("/")}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

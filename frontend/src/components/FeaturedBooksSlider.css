@@ -73,11 +73,12 @@
   text-overflow: ellipsis; /* Add "..." for overflowing text */
 }
 
-.slider-button {
+.feature-slider-button-prev,
+.feature-slider-button-next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #7c7c7c;
+  background-color: #f5b800 !important;
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -88,20 +89,22 @@
   transition: background-color 0.3s ease;
 }
 
-.slider-button:hover {
-  background-color: #4f4f4f;
+.feature-slider-button-prev:hover,
+.feature-slider-button-next:hover {
+  background-color: #4f4f4f!important;
 }
 
-.slider-button.prev {
+.feature-slider-button-prev {
   left: 10px;
 }
 
-.slider-button.next {
+.feature-slider-button-next {
   right: 10px;
 }
 
-.slider-button:disabled {
-  background-color: #ddd;
+.feature-slider-button-prev:disabled,
+.feature-slider-button-next:disabled {
+  background-color: #ddd!important;
   cursor: not-allowed;
 }
 

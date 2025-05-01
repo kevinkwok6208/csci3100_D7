@@ -90,10 +90,33 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
 
   // Handle Logout
   const handleLogout = () => {
-    localStorage.removeItem("userEmail");
-    setIsLoggedIn(false);
-    setUsername("");
-    navigate("/");
+    // Use the proper logout method from authService
+    authService.logout()
+      .then(() => {
+        // Clear localStorage
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("authUser");
+  
+        // Clear specific cookies
+        document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "userSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  
+        // Update state
+        setIsLoggedIn(false);
+        setUsername("");
+  
+        // Navigate to home page
+        navigate("/");
+      })
+      .catch(error => {
+        console.error("Logout error:", error);
+        // Still clear client-side data even if server logout fails
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("authUser");
+        setIsLoggedIn(false);
+        setUsername("");
+        navigate("/");
+      });
   };
 
   return (
@@ -117,7 +140,7 @@ function Profile({ username, setIsLoggedIn, setUsername }) {
         <h1 className="profile-title">User Profile</h1>
         <div className="profile-form">
           <div className="form-group">
-            <label>Email</label>
+            <label>Login Credential</label>
             <input type="email" value={email} disabled />
           </div>
 
