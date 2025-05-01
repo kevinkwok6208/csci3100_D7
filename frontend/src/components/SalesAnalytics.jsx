@@ -459,7 +459,7 @@ const SalesAnalytics = () => {
                                 <tr key={order.orderId}>
                                     <td>{order.orderId}</td>
                                     <td>{order.Name}</td>
-                                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                                    <td>{new Date(new Date(order.createdAt).getTime() - 8 * 60 * 60 * 1000).toLocaleString()}</td>
                                     <td>${order.totalPrice.toFixed(2)}</td>
                                 </tr>
                             ))}

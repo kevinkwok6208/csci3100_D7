@@ -1,18 +1,15 @@
 /* Top Bar */
 /* Modify the top-bar to use flex-direction: column */
-/* Top Bar */
 .top-bar {
   display: flex;
-  justify-content: space-between; /* Space items evenly */
-  align-items: center; /* Center items vertically */
+  flex-direction: column; /* Change to column layout */
+  align-items: center;
   background-color: #fff;
   padding: 15px 30px;
   border-bottom: 1px solid #ddd;
-  position: relative; /* Needed for centering the logo */
-  flex-wrap: nowrap; /* Prevent wrapping */
+  position: relative;
+  gap: 20px;
 }
-
-
 
 /* User Actions (Right Side) */
 .user-actions {
@@ -31,10 +28,10 @@
   font-weight: bold;
   color: #333;
   text-decoration: none;
-  position: absolute; /* Position the logo absolutely */
-  left: 50%; /* Move the logo halfway across the bar */
-  transform: translateX(-50%); /* Adjust for the logo's width to center it */
-  margin-bottom: 0; /* Remove extra spacing below the logo */
+  position: static; /* Remove absolute positioning */
+  transform: none; /* Remove transform */
+  margin-bottom: 10px;
+  order: 1; /* Make sure logo appears first */
 }
 
 .logo:hover {
@@ -130,8 +127,8 @@
 .order-history,
 .shopping-cart,
 .user-management-button,
-.product-management-button, 
-.sales-analytics-button{
+.product-management-button,
+.sales-analytics-button {
   display: flex;
   align-items: center; /* Vertically align the icons */
   justify-content: center; /* Center the icons horizontally */
@@ -152,7 +149,7 @@
 .shopping-cart:hover,
 .user-management-button:hover,
 .product-management-button:hover,
-.sales-analytics-button:hover{
+.sales-analytics-button:hover {
   color: #ffcc00; /* Highlight the icon on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }
@@ -182,11 +179,12 @@
   fill: currentColor; /* Use the current text color */
 }
 
-.sales-analytics-button svg {
+.sales-analytics-button svg{
   width: 32px; /* Adjust the icon width */
   height: 32px; /* Adjust the icon height */
   fill: currentColor; /* Use the current text color */
 }
+
 /* Username (after login) */
 .username {
   background-color: #ffcc00; /* Same yellow background as the login button */
@@ -230,17 +228,34 @@
   }
 
   .user-actions {
-    gap: 5px; /* Reduce spacing between items */
+    gap: 10px; /* Reduce spacing between items */
   }
 
   .order-history,
   .shopping-cart,
   .login-button,
   .username {
-    min-width: 20px; /* Adjust button width for smaller screens */
+    min-width: 100px; /* Adjust button width for smaller screens */
     font-size: 12px; /* Reduce font size */
-    padding: 8px 8px; /* Reduce padding */
+    padding: 8px 15px; /* Reduce padding */
   }
+}
+
+/* Add this to your existing App.css file */
+
+/* For Sales Analytics text */
+.sales-analytics {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.sales-analytics:hover {
+  color: #ffcc00;
 }
 
 /* Admin button style */
@@ -454,8 +469,7 @@ header .login-button,
 header .user-management-button,
 header .product-management-button,
 header .contact-us-button,
-header .home-button 
-header .sales-analytics-button{
+header .home-button {
   margin: 0 !important;
   padding: 0px !important;
 }
@@ -473,32 +487,17 @@ header a:nth-child(3) svg {
   padding: 2px !important;
 }
 
-
+/* Increase the clickable area */
 .user-profile-button,
 .username-button,
 header a:has(svg[data-icon="user"]),
 header button:has(svg[data-icon="user"]),
 header a:nth-child(3) {
-  padding: 6px 18px !important;
+  padding: 6px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  
-  /* Add these constraints */
-  max-width: 100px; /* Maximum width - adjust as needed */
-  overflow: hidden; /* Hide overflow content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for text overflow */
-  white-space: nowrap; /* Prevent text from wrapping */
 }
-
-/* For the text inside the button/link, if it's in a separate element */
-.user-profile-button span,
-.username-button span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 
 
 
@@ -519,7 +518,6 @@ header,
   max-width: 100% !important; /* Changed from 100vw */
   overflow-x: hidden !important; /* Prevent horizontal overflow */
   box-sizing: border-box !important;
-  min-height: 80px !important; /* Minimum height for header */
 }
 
 /* Non-sticky header */
