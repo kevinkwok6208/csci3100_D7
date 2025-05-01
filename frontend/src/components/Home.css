@@ -128,12 +128,21 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Hide circle shape for iPhone 14 Pro Max */
+@media only screen and (device-height: 430px) and (device-width: 932px) and (-webkit-min-device-pixel-ratio: 3) {
+  .hero-shape .circle-shape {
+    display: none; /* Hides the circle shape */
+  }
+}
+
+
 /* Full-Width Background Sections */
 .featured-books{
   width: 100%; /* Full screen width */
   padding: 40px 5vw; /* Add horizontal padding */
   box-sizing: border-box;
 }
+
 
 .best-sellers {
   width: 100vw; /* Full browser width */
@@ -707,4 +716,1081 @@ body {
     flex-direction: column; /* Stack footer links vertically */
     gap: 10px;
   }
+}
+
+/* Comprehensive Responsive Design for Home Page */
+
+/* Make the container full-width */
+.home-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Global scaling for mobile devices */
+@media screen and (max-width: 915px) {
+  /* Hero section */
+  .hero {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-content h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  
+  .hero-content p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  
+  .hero-shape .circle-shape {
+    width: 60px;
+    height: 60px;
+  }
+  
+  /* Search bar */
+  .hero-content .search-bars input,
+  .categories .search-bars input,
+  .hero-content .search-bars button,
+  .categories .search-bars button {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 8px;
+  }
+  
+  /* Section containers */
+  .featured-books,
+  .best-sellers,
+  .categories,
+  .sign-in-prompt {
+    padding: 20px 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Section titles and descriptions */
+  .section-title,
+  .section-title-d {
+    font-size: 22px;
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+  
+  .section-description,
+  .section-description-d {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  /* Title wrapper dots */
+  .title-wrappers::before,
+  .title-wrappers::after {
+    width: 6px;
+    height: 6px;
+  }
+  
+  /* Product grid layout */
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Product cards */
+  .product-card {
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card img {
+    max-width: 100px;
+    max-height: 140px;
+    margin-bottom: 8px;
+  }
+  
+  .product-card h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+  
+  .product-card p {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  
+  /* Best seller section */
+  .best-sellers-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  
+  .best-seller-card {
+    padding: 10px 0;
+    gap: 10px;
+  }
+  
+  .tilted-book-wrapper {
+    padding: 5px;
+  }
+  
+  .tilted-book-image {
+    max-width: 70px;
+    max-height: 100px;
+  }
+  
+  .book-info h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+  
+  .book-info .rating {
+    margin-bottom: 5px;
+  }
+  
+  .book-info .rating span {
+    font-size: 14px;
+  }
+  
+  .book-info .comments {
+    font-size: 12px;
+    line-height: 1.3;
+    margin: 5px 0;
+  }
+  
+  .book-info .comments::before {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  
+  .book-info .comments::after {
+    font-size: 20px;
+    margin-top: 5px;
+  }
+  
+  /* Category buttons */
+  .category-buttons {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .category-buttons button {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+  }
+  
+  /* Pagination */
+  .pagination {
+    margin-top: 10px;
+    gap: 8px;
+  }
+  
+  .pagination button {
+    padding: 8px 15px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Sign in prompt */
+  .sign-in-prompt h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .sign-in-prompt p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  .sign-in-prompt button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 20px 10px;
+  }
+  
+  .footer .max-w-6xl {
+    gap: 20px;
+  }
+  
+  .footer h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .footer ul li {
+    margin-bottom: 5px;
+  }
+  
+  .footer ul li a {
+    font-size: 12px;
+  }
+  
+  .footer .mt-8 {
+    margin-top: 15px;
+    font-size: 12px;
+  }
+  
+  .footer::after {
+    width: 60px;
+    height: 60px;
+    right: 20px;
+  }
+  
+  /* Optimize animations */
+  .slide-in, .slide-out {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  /* Disable hover animations on mobile for better performance */
+  .product-card:hover,
+  .best-seller-card:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Small phones (iPhone SE, Galaxy S10e, etc.) */
+@media screen and (max-width: 375px) {
+  .hero-content h1 {
+    font-size: 20px;
+  }
+  
+  .hero-content p {
+    font-size: 12px;
+  }
+  
+  .hero-shape .circle-shape {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .section-title,
+  .section-title-d {
+    font-size: 18px;
+  }
+  
+  .section-description,
+  .section-description-d {
+    font-size: 12px;
+  }
+  
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .product-card img {
+    max-width: 80px;
+    max-height: 120px;
+  }
+  
+  .tilted-book-image {
+    max-width: 60px;
+    max-height: 90px;
+  }
+  
+  .book-info .comments::before,
+  .book-info .comments::after {
+    font-size: 16px;
+  }
+  
+  .footer::after {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+  }
+}
+
+/* Extra small devices (Galaxy Fold, etc.) */
+@media screen and (max-width: 320px) {
+  .hero {
+    padding: 10px;
+  }
+  
+  .hero-content h1 {
+    font-size: 18px;
+  }
+  
+  .hero-content p {
+    font-size: 11px;
+  }
+  
+  .hero-shape .circle-shape {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .section-title,
+  .section-title-d {
+    font-size: 16px;
+  }
+  
+  .section-description,
+  .section-description-d {
+    font-size: 11px;
+  }
+  
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .product-card {
+    padding: 8px;
+  }
+  
+  .product-card h3 {
+    font-size: 13px;
+  }
+  
+  .product-card p {
+    font-size: 11px;
+  }
+  
+  .category-buttons button {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .pagination button {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .sign-in-prompt h2 {
+    font-size: 16px;
+  }
+  
+  .sign-in-prompt p {
+    font-size: 12px;
+  }
+  
+  .sign-in-prompt button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Landscape mode optimizations */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  /* More compact layout for landscape mode */
+  .hero {
+    padding: 10px;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content {
+    flex: 3;
+    text-align: left;
+    padding-right: 10px;
+  }
+  
+  .hero-shape {
+    flex: 1;
+    margin: 0;
+  }
+  
+  .hero-content h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .hero-content p {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  
+  .hero-content .search-bars {
+    flex-direction: row;
+  }
+  
+  /* Horizontal layouts for landscape */
+  .featured-books,
+  .best-sellers,
+  .categories,
+  .sign-in-prompt {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  
+  /* Smaller product cards */
+  .product-card {
+    padding: 8px;
+  }
+  
+  .product-card img {
+    max-width: 60px;
+    max-height: 90px;
+  }
+  
+  /* Footer in landscape */
+  .footer {
+    padding: 10px;
+  }
+  
+  .footer .max-w-6xl {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .footer::after {
+    display: none; /* Hide the yellow circle in landscape */
+  }
+}
+
+/* Samsung Galaxy S20 Ultra specific fixes */
+@media screen and (min-width: 400px) and (max-width: 420px) {
+  .product-grid,
+  .best-sellers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ensure proper spacing between sections */
+.featured-books,
+.best-sellers,
+.categories,
+.sign-in-prompt,
+.footer {
+  margin-bottom: 15px;
+}
+
+/* Optimize for devices with notches */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .home-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Reduce animation complexity for better performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Additional CSS to reduce spacing and heights */
+
+@media screen and (max-width: 915px) {
+  /* Reduce overall vertical spacing */
+  .home-container > * {
+    margin-bottom: 8px !important;
+  }
+  
+  /* Header section */
+  .header {
+    padding: 5px 0 !important;
+    height: auto !important;
+    min-height: 50px !important;
+  }
+  
+  .header-logo {
+    height: 30px !important;
+  }
+  
+  /* Navigation icons */
+  .nav-icons {
+    gap: 15px !important;
+    padding: 8px 0 !important;
+  }
+  
+  .nav-icons a, .nav-icons button {
+    transform: scale(0.85) !important;
+  }
+  
+  /* Hero section */
+  .hero {
+    padding: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .hero-content {
+    gap: 5px !important;
+  }
+  
+  .hero-content h1 {
+    margin-bottom: 5px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .hero-content p {
+    margin-bottom: 5px !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Search bar */
+  .search-bars {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .search-bars input {
+    height: 35px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .search-bars button {
+    height: 35px !important;
+    padding: 0 15px !important;
+  }
+  
+  /* Yellow circle */
+  .hero-shape .circle-shape {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  /* Featured books section */
+  .featured-books, 
+  .best-sellers, 
+  .categories {
+    padding: 10px 8px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* Section titles */
+  .title-wrappers {
+    margin-bottom: 5px !important;
+    padding: 5px 0 !important;
+  }
+  
+  .section-title, 
+  .section-title-d {
+    margin-bottom: 2px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .section-description, 
+  .section-description-d {
+    margin-bottom: 5px !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Product grid */
+  .product-grid, 
+  .best-sellers-grid {
+    gap: 8px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  /* Product cards */
+  .product-card {
+    padding: 8px !important;
+    margin-bottom: 0 !important;
+    height: auto !important;
+  }
+  
+  .product-card img {
+    margin-bottom: 5px !important;
+    max-height: 120px !important;
+  }
+  
+  .product-card h3 {
+    margin-bottom: 2px !important;
+    line-height: 1.1 !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+  
+  .product-card p {
+    margin-bottom: 0 !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Best seller cards */
+  .best-seller-card {
+    padding: 8px 0 !important;
+    gap: 5px !important;
+    height: auto !important;
+  }
+  
+  .tilted-book-wrapper {
+    padding: 3px !important;
+  }
+  
+  .book-info {
+    gap: 2px !important;
+  }
+  
+  .book-info h3 {
+    margin-bottom: 2px !important;
+    line-height: 1.1 !important;
+    min-height: auto !important;
+  }
+  
+  .book-info .rating {
+    margin-bottom: 2px !important;
+  }
+  
+  .book-info .comments {
+    margin: 2px 0 !important;
+    line-height: 1.2 !important;
+  }
+  
+  .book-info .comments::before {
+    margin-bottom: 0 !important;
+  }
+  
+  .book-info .comments::after {
+    margin-top: 2px !important;
+  }
+  
+  /* Category buttons */
+  .category-buttons {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    gap: 5px !important;
+  }
+  
+  .category-buttons button {
+    margin-bottom: 0 !important;
+    padding: 5px 10px !important;
+  }
+  
+  /* Pagination */
+  .pagination {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    gap: 5px !important;
+  }
+  
+  .pagination button {
+    padding: 6px 12px !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Sign in prompt */
+  .sign-in-prompt {
+    padding: 10px 8px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .sign-in-prompt h2 {
+    margin-bottom: 5px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .sign-in-prompt p {
+    margin-bottom: 5px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .sign-in-prompt button {
+    padding: 6px 12px !important;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 10px 8px !important;
+  }
+  
+  .footer .max-w-6xl {
+    gap: 10px !important;
+  }
+  
+  .footer h4 {
+    margin-bottom: 5px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .footer ul {
+    gap: 3px !important;
+  }
+  
+  .footer ul li {
+    margin-bottom: 3px !important;
+  }
+  
+  .footer .mt-8 {
+    margin-top: 8px !important;
+  }
+  
+  /* Remove any unnecessary whitespace */
+  * {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  
+  /* Reduce height of all section containers */
+  .hero,
+  .featured-books,
+  .best-sellers,
+  .categories,
+  .sign-in-prompt,
+  .footer {
+    min-height: auto !important;
+  }
+  
+  /* Adjust line heights globally */
+  p, h1, h2, h3, h4, span, a, button {
+    line-height: 1.2 !important;
+  }
+  
+  /* Reduce spacing between book grid items */
+  .product-grid > *,
+  .best-sellers-grid > * {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Fix specific spacing for book cards */
+  .product-card > *,
+  .best-seller-card > * {
+    margin-bottom: 3px !important;
+  }
+  
+  /* Reduce price spacing */
+  .product-card p,
+  .book-info p {
+    margin-top: 2px !important;
+  }
+  
+  /* Make pagination buttons smaller */
+  .pagination button {
+    min-width: 35px !important;
+    height: 35px !important;
+  }
+  
+  /* Reduce space between sections */
+  .featured-books + .best-sellers,
+  .best-sellers + .categories,
+  .categories + .sign-in-prompt,
+  .sign-in-prompt + .footer {
+    margin-top: 0 !important;
+  }
+  
+  /* Adjust footer link spacing */
+  .footer ul li a {
+    padding: 2px 0 !important;
+  }
+  
+  /* Reduce copyright text spacing */
+  .footer .mt-8 {
+    padding: 5px 0 !important;
+  }
+}
+
+/* Extra small devices - further reduce spacing */
+@media screen and (max-width: 375px) {
+  /* Even more compact spacing */
+  .home-container > * {
+    margin-bottom: 5px !important;
+  }
+  
+  .hero {
+    padding: 8px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .hero-content {
+    gap: 3px !important;
+  }
+  
+  .featured-books, 
+  .best-sellers, 
+  .categories,
+  .sign-in-prompt {
+    padding: 8px 5px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .product-grid, 
+  .best-sellers-grid {
+    gap: 5px !important;
+  }
+  
+  .product-card {
+    padding: 5px !important;
+  }
+  
+  .product-card img {
+    max-height: 100px !important;
+  }
+  
+  .category-buttons {
+    gap: 3px !important;
+  }
+  
+  .category-buttons button {
+    padding: 4px 8px !important;
+  }
+  
+  .pagination button {
+    padding: 5px 10px !important;
+    min-width: 30px !important;
+    height: 30px !important;
+  }
+  
+  .footer {
+    padding: 8px 5px !important;
+  }
+  
+  .footer .max-w-6xl {
+    gap: 8px !important;
+  }
+}
+
+/* Force important height reductions */
+.product-card,
+.best-seller-card {
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* Fix for product card content */
+.product-card h3,
+.book-info h3 {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+}
+
+/* Fix for any fixed heights */
+[style*="height"] {
+  height: auto !important;
+}
+
+/* Reduce any fixed margins or paddings */
+[style*="margin"] {
+  margin: 5px !important;
+}
+
+[style*="padding"] {
+  padding: 5px !important;
+}
+
+/* Ensure images don't cause unnecessary height */
+img {
+  max-height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* Optional - Hide non-essential elements on very small screens */
+@media screen and (max-width: 320px) {
+  .hero-shape,
+  .footer::after,
+  .book-info .comments,
+  .section-description, 
+  .section-description-d {
+    display: none !important;
+  }
+}
+
+/* Hide only the large yellow circle/dot under the search button */
+@media screen and (max-width: 915px) {
+  /* Target the specific yellow circle shown in the hero section below search */
+  .hero .circle-shape,
+  .hero-shape,
+  .hero > div > .circle-shape,
+  .hero-content + .circle-shape,
+  .hero-content ~ .circle-shape,
+  .search-button + .circle-shape,
+  .search-button ~ .circle-shape,
+  .search-bars + .circle-shape,
+  .search-bars ~ .circle-shape,
+  .hero [style*="background-color: #FFD700"],
+  .hero [style*="background-color: rgb(255, 215, 0)"],
+  .hero [style*="background-color: #FFCC00"],
+  .hero [style*="background-color: rgb(255, 204, 0)"],
+  .hero .yellow-circle {
+    display: none !important;
+  }
+  
+  /* If the yellow circle is an absolutely positioned element */
+  .hero [class*="circle"][style*="position: absolute"],
+  .hero [class*="dot"][style*="position: absolute"],
+  .hero [class*="yellow"][style*="position: absolute"] {
+    display: none !important;
+  }
+  
+  /* If the yellow circle is an image */
+  .hero img[src*="circle"],
+  .hero img[src*="dot"],
+  .hero img[src*="yellow"] {
+    display: none !important;
+  }
+}
+
+/* Hide the yellow circle in the footer on mobile devices */
+@media screen and (max-width: 800px) {
+  /* Target the specific ::after pseudo-element that creates the yellow circle */
+  .footer::after,
+  footer::after,
+  div.footer::after,
+  [class*="footer"]::after,
+  [id*="footer"]::after {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    content: none !important; /* This prevents the pseudo-element from rendering at all */
+  }
+}
+
+/* More specific button styling for the Home component */
+.home-container .sign-in-prompt button,
+.home-container button.sign-in-button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.home-container .sign-in-prompt button:hover,
+.home-container button.sign-in-button:hover {
+  background-color: #f5b800;
+}
+
+/* More specific styling for category buttons */
+.home-container .category-buttons button,
+.home-container button.category-button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.home-container .category-buttons button:hover,
+.home-container button.category-button:hover {
+  background-color: #f5b800;
+}
+
+/* More specific styling for pagination buttons */
+.home-container .pagination button,
+.home-container button.pagination-button {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin-bottom: 40px;
+}
+
+.home-container .pagination button:disabled,
+.home-container button.pagination-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.home-container .pagination button:hover:not(:disabled),
+.home-container button.pagination-button:hover:not(:disabled) {
+  background-color: #f5b800;
+}
+
+/* More specific styling for search buttons */
+.home-container .hero-content .search-bars button,
+.home-container .categories .search-bars button,
+.home-container button.search-button {
+  background-color: #ffcc00;
+  font-size: 14px;
+  color: #000;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 50px;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+.home-container .hero-content .search-bars button:hover,
+.home-container .categories .search-bars button:hover,
+.home-container button.search-button:hover {
+  background-color: #f5b800;
+}
+
+/* More specific product card styling */
+.home-container .product-card,
+.home-container div.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.home-container .product-card:hover,
+.home-container div.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.home-container .product-card img,
+.home-container .product-card > img {
+  max-width: 150px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  margin-left:30%;
+}
+
+/* More specific best seller card styling */
+.home-container .best-seller-card,
+.home-container div.best-seller-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0;
+  transition: transform 0.3s;
+}
+
+.home-container .tilted-book-image,
+.home-container img.tilted-book-image {
+  max-width: 120px;
+  border-radius: 4px;
 }

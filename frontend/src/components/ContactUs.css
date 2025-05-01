@@ -1,37 +1,17 @@
-/* General Container */
+/* General Container - update to be full width */
 .contact-us-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: "Arial", sans-serif;
-    background-color: #f8f9fc;
-  }
-  
-  /* Hero Section */
-  .heros {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: white;
-    border-radius: 12px;
-    padding: 40px;
-    margin-bottom: 40px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .heros-content h1 {
-    font-size: 42px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: white;
-  }
-  
-  .heros-content p {
-    font-size: 18px;
-    color: #e0e0e0;
-    text-align: left;
-  }
+  width: 100%;
+  max-width: 100%; /* Remove the width limitation */
+  margin: 0;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fc;
+  box-sizing: border-box;
+}
+
+.contact-us-container .button .contact-button{
+  background-color: #ffcc00;
+}
   
   .circle-shape {
     width: 100px;
@@ -192,64 +172,846 @@
     background-color: #363636;
   }
 
-  /* Responsive Design */
-@media (max-width: 768px) {
+
+  /* Responsive Styles */
+
+/* Base responsive container */
+.contact-us-container {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  transition: padding 0.3s ease;
+}
+
+/* Media Queries for Different Screen Sizes */
+
+/* Large Screens (Desktops) */
+@media screen and (min-width: 1201px) {
+  .contact-us-container {
+    padding: 30px 40px;
+  }
+}
+
+/* Medium Screens (Laptops and Small Desktops) */
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .contact-us-container {
+    padding: 25px 30px;
+    max-width: 960px;
+  }
+  
   .heros {
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
+    padding: 30px;
   }
-
+  
   .heros-content h1 {
-    font-size: 32px;
+    font-size: 36px;
   }
-
+  
   .heros-content p {
     font-size: 16px;
   }
-
+  
   .circle-shape {
-    margin: 20px auto;
+    width: 80px;
+    height: 80px;
   }
+}
 
-  .contact-grid {
-    grid-template-columns: 1fr; /* Single column layout */
+/* Tablets and Small Laptops */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .contact-us-container {
+    padding: 20px 25px;
+    max-width: 720px;
   }
-
-  .social-media-links {
+  
+  .heros {
+    padding: 25px;
     flex-direction: column;
+    text-align: center;
+  }
+  
+  .heros-content {
+    margin-bottom: 20px;
+  }
+  
+  .heros-content h1 {
+    font-size: 32px;
+  }
+  
+  .heros-content p {
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .contact-info-box h2,
+  .social-media-section h2 {
+    font-size: 24px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Navigation Bar for Tablets */
+  .nav-container {
+    padding: 10px 15px;
+    flex-wrap: wrap;
+  }
+  
+  .nav-logo {
+    flex: 1;
+  }
+  
+  .nav-menu {
+    justify-content: flex-end;
+    flex: 1;
+  }
+  
+  /* Footer for Tablets */
+  .footer-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  
+  .footer-column {
+    flex: 0 0 50%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (min-width: 576px) and (max-width: 767px) {
+  .contact-us-container {
+    padding: 15px 20px;
+  }
+  
+  .heros {
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .heros-content {
+    margin-bottom: 15px;
+  }
+  
+  .heros-content h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .heros-content p {
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .circle-shape {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .contact-info-box h2,
+  .social-media-section h2 {
+    font-size: 22px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .contact-card {
+    padding: 15px;
+  }
+  
+  .contact-card h3 {
+    font-size: 18px;
+  }
+  
+  .contact-card p {
+    font-size: 14px;
+  }
+  
+  .social-media-links {
+    flex-wrap: wrap;
     gap: 10px;
   }
-
+  
   .social-link {
     font-size: 16px;
     padding: 8px 15px;
   }
+  
+  /* Navigation Bar for Mobile Landscape */
+  .nav-container {
+    padding: 8px 15px;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-menu.active {
+    right: 0;
+  }
+  
+  .nav-item {
+    margin: 10px 0;
+    width: 100%;
+  }
+  
+  .hamburger-menu {
+    display: block;
+    z-index: 1001;
+  }
+  
+  /* Footer for Mobile Landscape */
+  .footer-container {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .footer-column {
+    margin-bottom: 15px;
+    text-align: center;
+  }
 }
 
-@media (max-width: 480px) {
+/* Mobile Portrait */
+@media screen and (max-width: 575px) {
+  .contact-us-container {
+    padding: 10px 15px;
+  }
+  
+  .heros {
+    padding: 15px;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .heros-content {
+    margin-bottom: 15px;
+  }
+  
   .heros-content h1 {
     font-size: 24px;
+    margin-bottom: 10px;
   }
-
+  
   .heros-content p {
     font-size: 14px;
+    text-align: center;
   }
-
+  
+  .circle-shape {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .contact-info-box,
+  .social-media-section {
+    margin: 25px 0;
+  }
+  
+  .contact-info-box h2,
+  .social-media-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
   .contact-card {
     padding: 15px;
   }
-
+  
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+  
   .contact-card h3 {
     font-size: 18px;
+    margin: 10px 0 5px;
   }
-
+  
   .contact-card p {
     font-size: 14px;
   }
-
+  
+  .social-media-section p {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .social-media-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
   .social-link {
     font-size: 14px;
-    padding: 6px 10px;
+    padding: 8px 15px;
+    width: 80%;
+    margin: 0 auto;
   }
+  
+  /* Navigation Bar for Mobile Portrait */
+  .nav-container {
+    padding: 8px 10px;
+  }
+  
+  .nav-logo img {
+    height: 30px;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-menu.active {
+    right: 0;
+  }
+  
+  .nav-item {
+    margin: 10px 0;
+    width: 100%;
+  }
+  
+  .hamburger-menu {
+    display: block;
+    z-index: 1001;
+  }
+  
+  /* Footer for Mobile Portrait */
+  .footer-container {
+    flex-direction: column;
+    padding: 15px 10px;
+    text-align: center;
+  }
+  
+  .footer-column {
+    margin-bottom: 15px;
+  }
+  
+  .footer-column h3 {
+    font-size: 16px;
+  }
+  
+  .footer-links a,
+  .footer-contact p {
+    font-size: 14px;
+  }
+  
+  .footer-bottom {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+/* Special handling for device rotation */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  /* Adjustments for landscape mode on small devices */
+  .heros {
+    flex-direction: row;
+    padding: 15px 20px;
+  }
+  
+  .heros-content {
+    flex: 2;
+    margin-bottom: 0;
+    margin-right: 15px;
+  }
+  
+  .heros-content h1 {
+    font-size: 22px;
+  }
+  
+  .circle-shape {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Navigation Bar for Landscape Mode */
+  .nav-menu {
+    width: 50%;
+    overflow-y: auto;
+  }
+  
+  /* Compact footer for landscape mode */
+  .footer-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .footer-column {
+    flex: 0 0 50%;
+    font-size: 12px;
+  }
+}
+
+/* Add hamburger menu functionality */
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 5px;
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Overlay when mobile menu is active */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.menu-overlay.active {
+  display: block;
+}
+
+/* Prevent body scrolling when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+
+/* Responsive Styles - Add these to your existing CSS */
+
+/* General responsive container */
+@media screen and (max-width: 1200px) {
+  .contact-us-container {
+    padding: 20px 15px;
+    max-width: 100%;
+  }
+}
+
+/* Tablet and smaller devices */
+@media screen and (max-width: 991px) {
+  /* Hero section adjustments */
+  .heros {
+    flex-direction: column;
+    padding: 25px;
+    text-align: center;
+  }
+  
+  .heros-content h1 {
+    font-size: 32px;
+  }
+  
+  .heros-content p {
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .circle-shape {
+    margin-top: 15px;
+    width: 70px;
+    height: 70px;
+  }
+  
+  /* Contact grid adjustments */
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 767px) {
+  /* Hero section further adjustments */
+  .heros-content h1 {
+    font-size: 28px;
+  }
+  
+  /* Contact grid for mobile */
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Social media links */
+  .social-media-links {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .social-link {
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  .heros {
+    padding: 20px 15px;
+  }
+  
+  .heros-content h1 {
+    font-size: 24px;
+  }
+  
+  .heros-content p {
+    font-size: 14px;
+  }
+  
+  .circle-shape {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .contact-info-box h2,
+  .social-media-section h2 {
+    font-size: 22px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  /* Ensure footer remains visible */
+  body, html {
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Adjust hero section for landscape */
+  .heros {
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 20px;
+    margin:30px;
+  }
+  
+  .heros-content {
+    flex: 3;
+    margin-right: 15px;
+    text-align: left;
+  }
+  
+  .heros-content p {
+    text-align: left;
+  }
+  
+  .circle-shape {
+    flex: 1;
+    margin-top: 0;
+  }
+  
+  /* Make contact grid more compact */
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .contact-card {
+    padding: 15px 10px;
+  }
+  
+  /* Footer adjustments for landscape mode */
+  footer, .footer-container {
+    display: flex !important; /* Ensure footer is always displayed */
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    padding: 10px;
+  }
+  
+  /* Adjust footer columns for landscape */
+  .footer-column, .company-section, .guides-section, .support-section {
+    display: block !important;
+    margin-right: 15px;
+  }
+  
+  /* Make footer text smaller in landscape */
+  footer h3, footer a, footer p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* Ensure copyright text is visible */
+  .copyright {
+    display: block !important;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  /* Social media section adjustments */
+  .social-media-section {
+    margin: 20px 0;
+  }
+  
+  .social-media-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* Fix for Samsung Galaxy S20 Ultra and similar devices */
+@media screen and (min-width: 400px) and (max-width: 915px) and (min-height: 400px) and (max-height: 412px) {
+  /* Specific adjustments for the device in your screenshot */
+  .heros {
+    padding: 20px;
+  }
+  
+  .heros-content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .circle-shape {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Ensure footer is visible */
+  footer {
+    display: block !important;
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Adjust footer layout */
+  .company-section, .guides-section, .support-section {
+    display: inline-block !important;
+    vertical-align: top;
+    width: 33%;
+    margin-bottom: 10px;
+  }
+  
+  /* Make footer content more compact */
+  footer h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  footer a, footer p {
+    font-size: 14px;
+    display: block;
+    margin: 3px 0;
+  }
+  
+  /* Ensure copyright is visible */
+  .copyright {
+    clear: both;
+    display: block !important;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 12px;
+  }
+}
+
+/* Fix for any hidden elements during rotation */
+@media screen and (orientation: landscape) {
+  .hidden-landscape {
+    display: block !important;
+  }
+  
+  /* Ensure all footer elements are visible */
+  footer, .footer-container, .company-section, .guides-section, .support-section, .copyright {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* Navigation bar with BOOK.COM logo above */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #f8f9fc;
+}
+
+.book-logo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.navigation-icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.nav-icon img {
+  max-width: 24px;
+  height: auto;
+}
+
+/* Sales Analytics Views styling */
+.sales-analytics {
+  margin-left: 5px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Admin button styling */
+.admin-button {
+  background-color: #ffcc00;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments for the navigation */
+@media screen and (max-width: 768px) {
+  .navigation-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-icon {
+    margin: 5px 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .book-logo {
+    font-size: 20px;
+  }
+  
+  .nav-icon {
+    margin: 3px 5px;
+  }
+  
+  .sales-analytics {
+    font-size: 12px;
+  }
+}
+
+/* Ensure navigation stays visible in landscape mode */
+@media screen and (orientation: landscape) {
+  .header-container, .book-logo, .navigation-icons {
+    display: flex !important;
+    visibility: visible !important;
+  }
+  
+  .navigation-icons {
+    max-width: 100%;
+  }
+}
+
+/* Footer Styles */
+.contact-footer {
+  background-color: #333;
+  color: white;
+  padding: 40px 20px 20px;
+  margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 20px;
+  padding: 0 15px;
+}
+
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.footer-links a, 
+.footer-links p {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  margin-bottom: 8px;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffcc00;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  font-size: 14px;
+  color: #999;
 }

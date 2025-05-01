@@ -287,8 +287,12 @@ const ProductManagement = () => {
 
   return (
     <div className="product-management-container">
+      <section className="spacing"></section>
       <h1>Product Management</h1>
-      <button onClick={handleToggleAddProduct}>
+      <button 
+        className="toggle-form-button"
+        onClick={handleToggleAddProduct}
+      >
         {addingProduct ? 'Hide Add Product Form' : 'Show Add Product Form'}
       </button>
       
@@ -397,24 +401,21 @@ const ProductManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.productID}>
-              <td>{product.productName}</td>
-              <td>{product.productDescription}</td>
-              <td>${product.productPrice.toFixed(2)}</td>
-              <td>{product.productStorage}</td>
-              <td>{product.category ? product.category.name : "None"}</td>
-              <td>
-                <button onClick={() => console.log("Edit", product.productID)}>
-                  Update
-                </button>
-                <button onClick={() => console.log("Delete", product.productID)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        {products.map(product => (
+          <tr key={product.productID}>
+            <td data-label="Product ID">{product.productID}</td>
+            <td data-label="Name">{product.productName}</td>
+            <td data-label="Description">{product.productDescription}</td>
+            <td data-label="Price">{product.productPrice}</td>
+            <td data-label="Stock">{product.productStorage}</td>
+            <td data-label="Category">{product.category ? product.category.name : 'None'}</td>
+            <td data-label="Actions">
+              <button onClick={() => handleEdit(product)}>Update</button>
+              <button onClick={() => handleDelete(product.productID)}>Delete</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
       </table>
 
       {/* Update Product Form */}

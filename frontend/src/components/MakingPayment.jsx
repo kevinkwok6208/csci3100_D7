@@ -7,6 +7,8 @@ const MakingPayment = () => {
   const navigate = useNavigate();
   return (
     <div className="making-payment-container">
+      <section className="spacing"></section>
+
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

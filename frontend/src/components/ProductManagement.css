@@ -1,7 +1,7 @@
 /* General Styles */
 .product-management-container {
-  max-width: 1200px;
-  margin: 40px auto; /* Center the container and add vertical spacing */
+  max-width: 80%px;
+  margin: 0 auto;
   padding: 20px;
   background-color: #ffffff; /* White background for the main container */
   border-radius: 12px;
@@ -9,10 +9,8 @@
   font-family: "Arial", sans-serif;
 }
 
-.product-management-container h1 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333333;
+h1 {
+  margin-top:5%;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -185,75 +183,383 @@
   white-space: nowrap; /* Prevent line breaks */
 }
 
-.product-table th span.sort-arrow {
-  display: inline-block; /* Keep the arrow inline with the text */
-  margin-left: 5px; /* Add space between the text and the arrow */
-  font-size: 14px; /* Adjust the font size of the arrow */
+img {
+  max-width: 200px;
 }
 
-.product-table th:hover {
-  background-color: #444;
+/* Base table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.product-table td {
-  padding: 15px;
-  border: 1px solid #ddd;
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.product-table tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
-.product-table tbody tr:nth-child(even) {
-  background-color: #ffffff;
-}
-
-.product-table tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-.product-table td button {
-  display: block; /* Make buttons stack vertically */
-  background-color: #ffcc00;
-  color: #333;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
+th {
+  background-color: #f8f8f8;
   font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-bottom: 5px; /* Add vertical spacing between buttons */
 }
 
-.product-table td button:hover {
-  background-color: #e6b800;
-  transform: scale(1.05);
+/* Button styles */
+button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #a8e0f7;
+  color: #333;
+  transition: background-color 0.2s;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .product-management-container {
+button:hover {
+  background-color: #8fd4f2;
+}
+
+button:last-child, button[onClick*="handleDelete"] {
+  background-color: #e35e5e;
+  color: white;
+}
+
+button:last-child:hover, button[onClick*="handleDelete"]:hover {
+  background-color: #d04545;
+}
+
+/* Add Product button */
+button[onClick*="Add Product"] {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  font-weight: bold;
+}
+
+button[onClick*="Add Product"]:hover {
+  background-color: #218838;
+}
+
+/* Responsive table styles */
+@media screen and (max-width: 768px) {
+  /* Hide table headers */
+  thead {
+    display: none;
+  }
+  
+  /* Make table act like a div */
+  table, tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  /* Style each row as a card */
+  tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  /* Style each cell */
+  td {
+    display: flex;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }
+  
+  td:last-child {
+    border-bottom: none;
+  }
+  
+  /* Show labels using data-label attribute */
+  td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    width: 40%;
+    min-width: 120px;
+    color: #555;
+  }
+  
+  /* Style for the content */
+  td > span, td > div {
+    flex: 1;
+  }
+  
+  /* Special styling for Actions column */
+  td[data-label="Actions"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  td[data-label="Actions"]:before {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Make buttons full width on mobile */
+  td[data-label="Actions"] button {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  /* Style Update button */
+  td[data-label="Actions"] button:first-child {
+    background-color: #a8e0f7;
+    color: #333;
+  }
+  
+  /* Style Delete button */
+  td[data-label="Actions"] button:last-child {
+    background-color: #e35e5e;
+    color: white;
+    margin-bottom: 0;
+  }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+  td {
+    font-size: 14px;
     padding: 10px;
   }
-
-  table th,
-  table td {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  .add-product-form input,
-  .update-product-form input,
-  .add-product-form select,
-  .update-product-form select {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  .add-product-form button,
-  .update-product-form button,
-  table button {
+  
+  td:before {
     font-size: 14px;
-    padding: 8px 12px;
   }
 }
+
+/* Add New Product Form Styling with more color and smaller font sizes */
+.add-product-form {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  background-color: #f8f9fa;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-product-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
+}
+
+.add-product-form h2 {
+  margin-top: 5px;
+  color: #2E7D32;
+  font-size: 1.3rem; /* Reduced from 1.6rem */
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.add-product-form label {
+  display: block;
+  margin: 12px 0 5px; /* Reduced top margin */
+  font-weight: 600;
+  color: #3c4043;
+  font-size: 0.85rem; /* Reduced from 0.95rem */
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form select {
+  width: 97%;
+  padding: 10px; /* Reduced from 12px */
+  margin-bottom: 12px; /* Reduced from 15px */
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 13px; /* Reduced from 14px */
+  transition: all 0.3s;
+  background-color: white;
+}
+
+.add-product-form input[type="text"]:focus,
+.add-product-form input[type="number"]:focus,
+.add-product-form select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  outline: none;
+}
+
+.add-product-form input[type="file"] {
+  width: 97%;
+  padding: 8px; /* Reduced from 10px */
+  margin-bottom: 12px;
+  border: 1px dashed #4CAF50;
+  border-radius: 4px;
+  background-color: #f1f8e9;
+  cursor: pointer;
+  font-size: 12px; /* Added smaller font size */
+}
+
+.add-product-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+  padding-right: 30px;
+}
+
+/* Image preview styling */
+.add-product-form .image-preview {
+  margin: 12px 0;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 8px; /* Reduced from 10px */
+  border: 1px solid #e0e0e0;
+}
+
+.add-product-form .image-preview div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px; /* Reduced from 8px */
+  padding: 8px; /* Reduced from 10px */
+  background-color: #f1f8e9;
+  border-radius: 4px;
+  border-left: 3px solid #8BC34A;
+}
+
+.add-product-form .image-preview span {
+  font-size: 12px; /* Reduced from 14px */
+  color: #3c4043;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.add-product-form .image-preview button {
+  background-color: #e35e5e;
+  color: white;
+  padding: 5px 10px; /* Reduced from 6px 12px */
+  font-size: 12px; /* Reduced from 13px */
+  border-radius: 4px;
+}
+
+.add-product-form .image-preview button:hover {
+  background-color: #d32f2f;
+}
+
+.add-product-form .error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 8px; /* Reduced from 10px */
+  border-radius: 4px;
+  margin: 8px 0; /* Reduced from 10px */
+  font-weight: 500;
+  border-left: 3px solid #d32f2f;
+  font-size: 12px; /* Added smaller font size */
+}
+
+/* Add Product button */
+.add-product-form button[onClick*="handleAddProduct"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px; /* Reduced from 12px 24px */
+  font-size: 14px; /* Reduced from 16px */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px; /* Reduced from 10px */
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.add-product-form button[onClick*="handleAddProduct"]:hover {
+  background-color: #388E3C;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.add-product-form button[onClick*="handleAddProduct"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Toggle button styling */
+button[onClick*="handleToggleAddProduct"] {
+  background-color: #FF5722;
+  color: white;
+  padding: 8px 16px; /* Reduced from 10px 20px */
+  font-size: 13px; /* Reduced from 15px */
+  border-radius: 4px;
+  margin-bottom: 16px; /* Reduced from 20px */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+button[onClick*="handleToggleAddProduct"]:hover {
+  background-color: #E64A19;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .add-product-form {
+    padding: 16px;
+  }
+  
+  .add-product-form h2 {
+    font-size: 1.2rem;
+  }
+  
+  .add-product-form button[onClick*="handleAddProduct"] {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+/* ProductManagement.css */
+
+/* Toggle Add Product Form button styling */
+.product-management-container .toggle-form-button {
+  background-color: #ffcc00; /* Yellow background */
+  color: #333333; /* Dark text */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: background-color 0.2s;
+}
+
+.product-management-container .toggle-form-button:hover {
+  background-color: #e6b800; /* Slightly darker yellow on hover */
+}
+
+.product-management-container .toggle-form-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.4);
+}
+

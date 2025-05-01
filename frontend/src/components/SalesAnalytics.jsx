@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 
 function SalesAnalytics({}){
   return (
+    <div>
+    <section className="spacing"></section>
     <div>Coming Soon</div>
+    </div>
   );
 }
 

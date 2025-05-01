@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 const ContactUs = () => {
   return (
     <div className="contact-us-container">
+      <section className="spacing"></section>
+      
       {/* Hero Section */}
       <section className="heros">
         <div className="heros-content">

@@ -1,17 +1,18 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
 const path = require('path');
-
+const {getIpv4Address} = require('../config/iphost');
 // Load PayPal configuration
 dotenv.config({ path: path.join(__dirname, '../config/paypal.env') });
 
+const currentIpv4=getIpv4Address();
 class PayPalService {
   constructor() {
     this.baseURL = process.env.PAYPAL_SANDBOX_API_URL;
     this.clientId = process.env.PAYPAL_CLIENT_ID;
     this.clientSecret = process.env.PAYPAL_CLIENT_SECRET;
-    this.returnUrl = process.env.PAYPAL_RETURN_URL;
-    this.cancelUrl = process.env.PAYPAL_CANCEL_URL;
+    this.returnUrl = `https://${currentIpv4}:3000${process.env.PAYPAL_RETURN_URL}`;
+    this.cancelUrl = `https://${currentIpv4}:3000${process.env.PAYPAL_CANCEL_URL}`;
   }
 
   // Get access token from PayPal

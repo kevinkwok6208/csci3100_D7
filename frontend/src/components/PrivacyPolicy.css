@@ -14,6 +14,9 @@ body {
     margin: 0 auto;
     padding: 20px;
   }
+  .privacy-policy-container .contact-button{
+    background-color: #ffcc00;
+  }
   
   /* Hero Section */
   .heros {
