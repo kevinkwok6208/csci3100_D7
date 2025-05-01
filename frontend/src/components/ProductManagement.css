@@ -1,88 +1,259 @@
+/* General Styles */
 .product-management-container {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 40px auto; /* Center the container and add vertical spacing */
   padding: 20px;
-  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* White background for the main container */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-family: "Arial", sans-serif;
 }
 
-h1 {
+.product-management-container h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
   text-align: center;
-  color: #333;
-}
-
-.add-product-form, .update-product-form {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
   margin-bottom: 20px;
-  background-color: #f9f9f9;
 }
 
-label {
+.product-management-container button {
+  background-color: #ffcc00; /* Yellow background for buttons */
+  color: #333; /* Dark text */
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.product-management-container button:hover{
+  background-color: #e6b800; /* Darker yellow on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Add Product Form */
+.add-product-form,
+.update-product-form {
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #f8f9fc; /* Light background for forms */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-form h2,
+.update-product-form h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.add-product-form label,
+.update-product-form label {
   display: block;
-  margin: 10px 0 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="file"] {
+.add-product-form input,
+.update-product-form input,
+.add-product-form select,
+.update-product-form select {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
-button {
-  background-color: #28a745;
+.add-product-form input:focus,
+.update-product-form input:focus,
+.add-product-form select:focus,
+.update-product-form select:focus {
+  border-color: #ffcc00; /* Highlight input on focus */
+  outline: none;
+}
+
+.add-product-form button,
+.update-product-form button {
+  background-color: #ffcc00; /* Yellow background for buttons */
+  color: #333; /* Dark text */
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-product-form button:hover,
+.update-product-form button:hover {
+  background-color: #e6b800; /* Darker yellow on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Image Preview */
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.image-preview div {
+  position: relative;
+  display: inline-block;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.image-preview img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+}
+
+.image-preview button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  font-size: 12px;
+  border-radius: 50%;
   cursor: pointer;
+  padding: 5px;
 }
 
-button:hover {
-  background-color: #218838;
+.image-preview button:hover {
+  background: darkred;
 }
 
-.table {
+/* Product Table */
+/* Product Management Table */
+.product-management-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+}
+
+.product-management-container h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.image-preview {
-  margin: 10px 0;
-}
-
-.image-preview div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.error-message {
-  color: #dc3545;
-  margin-top: 10px;
+.product-table th {
+  background-color: #333;
+  color: white;
   font-weight: bold;
+  cursor: pointer;
+  padding: 15px;
+  text-align: left;
+  white-space: nowrap; /* Prevent line breaks */
 }
 
-img {
-  max-width: 200px;
+.product-table th span.sort-arrow {
+  display: inline-block; /* Keep the arrow inline with the text */
+  margin-left: 5px; /* Add space between the text and the arrow */
+  font-size: 14px; /* Adjust the font size of the arrow */
+}
+
+.product-table th:hover {
+  background-color: #444;
+}
+
+.product-table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.product-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.product-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.product-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.product-table td button {
+  display: block; /* Make buttons stack vertically */
+  background-color: #ffcc00;
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 5px; /* Add vertical spacing between buttons */
+}
+
+.product-table td button:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-management-container {
+    padding: 10px;
+  }
+
+  table th,
+  table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .add-product-form input,
+  .update-product-form input,
+  .add-product-form select,
+  .update-product-form select {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .add-product-form button,
+  .update-product-form button,
+  table button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
 }

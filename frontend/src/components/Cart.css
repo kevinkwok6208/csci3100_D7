@@ -171,3 +171,25 @@
   vertical-align: middle; /* Align with the text and image */
   border-radius: 12px;
 }
+
+/* Back to Shop Button */
+.back-to-shop {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #ffcc00; /* Yellow background */
+  color: #333; /* Dark gray text */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none; /* Remove underline */
+}
+
+.back-to-shop:hover {
+  background-color: #f5b800; /* Slightly darker yellow on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}

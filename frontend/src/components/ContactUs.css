@@ -191,3 +191,65 @@
   .social-link.twitter:hover {
     background-color: #363636;
   }
+
+  /* Responsive Design */
+@media (max-width: 768px) {
+  .heros {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .heros-content h1 {
+    font-size: 32px;
+  }
+
+  .heros-content p {
+    font-size: 16px;
+  }
+
+  .circle-shape {
+    margin: 20px auto;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr; /* Single column layout */
+  }
+
+  .social-media-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-link {
+    font-size: 16px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heros-content h1 {
+    font-size: 24px;
+  }
+
+  .heros-content p {
+    font-size: 14px;
+  }
+
+  .contact-card {
+    padding: 15px;
+  }
+
+  .contact-card h3 {
+    font-size: 18px;
+  }
+
+  .contact-card p {
+    font-size: 14px;
+  }
+
+  .social-link {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}

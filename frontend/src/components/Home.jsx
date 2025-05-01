@@ -28,8 +28,11 @@ function Home({ isLoggedIn }) {
       try {
         const response = await productService.getAllProducts();
         if (response.success) {
-          setBooks(response.products);
-          setFilteredBooks(response.products);
+          const validBooks = response.products.filter(
+            (book) => book.category && book.category.name !== "Null"
+          );
+          setBooks(validBooks);
+          setFilteredBooks(validBooks);
 
           // Filter featured books
           const featured = response.products.filter((book) => book.featured === true);
@@ -55,7 +58,8 @@ function Home({ isLoggedIn }) {
     async function fetchBestSellers() {
       try {
         const productsWithRatings = await Promise.all(
-          books.map(async (book) => {
+          books.filter((book) => book.category && book.category.name !== "Null") // Exclude "Null" category
+            .map(async (book) => {
             const reviewsResponse = await reviewService.getProductReviews(book.productID);
             const reviews = reviewsResponse.reviews || [];
             const avgRating = reviewsResponse.avgRating || 0;
@@ -258,7 +262,7 @@ function Home({ isLoggedIn }) {
         ) : (
           <>
             <div className="category-buttons">
-              {["All", "Fiction", "Non-Fiction", "Science", "History", "Biography"].map(
+              {["All", "Fiction", "Non Fiction", "Science", "History"].map(
                 (category) => (
                   <button
                     key={category}
