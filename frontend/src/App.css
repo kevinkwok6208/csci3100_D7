@@ -127,7 +127,8 @@
 .order-history,
 .shopping-cart,
 .user-management-button,
-.product-management-button {
+.product-management-button,
+.sales-analytics-button {
   display: flex;
   align-items: center; /* Vertically align the icons */
   justify-content: center; /* Center the icons horizontally */
@@ -147,7 +148,8 @@
 .order-history:hover,
 .shopping-cart:hover,
 .user-management-button:hover,
-.product-management-button:hover {
+.product-management-button:hover,
+.sales-analytics-button:hover {
   color: #ffcc00; /* Highlight the icon on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }
@@ -172,6 +174,12 @@
 }
 
 .product-management-button svg {
+  width: 32px; /* Adjust the icon width */
+  height: 32px; /* Adjust the icon height */
+  fill: currentColor; /* Use the current text color */
+}
+
+.sales-analytics-button svg {
   width: 32px; /* Adjust the icon width */
   height: 32px; /* Adjust the icon height */
   fill: currentColor; /* Use the current text color */

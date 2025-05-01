@@ -7,7 +7,7 @@
 
 .slider-container {
   position: relative;
-  height: 400px; /* Adjust as needed */
+  height: 450px; /* Adjust as needed */
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
@@ -43,22 +43,34 @@
   box-shadow: 0 4px 13px rgba(123, 123, 123, 0.6); /* Subtle shadow for highlighted book */
 }
 
+/* Book Details */
 .book-details {
   margin-top: 20px;
   text-align: center;
+  width: 240px; /* Adjust the width to make it wider */
+  max-width: 100%; /* Ensure it doesn't overflow */
+  margin: 0 auto; /* Center align */
 }
 
 .book-details h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
+  text-overflow: ellipsis; /* Add ellipsis if the name is too long */
+  white-space: nowrap; /* Prevent text wrapping for the name */
+  overflow: hidden; /* Ensure long names don't break layout */
 }
 
 .book-details p {
   font-size: 14px;
   color: #666;
   margin: 0;
+  display: -webkit-box; /* Enable multi-line truncation */
+  -webkit-line-clamp: 3; /* Set the maximum number of lines */
+  -webkit-box-orient: vertical; /* Required for line-clamp to work */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add "..." for overflowing text */
 }
 
 .slider-button {
@@ -95,7 +107,7 @@
 
 .line-separator {
   position: absolute;
-  bottom: 80px;
+  bottom: 67px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;

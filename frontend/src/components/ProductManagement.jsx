@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import productService from "../services/productService"; // Corrected import path
 import './ProductManagement.css';
+import LoadingSpinner from './LoadingSpinner';
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -16,6 +17,8 @@ const ProductManagement = () => {
   const [uploadError, setUploadError] = useState(''); // State for upload error message
   const [updateLoading, setUpdateLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
+  const [sortField, setSortField] = useState("productName"); // Default sort field
+  const [sortOrder, setSortOrder] = useState("Ascending");
   
   const [newProduct, setNewProduct] = useState({
     productID: '',
@@ -74,6 +77,34 @@ const ProductManagement = () => {
     fetchProducts();
     fetchCategories();
   }, []);
+
+  const sortProducts = (products, field, order) => {
+    return [...products].sort((a, b) => {
+      let comparison = 0;
+      if (field === "productName") {
+        comparison = a.productName.localeCompare(b.productName);
+      } else if (field === "productPrice") {
+        comparison = a.productPrice - b.productPrice;
+      } else if (field === "productStorage") {
+        comparison = a.productStorage - b.productStorage;
+      } else if (field === "categoryName") {
+        const nameA = a.category ? a.category.name : "";
+        const nameB = b.category ? b.category.name : "";
+        comparison = nameA.localeCompare(nameB);
+      }
+      return order === "Ascending" ? comparison : -comparison;
+    });
+  };
+
+  const handleSort = (field) => {
+    const newSortOrder =
+      sortField === field && sortOrder === "Ascending" ? "Descending" : "Ascending";
+    setSortField(field);
+    setSortOrder(newSortOrder);
+
+    const sortedProducts = sortProducts(products, field, newSortOrder);
+    setProducts(sortedProducts);
+  };
 
   const handleDelete = async (productId) => {
     try {
@@ -251,7 +282,7 @@ const ProductManagement = () => {
     setAddingProduct(prevState => !prevState); // Toggle the state
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner message="Loading your shopping cart..." />;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
@@ -340,34 +371,54 @@ const ProductManagement = () => {
       </div>)}
 
       {/* Existing Products Table */}
-      <table>
+      <table className="product-table">
         <thead>
           <tr>
-            <th>Product ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Category</th>
+            <th onClick={() => handleSort("productName")}>
+              Name {sortField === "productName" && (
+    <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+  )}
+</th>
+            <th onClick={() => handleSort("productDescription")}>
+              Description
+            </th>
+            <th onClick={() => handleSort("productPrice")}>
+              Price {sortField === "productPrice" && (
+    <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+  )}
+</th>
+            <th onClick={() => handleSort("productStorage")}>
+              Stock {sortField === "productStorage" && (
+    <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+  )}
+</th>
+            <th onClick={() => handleSort("categoryName")}>
+              Category {sortField === "categoryName" && (
+    <span className="sort-arrow">{sortOrder === "Ascending" ? "↑" : "↓"}</span>
+  )}
+</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-        {products.map(product => (
-          <tr key={product.productID}>
-            <td data-label="Product ID">{product.productID}</td>
-            <td data-label="Name">{product.productName}</td>
-            <td data-label="Description">{product.productDescription}</td>
-            <td data-label="Price">{product.productPrice}</td>
-            <td data-label="Stock">{product.productStorage}</td>
-            <td data-label="Category">{product.category ? product.category.name : 'None'}</td>
-            <td data-label="Actions">
-              <button onClick={() => handleEdit(product)}>Update</button>
-              <button onClick={() => handleDelete(product.productID)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
+          {products.map((product) => (
+            <tr key={product.productID}>
+              <td>{product.productName}</td>
+              <td>{product.productDescription}</td>
+              <td>${product.productPrice.toFixed(2)}</td>
+              <td>{product.productStorage}</td>
+              <td>{product.category ? product.category.name : "None"}</td>
+              <td>
+                <button onClick={() => console.log("Edit", product.productID)}>
+                  Update
+                </button>
+                <button onClick={() => console.log("Delete", product.productID)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
 
       {/* Update Product Form */}

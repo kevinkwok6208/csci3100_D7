@@ -73,6 +73,9 @@ const Cart = ({ username }) => {
           );
           stocks[item.productId.productID] =
             product.product.productStorage - product.product.productReservation;
+  
+          // Update the cart item with full product details
+          item.productId = product.product;
         } catch (err) {
           console.error("Error fetching product stock:", err);
         }
@@ -190,7 +193,7 @@ const Cart = ({ username }) => {
                 />
                 <img
                   src={
-                    "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
+                    item.productId.productImages?.[0] || "https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"
                   }
                   alt={item.productId.productName}
                 />
@@ -241,9 +244,12 @@ const Cart = ({ username }) => {
               </div>
             ))
           )}
-          <a href="/" className="back-to-shop">
-            ← Back to Shop
-          </a>
+          <button
+            className="back-to-shop"
+            onClick={() => navigate("/")}
+          >
+            &larr; Back
+          </button>
         </div>
 
         <div className="order-summarys">

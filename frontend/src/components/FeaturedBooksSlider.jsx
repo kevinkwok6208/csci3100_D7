@@ -59,7 +59,7 @@ function FeaturedBooksSlider({ featuredBooks = [] }) {
                 onClick={() => isActive && navigate(`/products/${book.productID}`)}
               >
                 <img
-                  src={"https://res.cloudinary.com/doigqstxw/image/upload/v1743099083/careless-people-7_fdqunw.jpg"} // Default image fallback
+                  src={book.productImages[0]} // Default image fallback
                   alt={book.productName}
                   className={`slider-image ${isActive ? "highlighted" : ""}`}
                 />
