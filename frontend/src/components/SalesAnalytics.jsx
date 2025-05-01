@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SalesAnalytics.css';
+import LoadingSpinner from './LoadingSpinner';
 import { 
   Chart as ChartJS, 
   CategoryScale, 
@@ -149,7 +150,7 @@ const SalesAnalytics = () => {
         };
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoadingSpinner message="Loading..." />;
     if (error) return <div>{error}</div>;
     
     // Calculate analytics data

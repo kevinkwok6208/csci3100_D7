@@ -278,7 +278,6 @@ function ProductDetail({ username, token }) {
 
   return (
     <div className="product-detail-container">
-      <section className="spacing"></section>
       <button className="back-button" onClick={() => navigate("/")}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +296,6 @@ function ProductDetail({ username, token }) {
         Back
       </button>
       <div className="product-detail">
-        
         <img
           src={product.productImages[0] || "https://via.placeholder.com/300"}
           alt={product.productName || "Product Image"}
@@ -338,7 +336,7 @@ function ProductDetail({ username, token }) {
             <div className="quantity-controls">
               {/* Decrement Button */}
               <button
-                className="quantity-arrow"
+                className="product-quantity-arrow"
                 onClick={handleDecrement}
                 disabled={quantity === 1} // Disable if quantity is 1
               >
@@ -349,7 +347,7 @@ function ProductDetail({ username, token }) {
               <span className="quantity-display">{quantity}</span>
 
               {/* Increment Button */}
-              <button className="quantity-arrow" onClick={handleIncrement}>
+              <button className="product-quantity-arrow" onClick={handleIncrement}>
               &#43;
               </button>
             </div>

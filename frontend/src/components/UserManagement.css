@@ -116,6 +116,7 @@
 }
 
 /* Table styles */
+/* User Table */
 .user-list-container table {
   width: 100%;
   border-collapse: collapse;
@@ -124,62 +125,38 @@
   background-color: var(--white);
 }
 
-.user-list-container th, 
+.user-list-container th {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 15px;
+  text-align: left;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+.user-list-container th span.sort-arrow {
+  display: inline-block; /* Keep the arrow inline with the text */
+  margin-left: 5px; /* Add space between the text and the arrow */
+  font-size: 14px; /* Adjust the font size of the arrow */
+}
+
 .user-list-container td {
   padding: 12px 15px;
   text-align: left;
-  border: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
-.user-list-container th {
-  background-color: var(--light-gray);
-  color: var(--text-dark);
-  font-weight: 600;
+.user-list-container tbody tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
 }
 
-.user-list-container tr:hover {
-  background-color: #f9f9f9;
+.user-list-container tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Alternate row background */
 }
 
-/* Action buttons in table */
-.user-list-container td button {
-  margin: 3px;
-  padding: 6px 12px;
-  font-size: 13px;
-}
-
-/* Specific styling for buttons in the user management table */
-.user-list-container table td button:nth-child(1),
-.user-list-container table td button:nth-child(2) {
-  background-color: rgb(179, 229, 254);
-  color: var(--text-dark);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  margin-right: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.user-list-container table td button:nth-child(1):hover,
-.user-list-container table td button:nth-child(2):hover {
-  background-color: rgb(144, 202, 249);
-}
-
-.user-list-container table td button:nth-child(3) {
-  background-color: var(--error-red);
-  color: var(--white);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.user-list-container table td button:nth-child(3):hover {
-  background-color: #c62828; /* Darker red on hover */
+.user-list-container tbody tr:nth-child(even) {
+  background-color: #ffffff; /* Alternate row background */
 }
 
 /* Status messages */
@@ -240,14 +217,6 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-}
-
-.user-list-container th {
-  background-color: #f8f8f8;
-  text-align: left;
-  padding: 12px;
-  font-weight: bold;
-  border-bottom: 2px solid #ddd;
 }
 
 .user-list-container td {
@@ -494,7 +463,6 @@
 
 /* Style for the Actions header cell */
 .user-list-container th:last-child {
-  background-color: #fff8e1; /* Light yellow background */
   text-align: center;
 }
 
@@ -535,22 +503,22 @@
 
 /* Style for Change Email button */
 .user-list-container td:last-child button:nth-child(1) {
-  background-color: #a8e0f7; /* Light blue */
+  background-color: #ffeca0; /* Light blue */
   color: #333;
 }
 
 .user-list-container td:last-child button:nth-child(1):hover {
-  background-color: #8acff3;
+  background-color: #e6b800;
 }
 
 /* Style for Change Password button */
 .user-list-container td:last-child button:nth-child(2) {
-  background-color: #a8e0f7; /* Light blue */
+  background-color: #ffeca0;/* Light blue */
   color: #333;
 }
 
 .user-list-container td:last-child button:nth-child(2):hover {
-  background-color: #8acff3;
+  background-color: #e6b800;
 }
 
 /* Style for Delete button */

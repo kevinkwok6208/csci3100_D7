@@ -36,12 +36,6 @@ body {
   background-color: #e6b800;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .product-detail {
@@ -156,11 +150,10 @@ body {
   margin: 0px;
 }
 .product-detail-container .product-featured, .product-id,.product-avg-rating{
-  
   margin: 0px;
 }
 .product-detail-container .add-to-cart-button{
-background-color: #37913b;
+background-color: #ffcc00;
 padding:15px;
 }
 
@@ -178,9 +171,6 @@ padding:15px;
   background-color: #ffebee;
   color: #c62828;
 }
-
-
-
 
 .product-avg-rating{
   margin-left:0px;
@@ -273,10 +263,10 @@ padding:15px;
   gap: 10px;
 }
 
-.quantity-arrow {
-  background-color: #ffcc00; /* Yellow color for the arrows */
+.product-quantity-arrow {
+  background-color: #ffcc00; /* Yellow background for both buttons */
   border: none;
-  color: #fff;
+  color: #fff; /* White text */
   font-size: 18px;
   font-weight: bold;
   padding: 5px 10px;
@@ -285,12 +275,31 @@ padding:15px;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.quantity-arrow:hover {
+.product-quantity-arrow:hover {
   transform: scale(1.1); /* Slight zoom on hover */
-  background-color:#333;
+  background-color: #333; /* Darker background on hover */
 }
 
-.quantity-arrow:disabled {
+.product-quantity-arrow:disabled {
+  background-color: #f5f5f5; /* Light gray for disabled state */
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.quantity-controls button:first-child,
+.quantity-controls button:last-child  {
+  /* Decrement button (optional override) */
+  background-color: #ffcc00;
+}
+
+.quantity-controls button:first-child:hover,
+.quantity-controls button:last-child:hover{
+  transform: scale(1.1); /* Slight zoom on hover */
+  background-color: #333; /* Darker background on hover */
+}
+
+.quantity-controls button:first-child:disabled,
+.quantity-controls button:last-child:disabled{
   background-color: #f5f5f5; /* Light gray for disabled state */
   color: #aaa;
   cursor: not-allowed;
@@ -329,27 +338,6 @@ padding:15px;
   margin-top: 10px;
   font-size: 14px;
   color: green;
-}
-
-/* Back Button with Arrow */
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #ddd;
-  color: #333;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: #bbb;
 }
 
 .arrow-icon {
@@ -731,7 +719,7 @@ padding:15px;
 /* Average Rating Stars */
 .product-avg-rating {
   font-size: 16px;
-  color: #777;
+  color: #333;
   margin-bottom: 20px;
   display: flex;
   align-items: center;

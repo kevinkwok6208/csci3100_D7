@@ -19,6 +19,7 @@ const ProductManagement = () => {
   const [addLoading, setAddLoading] = useState(false);
   const [sortField, setSortField] = useState("productName"); // Default sort field
   const [sortOrder, setSortOrder] = useState("Ascending");
+  const updateFormRef = useRef(null); // Create a reference for the update form
   
   const [newProduct, setNewProduct] = useState({
     productID: '',
@@ -177,6 +178,9 @@ const ProductManagement = () => {
     setFileError(null);
     setEditingProductId(product.productID);
     setUploadError('');
+    if (updateFormRef.current) {
+      updateFormRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling
+    }
   };
 
   const handleFileChange = (e) => {
@@ -282,7 +286,7 @@ const ProductManagement = () => {
     setAddingProduct(prevState => !prevState); // Toggle the state
   };
 
-  if (loading) return <LoadingSpinner message="Loading your shopping cart..." />;
+  if (loading) return <LoadingSpinner message="Loading..." />;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
@@ -409,10 +413,10 @@ const ProductManagement = () => {
               <td>{product.productStorage}</td>
               <td>{product.category ? product.category.name : "None"}</td>
               <td>
-                <button onClick={() => console.log("Edit", product.productID)}>
+                <button onClick={() => handleEdit(product)}>
                   Update
                 </button>
-                <button onClick={() => console.log("Delete", product.productID)}>
+                <button onClick={() => handleDelete(product.productID)}>
                   Delete
                 </button>
               </td>
@@ -423,7 +427,7 @@ const ProductManagement = () => {
 
       {/* Update Product Form */}
       {editingProductId && (
-        <div className="update-product-form">
+        <div className="update-product-form" ref={updateFormRef}>
           <h2>Update Product: {newProduct.productName}</h2>
           <label>Update Name:</label>
           <input
