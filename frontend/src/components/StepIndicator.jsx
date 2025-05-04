@@ -4,7 +4,6 @@ import './StepIndicator.css';
 const StepIndicator = ({ currentStep }) => {
   return (
     <div className="step-indicator">
-      <div className="indicator-spacing"> </div>
       <div className="other-elements">
       <div className="step-container">
           <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>

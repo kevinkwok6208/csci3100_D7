@@ -9,38 +9,6 @@
   border-radius: 10px;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
-  padding-top: 60px;
-}
-
-/* Responsive padding adjustments */
-@media (max-width: 900px) {
-  .profile-page-container {
-    padding-top: 60px; /* Default */
-  }
-}
-
-@media (max-width: 800px) {
-  .profile-page-container {
-    padding-top: 85px; /* Adjust for screens 800px and below */
-  }
-}
-
-@media (max-width: 700px) {
-  .profile-page-container {
-    padding-top: 100px; /* Adjust for screens 700px and below */
-  }
-}
-
-@media (max-width: 500px) {
-  .profile-page-container {
-    padding-top: 100px; /* Adjust for screens 500px and below */
-  }
-}
-
-@media (max-width: 300px) {
-  .profile-page-container {
-    padding-top: 100px; /* Adjust for screens 300px and below */
-  }
 }
 
 /* Left Section */

@@ -152,7 +152,6 @@ const Order = ({ username }) => {
 
   return (
     <div className="order-container">
-      <section className="spacing"></section>
       <h1 className="order-title">Order History</h1>
 
       {/* Filters and Sorting Section */}
