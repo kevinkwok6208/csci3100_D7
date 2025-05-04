@@ -163,7 +163,6 @@ const UserManagement = () => {
   return (
     
     <div className="user-list-container">
-      <section className="spacing"></section>
       <h1>User Management</h1>
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}

@@ -209,44 +209,6 @@ th {
   font-weight: bold;
 }
 
-/* Button styles */
-button {
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #a8e0f7;
-  color: #333;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #8fd4f2;
-}
-
-button:last-child, button[onClick*="handleDelete"] {
-  background-color: #e35e5e;
-  color: white;
-}
-
-button:last-child:hover, button[onClick*="handleDelete"]:hover {
-  background-color: #d04545;
-}
-
-/* Add Product button */
-button[onClick*="Add Product"] {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 15px;
-  font-weight: bold;
-}
-
-button[onClick*="Add Product"]:hover {
-  background-color: #218838;
-}
-
 /* Responsive table styles */
 @media screen and (max-width: 768px) {
   /* Hide table headers */

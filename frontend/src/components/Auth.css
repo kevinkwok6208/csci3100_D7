@@ -40,7 +40,8 @@
 }
 
 /* Login Form */
-.login-form {
+.login-form,
+.forget-password-form {
   position: relative;
   left: 0; /* Start at the left of the container */
 }
@@ -111,17 +112,6 @@ input:focus {
   background-color: #f5b800;
 }
 
-.toggle-link {
-  color: #ffcc00;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.toggle-link:hover {
-  text-decoration: underline;
-}
-
 .show-password-label{
   display: flex;
   width: 60%;
@@ -135,7 +125,7 @@ input:focus {
 /* Buttons - make selectors more specific */
 .auth-wrapper .auth-button,
 .forms-container .auth-button,
-.form .auth-button {
+.form .auth-button{
   background-color: #ffcc00;
   color: black;
   border: none;
@@ -146,12 +136,31 @@ input:focus {
   font-weight: bold;
   transition: background-color 0.3s ease;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .auth-wrapper .auth-button:hover,
 .forms-container .auth-button:hover,
 .form .auth-button:hover {
   background-color: #f5b800;
+}
+
+.toggle-link{
+  background-color: #e35e5e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.toggle-link:hover{
+  background-color: #d04545;
 }
 
 /* Input group container */
@@ -332,7 +341,8 @@ input[type="file"] {
   
   .auth-wrapper .auth-button,
   .auth-wrapper .forms-container .auth-button,
-  .auth-wrapper .form .auth-button {
+  .auth-wrapper .form .auth-button,
+  .toggle-link {
     padding: 5px 10px !important;
     font-size: 12px !important;
     width: 100% !important;
@@ -365,7 +375,8 @@ input[type="file"] {
   }
   
   .auth-wrapper .login-form, 
-  .auth-wrapper .signup-form {
+  .auth-wrapper .signup-form,
+  .auth-wrapper .forget-password-form {
     left: 0 !important;
     position: relative !important;
     width: 100% !important;
@@ -375,7 +386,8 @@ input[type="file"] {
     transform: translateX(0) !important;
   }
   
-  .auth-wrapper .login-form {
+  .auth-wrapper .login-form
+  .auth-wrapper .forget-password-form {
     display: flex !important;
   }
   
@@ -409,6 +421,15 @@ input[type="file"] {
     display: flex !important;
     flex-direction: column !important;
   }
+}
+
+.forget-password-form input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 /* 200px - 400px - Small Devices */
@@ -473,7 +494,8 @@ input[type="file"] {
   }
   
   .auth-wrapper .login-form, 
-  .auth-wrapper .signup-form {
+  .auth-wrapper .signup-form,
+  .auth-wrapper .forget-password-form {
     left: 0 !important;
     position: relative !important;
     width: 100% !important;
@@ -483,7 +505,8 @@ input[type="file"] {
     transform: translateX(0) !important;
   }
   
-  .auth-wrapper .login-form {
+  .auth-wrapper .login-form,
+  .auth-wrapper .forget-password-form {
     display: flex !important;
     
   }
@@ -564,7 +587,8 @@ input[type="file"] {
   }
   
   .auth-wrapper .login-form, 
-  .auth-wrapper .signup-form {
+  .auth-wrapper .signup-form,
+  .auth-wrapper .forget-password-form {
     left: 0 !important;
     position: relative !important;
     width: 100% !important;
@@ -574,7 +598,8 @@ input[type="file"] {
     transform: translateX(0) !important;
   }
   
-  .auth-wrapper .login-form {
+  .auth-wrapper .login-form,
+  .auth-wrapper .forget-password-form {
     display: flex !important;
     
   }
@@ -682,7 +707,8 @@ input[type="file"] {
     }
     
     .auth-wrapper .login-form, 
-    .auth-wrapper .signup-form {
+    .auth-wrapper .signup-form,
+    .auth-wrapper .forget-password-form {
       left: 0 !important;
       position: relative !important;
       width: 100% !important;
@@ -692,7 +718,8 @@ input[type="file"] {
       transform: translateX(0) !important;
     }
     
-    .auth-wrapper .login-form {
+    .auth-wrapper .login-form,
+    .auth-wrapper .forget-password-form {
       display: flex !important;
     }
     
@@ -744,7 +771,8 @@ input[type="file"] {
     }
     
     .auth-wrapper .login-form, 
-    .auth-wrapper .signup-form {
+    .auth-wrapper .signup-form,
+    .auth-wrapper .forget-password-form {
       left: 0 !important;
       position: relative !important;
       width: 100% !important;
@@ -754,7 +782,8 @@ input[type="file"] {
       transform: translateX(0) !important;
     }
     
-    .auth-wrapper .login-form {
+    .auth-wrapper .login-form,
+    .auth-wrapper .forget-password-form {
       display: flex !important;
     }
     
@@ -840,7 +869,8 @@ input[type="file"] {
     flex-direction: column;
   }
   
-  .auth-wrapper .login-form {
+  .auth-wrapper .login-form,
+  .auth-wrapper .forget-password-form {
     opacity: 1;
     z-index: 1;
   }

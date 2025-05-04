@@ -20,7 +20,7 @@
 .user-list-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   font-family: Arial, sans-serif;
   color: var(--text-dark);
 }
@@ -78,7 +78,6 @@
 
 /* Checkbox styling to match the image */
 .user-list-container .is-admin-field {
-  background-color: #a8cce5;
   border-radius: 4px;
   padding: 5px 0;
   text-align: left;
@@ -226,26 +225,6 @@
   vertical-align: middle;
 }
 
-/* Button styles - make specific to user management */
-.user-list-container button {
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.user-list-container button:nth-child(1), 
-.user-list-container button:nth-child(2) {
-  background-color: #a8e0f7;
-}
-
-.user-list-container button:nth-child(3) {
-  background-color: #e35e5e;
-  color: white;
-}
-
 /* Responsive table styles */
 @media screen and (max-width: 768px) {
   /* Hide table headers */
@@ -307,7 +286,6 @@
     width: 100%;
     margin-bottom: 10px;
     text-align: center;
-    background-color: rgb(255, 238, 183);
   }
   
   /* Make buttons full width on mobile */
@@ -389,7 +367,6 @@
 .user-list-container form div:nth-child(4) {
   display: flex;
   align-items: center;
-  background-color: #d0e5f2;
   border-radius: 4px;
   padding: 10px;
 }
@@ -486,38 +463,21 @@
   padding: 0;
 }
 
-/* Style for the "Actions" label in mobile view */
-.user-list-container td:last-child::before {
-  content: "Actions";
-  font-weight: bold;
-  background-color: #fff8e1; /* Light yellow background */
-  width: 100%;
-  padding: 10px;
-  text-align: center;
-  box-sizing: border-box;
-  margin-bottom: 0;
-}
-
-/* Style for each action button */
-.user-list-container td:last-child button {
-  width: 100%;
-  margin: 0;
-  border-radius: 0;
-  padding: 12px 15px;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  /* Add margin to create gap between buttons */
-  margin-bottom: 5px;
-}
-
 /* Style for Change Email button */
 .user-list-container td:last-child button:nth-child(1) {
-  background-color: #ffeca0; /* Light blue */
-  color: #333;
+  margin: auto;
+  background-color: #ffcc00; /* Yellow background for buttons */
+  color: #333; /* Dark text */
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 162px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .user-list-container td:last-child button:nth-child(1):hover {
@@ -526,8 +486,18 @@
 
 /* Style for Change Password button */
 .user-list-container td:last-child button:nth-child(2) {
-  background-color: #ffeca0;/* Light blue */
-  color: #333;
+  margin: auto;
+  background-color: #ffcc00; /* Yellow background for buttons */
+  color: #333; /* Dark text */
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 162px;
+  margin-bottom: 6px;
 }
 
 .user-list-container td:last-child button:nth-child(2):hover {
@@ -536,25 +506,24 @@
 
 /* Style for Delete button */
 .user-list-container td:last-child button:nth-child(3) {
-  background-color: #e35e5e; /* Red */
+  margin: auto;
+  background-color: #e35e5e; /* Yellow background for buttons */
   color: white;
-  margin-bottom: 0; /* Remove margin from last button */
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 162px;
+  margin-bottom: 6px;
 }
 
 .user-list-container td:last-child button:nth-child(3):hover {
   background-color: #d04545;
 }
 
-/* Override any conflicting styles */
-.user-list-container td:last-child button {
-  margin-right: 0;
-  border-bottom: none; /* Remove border that was previously added */
-}
-
-/* Add background color to the cell to create the white gap effect */
-.user-list-container td:last-child {
-  background-color: white;
-}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
