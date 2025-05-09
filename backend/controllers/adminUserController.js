@@ -21,6 +21,9 @@ class AdminController {
             if (error.message === 'Username already exists') {
                 return res.status(400).json({ message: error.message });
             }
+            else if (error.message === 'Email already exists') {
+                return res.status(400).json({ message: error.message });
+            }
             console.error('Error creating user:', error);
             res.status(500).json({ message: 'Server error' });
         }

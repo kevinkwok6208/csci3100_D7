@@ -84,6 +84,10 @@ class AdminService {
     //change user email
     async updateUserEmail(username,newEmail){
         const user = await User.findOne({ username });
+        const existingEmail = await User.findOne({ email:newEmail });
+        if (existingEmail) {
+            throw new Error('Email already exists');
+        }
         if (!user) {
             throw new Error('User not found');
         }
